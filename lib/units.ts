@@ -1,6 +1,7 @@
 export const units = [
   {
     name: "The Mighty Canon",
+    id: "canon",
     x: 6,
     y: 5,
     src: "/units/imperial-4.png",
@@ -8,6 +9,7 @@ export const units = [
   },
   {
     name: "Lord Knights of the Empire",
+    id: "empire-knights",
     x: 5,
     y: 4,
     src: "/units/imperial-6.png",
@@ -15,6 +17,7 @@ export const units = [
   },
   {
     name: "Imperial Archers of Grunburg",
+    id: "grunberg-archers",
     x: 3,
     y: 3,
     src: "/units/imperial-3.png",
@@ -22,6 +25,7 @@ export const units = [
   },
   {
     name: "Imperial Archers of Bogenhaffen",
+    id: "bogenhaffen",
     x: 7,
     y: 3,
     src: "/units/imperial-3.png",
@@ -29,6 +33,7 @@ export const units = [
   },
   {
     name: "Crossbowmen Melgar's",
+    id: "melgar",
     x: 6,
     y: 1,
     src: "/units/imperial-2.png",
@@ -36,6 +41,7 @@ export const units = [
   },
   {
     name: "Men-At-Arms of Reikwald",
+    id: "reikwald",
     x: 4,
     y: 3,
     src: "/units/imperial-1.png",
@@ -43,6 +49,7 @@ export const units = [
   },
   {
     name: "Men-At-Arms of Grunburg",
+    id: "grunburg-arms",
     x: 1,
     y: 1,
     src: "/units/imperial-1.png",
@@ -50,6 +57,7 @@ export const units = [
   },
   {
     name: "Men-At-Arms of Altdorf",
+    id: "altdorf",
     x: 8,
     y: 3,
     src: "/units/imperial-1.png",
@@ -57,6 +65,7 @@ export const units = [
   },
   {
     name: "Imperial Knights of Baron Delborne's",
+    id: "delbornes",
     x: 10,
     y: 5,
     src: "/units/imperial-5.png",
@@ -64,6 +73,7 @@ export const units = [
   },
   {
     name: "Imperial Knights of Duke Blitzen's",
+    id: "blitzens",
     x: 9,
     y: 5,
     src: "/units/imperial-5.png",
@@ -71,6 +81,7 @@ export const units = [
   },
   {
     name: "Imperial Knights Prince Normand's",
+    id: "normands",
     x: 8,
     y: 5,
     src: "/units/imperial-5.png",
@@ -78,6 +89,7 @@ export const units = [
   },
   {
     name: "Champions of Chaos Gorefist's",
+    id: "gorefists",
     x: 1,
     y: 10,
     src: "/units/chaos-7.png",
@@ -85,6 +97,7 @@ export const units = [
   },
   {
     name: "Ogre Champion of Grimorg",
+    id: "grimorg",
     x: 1,
     y: 9,
     src: "/units/chaos-6.png",
@@ -92,6 +105,7 @@ export const units = [
   },
   {
     name: "Chaos Warriors Goreband's",
+    id: "gorebands",
     x: 3,
     y: 10,
     src: "/units/chaos-4.png",
@@ -99,6 +113,7 @@ export const units = [
   },
   {
     name: "Chaos Warriors Finmar's",
+    id: "finmars",
     x: 4,
     y: 10,
     src: "/units/chaos-4.png",
@@ -106,6 +121,7 @@ export const units = [
   },
   {
     name: "Wolf Riders Bogrot's",
+    id: "bogrots",
     x: 3,
     y: 9,
     src: "/units/chaos-5.png",
@@ -113,6 +129,7 @@ export const units = [
   },
   {
     name: "Wolf Riders Black Fang's",
+    id: "blackfangs",
     x: 4,
     y: 9,
     src: "/units/chaos-5.png",
@@ -120,6 +137,7 @@ export const units = [
   },
   {
     name: "Beastmen of Bale",
+    id: "bale",
     x: 5,
     y: 9,
     src: "/units/chaos-8.png",
@@ -127,6 +145,7 @@ export const units = [
   },
   {
     name: "Beastmen of Flint",
+    id: "flint",
     x: 5,
     y: 10,
     src: "/units/chaos-8.png",
@@ -134,6 +153,7 @@ export const units = [
   },
   {
     name: "Orcs Gazkull's",
+    id: "gazkulls",
     x: 6,
     y: 10,
     src: "/units/chaos-2.png",
@@ -141,6 +161,7 @@ export const units = [
   },
   {
     name: "Orcs Zogrod's",
+    id: "zogrods",
     x: 7,
     y: 11,
     src: "/units/chaos-2.png",
@@ -148,6 +169,7 @@ export const units = [
   },
   {
     name: "Goblins of Grom",
+    id: "grom",
     x: 7,
     y: 9,
     src: "/units/chaos-1.png",
@@ -155,6 +177,7 @@ export const units = [
   },
   {
     name: "Goblins of Uglub",
+    id: "uglub",
     x: 7,
     y: 10,
     src: "/units/chaos-1.png",
@@ -162,6 +185,7 @@ export const units = [
   },
   {
     name: "Chaos Archers Doomguard",
+    id: "doomguard",
     x: 3,
     y: 11,
     src: "/units/chaos-3.png",
@@ -169,6 +193,7 @@ export const units = [
   },
   {
     name: "Chaos Archers Fellmor's",
+    id: "fellmoors",
     x: 4,
     y: 11,
     src: "/units/chaos-3.png",

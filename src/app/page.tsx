@@ -1,10 +1,12 @@
 "use client";
 import Board from "@/app/Board";
+import Cards from "./Cards";
 
 export default function Home() {
   return (
-    <main className="grid place-content-center">
+    <main className="p-4 flex">
       <Board />
+      <Cards />
     </main>
   );
 }

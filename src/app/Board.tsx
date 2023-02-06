@@ -9,7 +9,7 @@ export default function Home() {
     console.log(tile);
   }
   return (
-    <ul className="grid grid-cols-[repeat(27,_32.5px)] grid-rows-[repeat(14,_22.25px_44.5px)+22.25px] list-none">
+    <ul className="grid gap-1 grid-cols-[repeat(27,_32.5px)] grid-rows-[repeat(14,_22.25px_44.5px)+22.25px] list-none" style={{height: "600px"}}>
       {board.map((row, y) =>
         row.map((tile, x) => (
           <li
