@@ -1,8 +1,21 @@
+import { useState } from "react";
 import Image from "next/image";
-import cards from "../../lib/cards.json";
+import useStore from "hooks/useStore";
 
 export default function Cards() {
-  console.log('cards: ', cards[0]);
+  const [cardsShuffled, setCardsShuffled] = useState(false);
+
+  const { shufflePlayingCards, drawNextCard } = useStore((store) => store);
+  const currentCard = useStore((store) => store.playingCards[0]);
+
+  function handleClick() {
+    if (cardsShuffled) {
+      return drawNextCard();
+    }
+    shufflePlayingCards();
+    setCardsShuffled(true);
+  }
+
   return (
     <div>
       <Image
@@ -10,13 +23,12 @@ export default function Cards() {
         alt="back of card"
         width="400"
         height="260"
+        onClick={handleClick}
+        priority
       />
-      <Image
-        src={cards[0].img}
-        alt="card"
-        width="400"
-        height="260"
-      />
+      {cardsShuffled && (
+        <Image src={currentCard.img} alt="card" width="400" height="260" />
+      )}
     </div>
   );
 }

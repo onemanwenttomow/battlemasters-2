@@ -1,3 +1,5 @@
+import { Tiles } from "types";
+
 export const board = [
   [
     "grass",
@@ -34,7 +36,7 @@ export const board = [
     "river",
     "river",
     "road",
-    "grass",
+    "tower",
     "river",
     "river",
     "road",
@@ -175,10 +177,10 @@ export const board = [
   ],
 ] as Array<Array<Tiles>>;
 
-export const tiles = {
-  river: "tileWater.png",
-  grass: "tileGrass.png",
-  road: "tileDirt.png",
-  swamp: "tileMagic.png",
+export const tilesDictionary = {
+  river: "url('/tiles/tileWater.png')",
+  grass: "url('/tiles/tileGrass.png')",
+  road: "url('/tiles/tileDirt.png')",
+  swamp: "url('/tiles/rockStone_moss3.png'), url('/tiles/tileGrass.png')",
+  tower: "url('/tiles/rockRing.png'), url('/tiles/tileGrass.png')",
 };
-export type Tiles = "river" | "grass" | "road" | "swamp";

@@ -1,14 +1,14 @@
 import Image from "next/image";
-import { unitAtTile } from "../../lib/units";
+import useStore from "../../hooks/useStore";
 
 interface Props {
   x: number;
   y: number;
 }
 
-
 export default function Unit({ x, y }: Props) {
-  const unit = unitAtTile(x, y);
+  const getUnitByCoords = useStore((state) => state.getUnitByCoords);
+  const unit = getUnitByCoords(x, y);
   function handleClick() {
     console.log(unit);
   }

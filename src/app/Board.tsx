@@ -1,15 +1,21 @@
 "use client";
 
-import { board, Tiles, tiles } from "../../lib/board";
-import { tileHasUnit } from "../../lib/units";
+import { board, tilesDictionary } from "lib/board";
+import { Tiles } from "types";
+import useStore from "hooks/useStore";
 import Unit from "./Unit";
 
-export default function Home() {
+export default function Board() {
+  const tileHasUnit = useStore((state) => state.tileHasUnit);
+
   function handleClick(tile: Tiles) {
     console.log(tile);
   }
   return (
-    <ul className="grid gap-1 grid-cols-[repeat(27,_32.5px)] grid-rows-[repeat(14,_22.25px_44.5px)+22.25px] list-none" style={{height: "600px"}}>
+    <ul
+      className="grid gap-[0.15rem] grid-cols-[repeat(27,_32.5px)] grid-rows-[repeat(14,_22.25px_44.5px)+22.25px] list-none"
+      style={{ height: "600px" }}
+    >
       {board.map((row, y) =>
         row.map((tile, x) => (
           <li
@@ -22,9 +28,9 @@ export default function Home() {
             }}
           >
             <div
-              className={`h-full hexagon bg-contain`}
+              className={`h-full hexagon bg-no-repeat`}
               style={{
-                backgroundImage: `url('/tiles/${tiles[tile]}')`,
+                backgroundImage: tilesDictionary[tile],
               }}
               onClick={() => handleClick(tile)}
             >
