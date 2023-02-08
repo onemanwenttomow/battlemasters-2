@@ -6,7 +6,11 @@ import useStore from "hooks/useStore";
 import Unit from "./Unit";
 
 export default function Board() {
-  const tileHasUnit = useStore((state) => state.tileHasUnit);
+  const { tileHasUnit, possibleMoves } = useStore((state) => state);
+
+  function isPossibleMove(x: number, y: number) {
+    return possibleMoves.some(el => el[0] === x && el[1] === y);
+  }
 
   function handleClick(tile: Tiles) {
     console.log(tile);
@@ -24,16 +28,18 @@ export default function Board() {
             style={{
               gridColumnStart: y % 2 === 0 ? x * 2 + 2 : x * 2 + 1,
               gridRowStart: y * 2 + 1,
-              transform: `translateY(-${y * 22.25}px)`,
+              transform: `translateY(-${y * 22.25}px)`
             }}
           >
             <div
-              className={`h-full hexagon bg-no-repeat`}
+              className="h-full hexagon bg-no-repeat relative"
               style={{
                 backgroundImage: tilesDictionary[tile],
+                filter: `brightness(${isPossibleMove(x, y) ? '1.4' : '1'})`
               }}
               onClick={() => handleClick(tile)}
             >
+              <div className="absolute top-4 left-4 text-sm">{`[${x}, ${y}]`}</div>
               {tileHasUnit(x, y) && <Unit x={x} y={y} />}
             </div>
           </li>
