@@ -8,6 +8,7 @@ import { shuffle } from "lib/utils";
 interface GameState {
   units: Unit[];
   playingCards: PlayingCards;
+  playedCards: PlayingCards;
   getUnitByCoords: (x: number, y: number) => Unit | undefined;
   tileHasUnit: (x: number, y: number) => boolean;
   shufflePlayingCards: () => void;
@@ -19,16 +20,17 @@ const useGameStore = create<GameState>((set, get) => ({
   playingCards,
   playedCards: [],
   shufflePlayingCards: () =>
-    set((state) => ({
-      playingCards: shuffle(state.playingCards),
-    })),
+    set((state) => ({ playingCards: shuffle(state.playingCards) })),
   drawNextCard: () =>
-    set((state) => ({
-      playingCards:
-        state.playingCards.length > 1
-          ? state.playingCards.slice(1)
-          : shuffle(playingCards),
-    })),
+    set((state) => {
+      // if all cards have been played shuffle a new deck
+      const newPlayingCards = state.playingCards.length === 1 ? shuffle(playingCards) : [...state.playingCards];
+      const playedCards = [
+        ...state.playedCards,
+        newPlayingCards.shift()
+      ] as PlayingCards;
+      return { playingCards: newPlayingCards, playedCards }
+    }),
   getUnitByCoords: (x: number, y: number) =>
     get().units.find((unit) => unit.x === x && unit.y === y),
   tileHasUnit: (x: number, y: number) =>

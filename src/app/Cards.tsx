@@ -5,7 +5,7 @@ import useStore from "hooks/useStore";
 export default function Cards() {
   const [cardsShuffled, setCardsShuffled] = useState(false);
 
-  const { shufflePlayingCards, drawNextCard } = useStore((store) => store);
+  const { shufflePlayingCards, drawNextCard, playedCards } = useStore((store) => store);
   const currentCard = useStore((store) => store.playingCards[0]);
 
   function handleClick() {
@@ -17,18 +17,24 @@ export default function Cards() {
   }
 
   return (
-    <div>
-      <Image
-        src="/cards/card-back.png"
-        alt="back of card"
-        width="400"
-        height="260"
-        onClick={handleClick}
-        priority
-      />
-      {cardsShuffled && (
-        <Image src={currentCard.img} alt="card" width="400" height="260" />
-      )}
-    </div>
+      <div>
+          <Image
+              src="/cards/card-back.png"
+              alt="back of card"
+              width="400"
+              height="260"
+              onClick={handleClick}
+              priority
+          />
+          {cardsShuffled && (
+              <Image
+                  src={currentCard.img}
+                  alt="card"
+                  width="400"
+                  height="260"
+              />
+          )}
+      <div>{playedCards.map(card => (<div key={card.img}>{ card.ids.join(",") }</div>))}</div>
+      </div>
   );
 }
