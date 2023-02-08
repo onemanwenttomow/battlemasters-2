@@ -4,7 +4,7 @@ import Cards from "./Cards";
 
 export default function Home() {
   return (
-    <main className="p-4 flex">
+    <main className="p-4 flex flex-wrap">
       <Board />
       <Cards />
     </main>
