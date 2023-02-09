@@ -178,9 +178,11 @@ export const board = [
 ] as Array<Array<Tiles>>;
 
 export const tilesDictionary = {
-  river: "url('/tiles/tileWater.png')",
-  grass: "url('/tiles/tileGrass.png')",
-  road: "url('/tiles/tileDirt.png')",
-  swamp: "url('/tiles/rockStone_moss3.png'), url('/tiles/tileGrass.png')",
-  tower: "url('/tiles/rockRing.png'), url('/tiles/tileGrass.png')",
+  river:
+    "url('/tiles/waveWater.png') center no-repeat, url('/tiles/tileWater.png') center",
+  grass: "url('/tiles/tileGrass.png') no-repeat",
+  road: "url('/tiles/tileDirt.png') no-repeat",
+  swamp:
+    "url('/tiles/rockStone_moss3.png'), url('/tiles/tileGrass.png') no-repeat",
+  tower: "url('/tiles/rockRing.png'), url('/tiles/tileGrass.png') no-repeat",
 };
