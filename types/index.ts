@@ -15,3 +15,9 @@ export interface Card {
 }
 
 export type Tiles = "river" | "grass" | "road" | "swamp" | "tower";
+
+export interface Cube {
+  q: number;
+  r: number;
+  s: number;
+}

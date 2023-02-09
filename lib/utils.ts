@@ -1,4 +1,4 @@
-import { PlayingCards } from "types";
+import { Cube, PlayingCards, Tiles } from "types";
 import { board } from "./board";
 
 export function shuffle(array: PlayingCards) {
@@ -14,7 +14,7 @@ export function shuffle(array: PlayingCards) {
     // And swap it with the current element.
     [array[currentIndex], array[randomIndex]] = [
       array[randomIndex],
-      array[currentIndex]
+      array[currentIndex],
     ];
   }
 
@@ -29,7 +29,7 @@ const evenrDirectionDifferences = [
     [0, -1],
     [-1, 0],
     [0, +1],
-    [+1, +1]
+    [+1, +1],
   ],
   // odd rows
   [
@@ -38,26 +38,44 @@ const evenrDirectionDifferences = [
     [-1, -1],
     [-1, 0],
     [-1, +1],
-    [0, +1]
-  ]
+    [0, +1],
+  ],
 ];
-
 
 export function findNeighbours(x: number, row: number) {
   // check if odd or even row https://www.redblobgames.com/grids/hexagons/#neighbors-offset
   const idx = row % 2 == 0 ? 0 : 1;
   let neighbours = evenrDirectionDifferences[idx].map((el) => [
     el[0] + x,
-    el[1] + row
+    el[1] + row,
   ]);
-  // check if any neighbours are tiles you cant move to (i.e. water or marsh)
-  neighbours = neighbours.filter((neighbour) => {
+  // check if any neighbours are tiles you cant move to (i.e. water or marsh) and filter then out
+  return neighbours.filter((neighbour) => {
     const boardTile = board[neighbour[1]] && board[neighbour[1]][neighbour[0]];
-    if (boardTile === undefined || boardTile === "swamp" || boardTile === "river") {
-      return null;
-    } else {
-      return neighbour;
-    }
+    return isValidTile(boardTile) ? neighbour : null;
   });
-  return neighbours;
+}
+
+function isValidTile(tile: Tiles) {
+  return tile !== undefined && tile !== "swamp" && tile !== "river";
+}
+
+// https://www.redblobgames.com/grids/hexagons/#conversions
+export function offsetToCube(x: number, y: number) {
+  const q = x - (y + (y & 1)) / 2;
+  const r = y;
+  const s = -q - r;
+  return {
+    q,
+    r,
+    s,
+  };
+}
+
+export function cubeDistance(a: Cube, b: Cube) {
+  return Math.max(
+    Math.abs(a.q - b.q),
+    Math.abs(a.r - b.r),
+    Math.abs(a.s - b.s)
+  );
 }
