@@ -29,6 +29,7 @@ export default function UnitImage({ x, y }: Props) {
       src={unit.src || "/error.png"}
       alt={unit.alt || "/error.png"}
       className={`unit-shadow mx-auto top-5 relative border border-1 border-gray-700 ${isActive && "animate-bounce"}`}
+      style={{cursor: `${isActive ? 'pointer' : 'auto'}`}}
       width="32"
       height="32"
       onClick={handleClick}

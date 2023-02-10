@@ -7,6 +7,7 @@ import { shuffle } from "lib/utils";
 
 interface GameState {
   units: Unit[];
+  activeUnits: Unit[];
   playingCards: PlayingCards;
   playedCards: PlayingCards;
   gameStarted: boolean;
@@ -20,6 +21,7 @@ interface GameState {
 
 const useGameStore = create<GameState>((set, get) => ({
   units,
+  activeUnits: [],
   playingCards,
   playedCards: [],
   gameStarted: false,
@@ -40,7 +42,12 @@ const useGameStore = create<GameState>((set, get) => ({
         ...state.playedCards,
         newPlayingCards.shift()
       ] as PlayingCards;
-      return { playingCards: newPlayingCards, playedCards, possibleMoves: [] };
+      return {
+        playingCards: newPlayingCards,
+        playedCards,
+        possibleMoves: [],
+        activeUnits: newPlayingCards[0].ids.map(id => get().units.find(unit => unit.id === id)) as Unit[]
+      };
     }),
   setPossibleMoves: (possibleMoves: number[][]) => {
     // filter our spaces where other units are on

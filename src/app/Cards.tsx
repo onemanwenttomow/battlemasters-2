@@ -5,7 +5,8 @@ import useStore from "hooks/useStore";
 export default function Cards() {
   const [cardsShuffled, setCardsShuffled] = useState(false);
 
-  const { shufflePlayingCards, drawNextCard, playedCards } = useStore((store) => store);
+  const { shufflePlayingCards, drawNextCard, playedCards, activeUnits } =
+      useStore((store) => store);
   const currentCard = useStore((store) => store.playingCards[0]);
 
   function handleClick() {
@@ -16,25 +17,31 @@ export default function Cards() {
     setCardsShuffled(true);
   }
 
+  console.log(activeUnits)
+
   return (
-      <div>
+    <div>
+      <div className="flex items-start">
+        <Image
+          src="/cards/card-back.png"
+          alt="back of card"
+          width="200"
+          height="130"
+          onClick={handleClick}
+          priority
+        />
+        {cardsShuffled && (
           <Image
-              src="/cards/card-back.png"
-              alt="back of card"
-              width="400"
-              height="260"
-              onClick={handleClick}
-              priority
+            src={currentCard.img}
+            alt="card"
+            width="200"
+            height="130"
           />
-          {cardsShuffled && (
-              <Image
-                  src={currentCard.img}
-                  alt="card"
-                  width="400"
-                  height="260"
-              />
-          )}
-      <div>{playedCards.map(card => (<div key={card.img}>{ card.ids.join(",") }</div>))}</div>
+        )}
       </div>
+      <div className="flex overflow-auto w-96 m-2 bg-gray-200" style={{minHeight: "52px"}}>
+        {playedCards.slice().reverse().map(card => (<Image key={Math.random()} src={card.img} width="80" height="52" alt="card.id" />))}
+      </div>
+    </div>
   );
 }
