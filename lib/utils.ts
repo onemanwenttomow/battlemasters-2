@@ -49,6 +49,23 @@ export function findNeighbours(x: number, row: number) {
     el[0] + x,
     el[1] + row,
   ]);
+
+  // find spaces 2 away
+  // first convert offset to cube
+  const tileAsCube = offsetToCube(x, row);
+  // then convert all board tile offset to cube.
+  const boardAsOffset = board
+    .map((row, y) => row.map((_tile, x) => offsetToCube(x, y)))
+    .flat();
+  // then filter where cubeDistance is 2
+  // convert back to offset coordinates
+  const twoSpacesAway = boardAsOffset
+    .filter((cube) => cubeDistance(cube, tileAsCube) === 2)
+    .map((cube) => cubeToOffset(cube));
+  console.log("twoSpacesAway", twoSpacesAway);
+  // neighbours.push(twoSpacesAway);
+  neighbours = [...neighbours, ...twoSpacesAway];
+
   // check if any neighbours are tiles you cant move to (i.e. water or marsh) and filter then out
   return neighbours.filter((neighbour) => {
     const boardTile = board[neighbour[1]] && board[neighbour[1]][neighbour[0]];
@@ -70,6 +87,12 @@ export function offsetToCube(x: number, y: number) {
     r,
     s,
   };
+}
+
+export function cubeToOffset(cube: Cube) {
+  const x = cube.r;
+  const y = cube.q + (cube.r + (cube.r & 1)) / 2;
+  return [x, y];
 }
 
 export function cubeDistance(a: Cube, b: Cube) {
