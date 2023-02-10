@@ -12,14 +12,14 @@ export default function UnitImage({ x, y }: Props) {
   const { getUnitByCoords, gameStarted, setPossibleMoves } = useStore(
       (state) => state
   );
-  const activeCards = useStore((store) => store.playingCards[0]);
+  const activeCard = useStore((store) => store.playingCards[0]);
   const unit = getUnitByCoords(x, y) as Unit;
-  const isActive = gameStarted && activeCards?.ids.includes(unit.id);
+  const isActive = gameStarted && activeCard?.ids.includes(unit.id);
 
   function handleClick() {
     console.log(unit);
     if (!isActive) return;
-    const possibleMoves = findNeighbours(x, y);
+    const possibleMoves = findNeighbours(x, y, activeCard);
     setPossibleMoves(possibleMoves);
   }
 

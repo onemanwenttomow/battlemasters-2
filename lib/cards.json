@@ -12,7 +12,8 @@
       "delbornes",
       "empire-knights"
     ],
-    "img": "/cards/playing-card-13.png"
+    "img": "/cards/playing-card-13.png",
+    "moves": 1
   },
   {
     "ids": [
@@ -22,45 +23,52 @@
       "altdorf",
       "grunburg-arms"
     ],
-    "img": "/cards/playing-card-14.png"
+    "img": "/cards/playing-card-14.png",
+    "moves": 1
   },
   {
     "ids": [
       "canon"
     ],
-    "img": "/cards/playing-card-15.png"
+    "img": "/cards/playing-card-15.png",
+    "moves": 1
   },
   {
     "ids": [
       "canon"
     ],
-    "img": "/cards/playing-card-15.png"
+    "img": "/cards/playing-card-15.png",
+    "moves": 1
   },
   {
     "ids": [
       "canon"
     ],
-    "img": "/cards/playing-card-15.png"
+    "img": "/cards/playing-card-15.png",
+    "moves": 1
   },
   {
     "ids": [
       "canon"
     ],
-    "img": "/cards/playing-card-15.png"
+    "img": "/cards/playing-card-15.png",
+    "moves": 1
   },
   {
     "ids": [
       "bogenhaffen",
       "grunberg-archers"
     ],
-    "img": "/cards/playing-card-16.png"
+    "img": "/cards/playing-card-16.png",
+    "moves": 1
   },
   {
     "ids": [
       "bogenhaffen",
       "grunberg-archers"
     ],
-    "img": "/cards/playing-card-16.png"
+    "img": "/cards/playing-card-16.png",
+    "moves": 1
   },
   {
     "ids": [
@@ -68,7 +76,8 @@
       "normands",
       "delbornes"
     ],
-    "img": "/cards/playing-card-17.png"
+    "img": "/cards/playing-card-17.png",
+    "moves": 1
   },
   {
     "ids": [
@@ -76,7 +85,8 @@
       "normands",
       "delbornes"
     ],
-    "img": "/cards/playing-card-17.png"
+    "img": "/cards/playing-card-17.png",
+    "moves": 1
   },
   {
     "ids": [
@@ -84,7 +94,8 @@
       "normands",
       "delbornes"
     ],
-    "img": "/cards/playing-card-17.png"
+    "img": "/cards/playing-card-17.png",
+    "moves": 1
   },
   {
     "ids": [
@@ -92,7 +103,8 @@
       "normands",
       "delbornes"
     ],
-    "img": "/cards/playing-card-17.png"
+    "img": "/cards/playing-card-17.png",
+    "moves": 1
   },
   {
     "ids": [
@@ -103,7 +115,8 @@
       "altdorf",
       "grunburg-arms"
     ],
-    "img": "/cards/playing-card-18.png"
+    "img": "/cards/playing-card-18.png",
+    "moves": 1
   },
   {
     "ids": [
@@ -114,7 +127,8 @@
       "altdorf",
       "grunburg-arms"
     ],
-    "img": "/cards/playing-card-18.png"
+    "img": "/cards/playing-card-18.png",
+    "moves": 1
   },
   {
     "ids": [
@@ -125,7 +139,8 @@
       "altdorf",
       "grunburg-arms"
     ],
-    "img": "/cards/playing-card-18.png"
+    "img": "/cards/playing-card-18.png",
+    "moves": 1
   },
   {
     "ids": [
@@ -136,19 +151,22 @@
       "altdorf",
       "grunburg-arms"
     ],
-    "img": "/cards/playing-card-18.png"
+    "img": "/cards/playing-card-18.png",
+    "moves": 1
   },
   {
     "ids": [
       "empire-knights"
     ],
-    "img": "/cards/playing-card-19.png"
+    "img": "/cards/playing-card-19.png",
+    "moves": 1
   },
   {
     "ids": [
       "empire-knights"
     ],
-    "img": "/cards/playing-card-19.png"
+    "img": "/cards/playing-card-19.png",
+    "moves": 1
   },
   {
     "ids": [
@@ -157,7 +175,8 @@
       "normands",
       "delbornes"
     ],
-    "img": "/cards/playing-card-20.png"
+    "img": "/cards/playing-card-20.png",
+    "moves": 1
   },
   {
     "ids": [
@@ -166,7 +185,8 @@
       "normands",
       "delbornes"
     ],
-    "img": "/cards/playing-card-20.png"
+    "img": "/cards/playing-card-20.png",
+    "moves": 1
   },
   {
     "ids": [
@@ -175,7 +195,8 @@
       "normands",
       "delbornes"
     ],
-    "img": "/cards/playing-card-20.png"
+    "img": "/cards/playing-card-20.png",
+    "moves": 1
   },
   {
     "ids": [
@@ -184,7 +205,8 @@
       "normands",
       "delbornes"
     ],
-    "img": "/cards/playing-card-20.png"
+    "img": "/cards/playing-card-20.png",
+    "moves": 1
   },
   {
     "ids": [
@@ -194,14 +216,16 @@
       "delbornes",
       "plus1"
     ],
-    "img": "/cards/playing-card-22.png"
+    "img": "/cards/playing-card-22.png",
+    "moves": 1
   },
   {
     "ids": [
       "empire-knights",
       "plus1"
     ],
-    "img": "/cards/playing-card-21.png"
+    "img": "/cards/playing-card-21.png",
+    "moves": 1
   },
   {
     "ids": [
@@ -209,7 +233,8 @@
       "doomguard",
       "fellmoors"
     ],
-    "img": "/cards/playing-card-1.png"
+    "img": "/cards/playing-card-1.png",
+    "moves": 1
   },
   {
     "ids": [
@@ -219,7 +244,8 @@
       "gorebands",
       "finmars"
     ],
-    "img": "/cards/playing-card-2.png"
+    "img": "/cards/playing-card-2.png",
+    "moves": 1
   },
   {
     "ids": [
@@ -229,7 +255,8 @@
       "gorebands",
       "finmars"
     ],
-    "img": "/cards/playing-card-2.png"
+    "img": "/cards/playing-card-2.png",
+    "moves": 1
   },
   {
     "ids": [
@@ -239,7 +266,8 @@
       "gorebands",
       "finmars"
     ],
-    "img": "/cards/playing-card-2.png"
+    "img": "/cards/playing-card-2.png",
+    "moves": 1
   },
   {
     "ids": [
@@ -249,21 +277,24 @@
       "gorebands",
       "finmars"
     ],
-    "img": "/cards/playing-card-2.png"
+    "img": "/cards/playing-card-2.png",
+    "moves": 1
   },
   {
     "ids": [
       "gorefists",
       "plus1"
     ],
-    "img": "/cards/playing-card-3.png"
+    "img": "/cards/playing-card-3.png",
+    "moves": 1
   },
   {
     "ids": [
       "gorefists",
       "plus1"
     ],
-    "img": "/cards/playing-card-3.png"
+    "img": "/cards/playing-card-3.png",
+    "moves": 1
   },
   {
     "ids": [
@@ -272,7 +303,8 @@
       "gazkulls",
       "zogrods"
     ],
-    "img": "/cards/playing-card-4.png"
+    "img": "/cards/playing-card-4.png",
+    "moves": 1
   },
   {
     "ids": [
@@ -281,7 +313,8 @@
       "gazkulls",
       "zogrods"
     ],
-    "img": "/cards/playing-card-4.png"
+    "img": "/cards/playing-card-4.png",
+    "moves": 1
   },
   {
     "ids": [
@@ -290,7 +323,8 @@
       "gazkulls",
       "zogrods"
     ],
-    "img": "/cards/playing-card-4.png"
+    "img": "/cards/playing-card-4.png",
+    "moves": 1
   },
   {
     "ids": [
@@ -298,7 +332,8 @@
       "blackfangs",
       "bogrots"
     ],
-    "img": "/cards/playing-card-5.png"
+    "img": "/cards/playing-card-5.png",
+    "moves": 1
   },
   {
     "ids": [
@@ -306,7 +341,8 @@
       "blackfangs",
       "bogrots"
     ],
-    "img": "/cards/playing-card-5.png"
+    "img": "/cards/playing-card-5.png",
+    "moves": 1
   },
   {
     "ids": [
@@ -314,7 +350,8 @@
       "blackfangs",
       "bogrots"
     ],
-    "img": "/cards/playing-card-5.png"
+    "img": "/cards/playing-card-5.png",
+    "moves": 1
   },
   {
     "ids": [
@@ -322,7 +359,8 @@
       "blackfangs",
       "bogrots"
     ],
-    "img": "/cards/playing-card-5.png"
+    "img": "/cards/playing-card-5.png",
+    "moves": 1
   },
   {
     "ids": [
@@ -330,37 +368,43 @@
       "blackfangs",
       "bogrots"
     ],
-    "img": "/cards/playing-card-5.png"
+    "img": "/cards/playing-card-5.png",
+    "moves": 1
   },
   {
     "ids": [
       "grimorg"
     ],
-    "img": "/cards/playing-card-7.png"
+    "img": "/cards/playing-card-7.png",
+    "moves": 1
   },
   {
     "ids": [
       "grimorg"
     ],
-    "img": "/cards/playing-card-7.png"
+    "img": "/cards/playing-card-7.png",
+    "moves": 1
   },
   {
     "ids": [
       "grimorg"
     ],
-    "img": "/cards/playing-card-7.png"
+    "img": "/cards/playing-card-7.png",
+    "moves": 1
   },
   {
     "ids": [
       "grimorg"
     ],
-    "img": "/cards/playing-card-7.png"
+    "img": "/cards/playing-card-7.png",
+    "moves": 1
   },
   {
     "ids": [
       "grimorg"
     ],
-    "img": "/cards/playing-card-7.png"
+    "img": "/cards/playing-card-7.png",
+    "moves": 1
   },
   {
     "ids": [
@@ -371,7 +415,8 @@
       "bale",
       "flint"
     ],
-    "img": "/cards/playing-card-10.png"
+    "img": "/cards/playing-card-10.png",
+    "moves": 1
   },
   {
     "ids": [
@@ -382,7 +427,8 @@
       "bale",
       "flint"
     ],
-    "img": "/cards/playing-card-10.png"
+    "img": "/cards/playing-card-10.png",
+    "moves": 1
   },
   {
     "ids": [
@@ -397,7 +443,8 @@
       "gorebands",
       "finmars"
     ],
-    "img": "/cards/playing-card-11.png"
+    "img": "/cards/playing-card-11.png",
+    "moves": 1
   },
   {
     "ids": [
@@ -407,7 +454,8 @@
       "bale",
       "flint"
     ],
-    "img": "/cards/playing-card-12.png"
+    "img": "/cards/playing-card-12.png",
+    "moves": 1
   },
   {
     "ids": [
@@ -425,56 +473,48 @@
       "bogrots",
       "gorefists"
     ],
-    "img": "/cards/playing-card-23.png"
+    "img": "/cards/playing-card-23.png",
+    "moves": 1
   },
   {
     "ids": [
       "blackfangs",
-      "bogrots",
-      "movetwice"
+      "bogrots"
     ],
-    "img": "/cards/playing-card-6.png"
+    "img": "/cards/playing-card-6.png",
+    "moves": 2
   },
   {
     "ids": [
       "blackfangs",
-      "bogrots",
-      "movetwice"
+      "bogrots"
     ],
-    "img": "/cards/playing-card-6.png"
+    "img": "/cards/playing-card-6.png",
+    "moves": 2
   },
   {
     "ids": [
       "blackfangs",
-      "bogrots",
-      "movetwice"
+      "bogrots"
     ],
-    "img": "/cards/playing-card-6.png"
+    "img": "/cards/playing-card-6.png",
+    "moves": 2
   },
   {
     "ids": [
       "blackfangs",
-      "bogrots",
-      "movetwice"
+      "bogrots"
     ],
-    "img": "/cards/playing-card-6.png"
+    "img": "/cards/playing-card-6.png",
+    "moves": 2
   },
   {
     "ids": [
       "blackfangs",
-      "bogrots",
-      "movetwice"
+      "bogrots"
     ],
-    "img": "/cards/playing-card-6.png"
-  },
-  {
-    "ids": [
-      "blackfangs",
-      "bogrots",
-      "grom",
-      "uglub"
-    ],
-    "img": "/cards/playing-card-9.png"
+    "img": "/cards/playing-card-6.png",
+    "moves": 2
   },
   {
     "ids": [
@@ -483,7 +523,18 @@
       "grom",
       "uglub"
     ],
-    "img": "/cards/playing-card-9.png"
+    "img": "/cards/playing-card-9.png",
+    "moves": 1
+  },
+  {
+    "ids": [
+      "blackfangs",
+      "bogrots",
+      "grom",
+      "uglub"
+    ],
+    "img": "/cards/playing-card-9.png",
+    "moves": 1
   },
   {
     "ids": [
@@ -494,6 +545,7 @@
       "bale",
       "flint"
     ],
-    "img": "/cards/playing-card-8.png"
+    "img": "/cards/playing-card-8.png",
+    "moves": 1
   }
 ]

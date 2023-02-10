@@ -1,4 +1,4 @@
-import { Cube, Offset, PlayingCards, Tiles } from "types";
+import { Card, Cube, Offset, PlayingCards, Tiles } from "types";
 import { board } from "./board";
 
 export function shuffle(array: PlayingCards) {
@@ -42,9 +42,9 @@ const evenrDirectionDifferences: Offset[][] = [
   ],
 ];
 
-export function findNeighbours(x: number, row: number) {
+export function findNeighbours(x: number, row: number, card: Card) {
   // TODO: check if card has special movement and then change number to 2
-  return hexReachable([x, row], 1);
+  return hexReachable([x, row], card.moves);
 }
 
 function isValidTile(tile: Tiles) {

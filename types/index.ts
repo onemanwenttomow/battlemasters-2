@@ -12,6 +12,7 @@ export type PlayingCards = Array<Card>;
 export interface Card {
   ids: Array<string>;
   img: string;
+  moves: number;
 }
 
 export type Tiles = "river" | "grass" | "road" | "swamp" | "tower";
