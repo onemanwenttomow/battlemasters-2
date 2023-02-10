@@ -21,3 +21,5 @@ export interface Cube {
   r: number;
   s: number;
 }
+
+export type Offset = [number, number];

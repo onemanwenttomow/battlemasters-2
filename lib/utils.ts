@@ -1,4 +1,4 @@
-import { Cube, PlayingCards, Tiles } from "types";
+import { Cube, Offset, PlayingCards, Tiles } from "types";
 import { board } from "./board";
 
 export function shuffle(array: PlayingCards) {
@@ -21,7 +21,7 @@ export function shuffle(array: PlayingCards) {
   return array;
 }
 
-const evenrDirectionDifferences = [
+const evenrDirectionDifferences: Offset[][] = [
   // even rows
   [
     [+1, 0],
@@ -43,35 +43,8 @@ const evenrDirectionDifferences = [
 ];
 
 export function findNeighbours(x: number, row: number) {
-  // check if odd or even row https://www.redblobgames.com/grids/hexagons/#neighbors-offset
-  const idx = row % 2 == 0 ? 0 : 1;
-  let neighbours = evenrDirectionDifferences[idx].map((el) => [
-    el[0] + x,
-    el[1] + row,
-  ]);
-
-  // find spaces 2 away
-  // first convert offset to cube
-  const tileAsCube = offsetToCube(x, row);
-  console.log("tileAsCube", tileAsCube);
-  // then convert all board tile offset to cube.
-  const boardAsOffset = board
-    .map((row, y) => row.map((_tile, x) => offsetToCube(x, y)))
-    .flat();
-  // then filter where cubeDistance is 2
-  // convert back to offset coordinates
-  const twoSpacesAway = boardAsOffset
-    .filter((cube) => cubeDistance(cube, tileAsCube) === 2)
-    .map((cube) => cubeToOffset(cube));
-  console.log("twoSpacesAway", twoSpacesAway);
-  // neighbours.push(twoSpacesAway);
-  neighbours = [...neighbours, ...twoSpacesAway];
-
-  // check if any neighbours are tiles you cant move to (i.e. water or marsh) and filter then out
-  return neighbours.filter((neighbour) => {
-    const boardTile = board[neighbour[1]] && board[neighbour[1]][neighbour[0]];
-    return isValidTile(boardTile) ? neighbour : null;
-  });
+  // TODO: check if card has special movement and then change number to 2
+  return hexReachable([x, row], 1);
 }
 
 function isValidTile(tile: Tiles) {
@@ -102,4 +75,44 @@ export function cubeDistance(a: Cube, b: Cube) {
     Math.abs(a.r - b.r),
     Math.abs(a.s - b.s)
   );
+}
+
+function hexReachable(start: Offset, movement: number) {
+  const visited: Offset[] = []; // set of hexes
+  const fringes: Offset[][] = []; // array of arrays of hexes
+  fringes.push([start]);
+
+  for (let k = 1; k <= movement; k++) {
+    fringes.push([]);
+    fringes[k - 1].forEach(function (hex) {
+      for (let dir = 0; dir < 6; dir++) {
+        const neighbour = hexNeighbour(hex, dir);
+        if (
+          !visited.some(
+            (el) => el[0] === neighbour[0] && el[1] === neighbour[1]
+          ) &&
+          !isBlocked(neighbour)
+        ) {
+          visited.push(neighbour);
+          fringes[k].push(neighbour);
+        }
+      }
+    });
+  }
+
+  return visited.filter((el) => el[0] !== start[0] || el[1] !== start[1]);
+}
+
+function isBlocked(neighbour: Offset) {
+  const boardTile = board[neighbour[1]] && board[neighbour[1]][neighbour[0]];
+  return (
+    boardTile === undefined || boardTile === "swamp" || boardTile === "river"
+  );
+}
+
+function hexNeighbour(hex: Offset, dir: number) {
+  // check if cube is on or even, then find the neighbour
+  const idx = hex[1] % 2 == 0 ? 0 : 1;
+  const neighbour = evenrDirectionDifferences[idx][dir];
+  return [neighbour[0] + hex[0], neighbour[1] + hex[1]] as Offset;
 }
