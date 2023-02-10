@@ -53,6 +53,7 @@ export function findNeighbours(x: number, row: number) {
   // find spaces 2 away
   // first convert offset to cube
   const tileAsCube = offsetToCube(x, row);
+  console.log("tileAsCube", tileAsCube);
   // then convert all board tile offset to cube.
   const boardAsOffset = board
     .map((row, y) => row.map((_tile, x) => offsetToCube(x, y)))
@@ -90,8 +91,8 @@ export function offsetToCube(x: number, y: number) {
 }
 
 export function cubeToOffset(cube: Cube) {
-  const x = cube.r;
-  const y = cube.q + (cube.r + (cube.r & 1)) / 2;
+  const y = cube.r;
+  const x = cube.q + (cube.r + (cube.r & 1)) / 2;
   return [x, y];
 }
 
