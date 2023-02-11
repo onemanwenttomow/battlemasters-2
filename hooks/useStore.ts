@@ -18,7 +18,6 @@ interface GameState {
   tileHasUnit: (x: number, y: number) => boolean;
   shufflePlayingCards: () => void;
   drawNextCard: () => void;
-  setPossibleMoves: (possibleMoves: number[][]) => void;
   setActiveUnit: (id: string) => void;
 }
 
@@ -59,14 +58,6 @@ const useGameStore = create<GameState>((set, get) => ({
         ) as Unit[],
       };
     }),
-  setPossibleMoves: (possibleMoves: number[][]) => {
-    // filter our spaces where other units are on
-    const possibleMovesWithNoUnits = possibleMoves.filter(
-      (move) =>
-        !get().units.find((unit) => unit.x === move[0] && unit.y === move[1])
-    ) as number[][];
-    set({ possibleMoves: possibleMovesWithNoUnits });
-  },
   setActiveUnit: (id: string) => {
     const activeUnit = get().activeUnits.find((unit) => unit.id === id) || null;
     let possibleMoves: Offset[] = [];
@@ -75,7 +66,12 @@ const useGameStore = create<GameState>((set, get) => ({
         activeUnit.x,
         activeUnit.y,
         get().playingCards[0]
-      );
+      ).filter(
+        (move) =>
+          !get().units.find(
+            (unit) => unit.x === move[0] && unit.y === move[1]
+          )
+      ) as Offset[];
     }
     set({ activeUnit, possibleMoves });
   },
