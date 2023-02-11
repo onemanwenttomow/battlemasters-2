@@ -5,8 +5,9 @@ import useStore from "hooks/useStore";
 export default function Cards() {
   const [cardsShuffled, setCardsShuffled] = useState(false);
 
-  const { shufflePlayingCards, drawNextCard, playedCards, activeUnits } =
-      useStore((store) => store);
+  const { shufflePlayingCards, drawNextCard, playedCards } = useStore(
+    (store) => store
+  );
   const currentCard = useStore((store) => store.playingCards[0]);
 
   function handleClick() {
@@ -16,8 +17,6 @@ export default function Cards() {
     shufflePlayingCards();
     setCardsShuffled(true);
   }
-
-  console.log(activeUnits)
 
   return (
     <div>
@@ -31,16 +30,25 @@ export default function Cards() {
           priority
         />
         {cardsShuffled && (
-          <Image
-            src={currentCard.img}
-            alt="card"
-            width="200"
-            height="130"
-          />
+          <Image src={currentCard.img} alt="card" width="200" height="130" />
         )}
       </div>
-      <div className="flex overflow-auto w-96 m-2 bg-gray-200" style={{minHeight: "52px"}}>
-        {playedCards.slice().reverse().map(card => (<Image key={Math.random()} src={card.img} width="80" height="52" alt="card.id" />))}
+      <div
+        className="flex overflow-auto w-96 m-2 bg-gray-200"
+        style={{ minHeight: "52px" }}
+      >
+        {playedCards
+          .slice()
+          .reverse()
+          .map((card) => (
+            <Image
+              key={Math.random()}
+              src={card.img}
+              width="80"
+              height="52"
+              alt="card.id"
+            />
+          ))}
       </div>
     </div>
   );

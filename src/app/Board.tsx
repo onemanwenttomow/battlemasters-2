@@ -29,15 +29,14 @@ export default function Board() {
               gridColumnStart: y % 2 === 0 ? x * 2 + 2 : x * 2 + 1,
               gridRowStart: y * 2 + 1,
               transform: `translateY(-${y * 22.25}px)`,
-              cursor: `${isPossibleMove(x, y) ? "cell" : "auto"}`
+              cursor: `${isPossibleMove(x, y) ? "cell" : "auto"}`,
             }}
           >
             <div
               className="h-full hexagon bg-no-repeat relative"
               style={{
                 background: tilesDictionary[tile],
-                filter: `brightness(${isPossibleMove(x, y) ? "1.4" : "1"
-                  })`
+                filter: `brightness(${isPossibleMove(x, y) ? "1.4" : "1"})`,
               }}
               onClick={() => handleClick(tile)}
             >

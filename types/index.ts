@@ -1,16 +1,43 @@
 export interface Unit {
   name: string;
-  id: string;
+  id: UnitId;
   x: number;
   y: number;
   src: string;
   alt: string;
 }
 
+type UnitId =
+  | "canon"
+  | "empire-knights"
+  | "grunberg-archers"
+  | "bogenhaffen"
+  | "melgar"
+  | "reikwald"
+  | "grunburg-arms"
+  | "altdorf"
+  | "delbornes"
+  | "blitzens"
+  | "normands"
+  | "gorefists"
+  | "grimorg"
+  | "gorebands"
+  | "finmars"
+  | "bogrots"
+  | "blackfangs"
+  | "bale"
+  | "flint"
+  | "gazkulls"
+  | "zogrods"
+  | "grom"
+  | "uglub"
+  | "doomguard"
+  | "fellmoors";
+
 export type PlayingCards = Array<Card>;
 
 export interface Card {
-  ids: Array<string>;
+  ids: Array<UnitId>;
   img: string;
   moves: number;
 }
