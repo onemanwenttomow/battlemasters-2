@@ -29,7 +29,7 @@ export default function UnitImage({ x, y }: Props) {
       }`}
       style={{
         cursor: `${isActive ? "pointer" : "auto"}`,
-        filter: `brightness(${unit.id === activeUnit?.id ? "1.4" : "1"})`,
+        filter: `brightness(${unit.id === activeUnit ? "1.4" : "1"})`,
       }}
       width="32"
       height="32"

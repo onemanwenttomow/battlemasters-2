@@ -8,7 +8,7 @@ import { findNeighbours } from "lib/utils";
 
 interface GameState {
   units: Unit[];
-  activeUnit: Unit | null;
+  activeUnit: UnitId | "";
   playingCards: PlayingCards;
   playedCards: PlayingCards;
   gameStarted: boolean;
@@ -17,14 +17,14 @@ interface GameState {
   tileHasUnit: (x: number, y: number) => boolean;
   shufflePlayingCards: () => void;
   drawNextCard: () => void;
-  setActiveUnit: (id: string) => void;
+  setActiveUnit: (id: UnitId) => void;
   moveUnit: (x: number, y: number) => void;
   skipMove: (id: UnitId) => void;
 }
 
 const useGameStore = create<GameState>((set, get) => ({
   units,
-  activeUnit: null,
+  activeUnit: "",
   playingCards,
   playedCards: [],
   gameStarted: false,
@@ -55,18 +55,18 @@ const useGameStore = create<GameState>((set, get) => ({
         return {
           ...unit,
           isActive: newPlayingCards[0].ids.includes(unit.id),
-          hasMoved: false
+          hasMoved: false,
         };
       }) as Unit[];
       return {
         playingCards: newPlayingCards,
         playedCards,
         possibleMoves: [],
-        activeUnit: null,
+        activeUnit: "",
         units: activeUnits,
       };
     }),
-  setActiveUnit: (id: string) => {
+  setActiveUnit: (id: UnitId) => {
     const activeId =
       get().playingCards[0].ids.find((_id) => _id === id) || null;
     const activeUnit = get().units.find((unit) => unit.id === activeId);
@@ -81,42 +81,40 @@ const useGameStore = create<GameState>((set, get) => ({
           !get().units.find((unit) => unit.x === move[0] && unit.y === move[1])
       ) as Offset[];
     }
-    set({ activeUnit, possibleMoves });
+    set({ activeUnit: id, possibleMoves });
   },
   moveUnit: (x: number, y: number) => {
     const activeUnit = get().activeUnit;
-    if (!activeUnit?.id) return;
-    set(state => {
+    if (!activeUnit) return;
+    set((state) => {
       return {
-        units: state.units.map(unit => {
-          if (unit.id === activeUnit.id) {
+        units: state.units.map((unit) => {
+          if (unit.id === activeUnit) {
             return {
               ...unit,
               x,
               y,
-              hasMoved: true
-            }
+              hasMoved: true,
+            };
           }
-          return unit
-
+          return unit;
         }),
         possibleMoves: [],
-        activeUnit: { ...activeUnit, hasMoved: true }
-      }
+      };
     });
   },
   skipMove: (id: UnitId) => {
-    const activeUnit = get().units.find(unit => unit.id === id) as Unit;
-    const updatedUnits = get().units.map(unit => {
+    const activeUnit = get().units.find((unit) => unit.id === id) as Unit;
+    const updatedUnits = get().units.map((unit) => {
       if (unit.id === id) {
         return {
           ...unit,
-          hasMoved: true
-        }
+          hasMoved: true,
+        };
       }
-      return unit
-    })
-    set({ activeUnit: { ...activeUnit, hasMoved: true }, units: updatedUnits })
+      return unit;
+    });
+    set({ units: updatedUnits });
   },
   getUnitByCoords: (x: number, y: number) =>
     get().units.find((unit) => unit.x === x && unit.y === y),

@@ -5,7 +5,7 @@ import useStore from "hooks/useStore";
 export default function Cards() {
   const [cardsShuffled, setCardsShuffled] = useState(false);
 
-  const { shufflePlayingCards, drawNextCard, playedCards, units } = useStore(
+  const { shufflePlayingCards, drawNextCard, playedCards } = useStore(
     (store) => store
   );
   const currentCard = useStore((store) => store.playingCards[0]);

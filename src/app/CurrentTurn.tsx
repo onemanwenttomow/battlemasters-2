@@ -25,7 +25,7 @@ export default function CurrentTurn() {
           <tbody>
             {!isGrimorg &&
               activeUnits.map((unit) => {
-                const isSelected = unit.id === activeUnit?.id;
+                const isSelected = unit.id === activeUnit;
                 return (
                   <tr key={unit.id}>
                     <td>
@@ -35,8 +35,7 @@ export default function CurrentTurn() {
                         width="32"
                         height="32"
                         style={{
-                          filter: `brightness(${isSelected ? "1.4" : "1"
-                            })`
+                          filter: `brightness(${isSelected ? "1.4" : "1"})`,
                         }}
                         className="cursor-pointer"
                         onClick={() => setActiveUnit(unit.id)}
