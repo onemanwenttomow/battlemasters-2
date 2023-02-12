@@ -6,6 +6,7 @@ export interface Unit {
   src: string;
   alt: string;
   isActive: boolean;
+  hasMoved: boolean;
 }
 
 type UnitId =

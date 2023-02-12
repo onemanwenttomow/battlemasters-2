@@ -18,6 +18,7 @@ interface GameState {
   shufflePlayingCards: () => void;
   drawNextCard: () => void;
   setActiveUnit: (id: string) => void;
+  moveUnit: (x: number, y: number) => void;
 }
 
 const useGameStore = create<GameState>((set, get) => ({
@@ -53,6 +54,7 @@ const useGameStore = create<GameState>((set, get) => ({
         return {
           ...unit,
           isActive: newPlayingCards[0].ids.includes(unit.id),
+          hasMoved: false
         };
       }) as Unit[];
       return {
@@ -68,7 +70,7 @@ const useGameStore = create<GameState>((set, get) => ({
       get().playingCards[0].ids.find((_id) => _id === id) || null;
     const activeUnit = get().units.find((unit) => unit.id === activeId);
     let possibleMoves: Offset[] = [];
-    if (activeUnit) {
+    if (activeUnit && !activeUnit.hasMoved) {
       possibleMoves = findNeighbours(
         activeUnit.x,
         activeUnit.y,
@@ -79,6 +81,29 @@ const useGameStore = create<GameState>((set, get) => ({
       ) as Offset[];
     }
     set({ activeUnit, possibleMoves });
+  },
+  moveUnit: (x: number, y: number) => {
+    const activeUnit = get().activeUnit;
+    if (!activeUnit?.id) return;
+    set(state => {
+      return {
+        units: state.units.map(unit => {
+          if (unit.id === activeUnit.id) {
+            return {
+              ...unit,
+              x,
+              y,
+              hasMoved: true
+            }
+          }
+          return unit
+
+        }),
+        possibleMoves: [],
+        activeUnit: { ...activeUnit, hasMoved: true }
+      }
+    })
+
   },
   getUnitByCoords: (x: number, y: number) =>
     get().units.find((unit) => unit.x === x && unit.y === y),

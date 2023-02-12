@@ -6,14 +6,16 @@ import useStore from "hooks/useStore";
 import Unit from "./Unit";
 
 export default function Board() {
-  const { tileHasUnit, possibleMoves } = useStore((state) => state);
+  const { tileHasUnit, possibleMoves, moveUnit } = useStore((state) => state);
 
   function isPossibleMove(x: number, y: number) {
     return possibleMoves.some((el) => el[0] === x && el[1] === y);
   }
 
-  function handleClick(tile: Tiles) {
+  function handleClick(tile: Tiles, x: number, y: number) {
+    if (!isPossibleMove(x, y)) return;
     console.log(tile);
+    moveUnit(x, y);
   }
   return (
     <ul
@@ -38,7 +40,7 @@ export default function Board() {
                 background: tilesDictionary[tile],
                 filter: `brightness(${isPossibleMove(x, y) ? "1.4" : "1"})`,
               }}
-              onClick={() => handleClick(tile)}
+              onClick={() => handleClick(tile, x, y)}
             >
               <div className="absolute top-4 left-4 text-sm">{`[${x}, ${y}]`}</div>
               {tileHasUnit(x, y) && <Unit x={x} y={y} />}
