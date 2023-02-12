@@ -7,7 +7,12 @@ export interface Unit {
   alt: string;
   isActive: boolean;
   hasMoved: boolean;
+  hasAttacked: boolean;
+  army: Army;
+  range: number;
 }
+
+type Army = "Imperial" | "Chaos";
 
 export type UnitId =
   | "canon"

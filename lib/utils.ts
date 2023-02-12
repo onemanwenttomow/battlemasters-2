@@ -1,4 +1,4 @@
-import { Card, Cube, Offset, PlayingCards, Tiles } from "types";
+import { Card, Cube, Offset, PlayingCards, Tiles, Unit } from "types";
 import { board } from "./board";
 
 export function shuffle(array: PlayingCards) {
@@ -47,6 +47,11 @@ export function findNeighbours(x: number, row: number, card: Card) {
   return hexReachable([x, row], card.moves);
 }
 
+export function findAttackZone(x: number, y: number, unit: Unit) {
+  // TODO: check if card has special movement and then change number to 2
+  return possibleAttackRadius([x, y], unit.range);
+}
+
 function isValidTile(tile: Tiles) {
   return tile !== undefined && tile !== "swamp" && tile !== "river";
 }
@@ -92,6 +97,31 @@ function hexReachable(start: Offset, movement: number) {
             (el) => el[0] === neighbour[0] && el[1] === neighbour[1]
           ) &&
           !isBlocked(neighbour)
+        ) {
+          visited.push(neighbour);
+          fringes[k].push(neighbour);
+        }
+      }
+    });
+  }
+
+  return visited.filter((el) => el[0] !== start[0] || el[1] !== start[1]);
+}
+
+function possibleAttackRadius(start: Offset, movement: number) {
+  const visited: Offset[] = []; // set of hexes
+  const fringes: Offset[][] = []; // array of arrays of hexes
+  fringes.push([start]);
+
+  for (let k = 1; k <= movement; k++) {
+    fringes.push([]);
+    fringes[k - 1].forEach(function (hex) {
+      for (let dir = 0; dir < 6; dir++) {
+        const neighbour = hexNeighbour(hex, dir);
+        if (
+          !visited.some(
+            (el) => el[0] === neighbour[0] && el[1] === neighbour[1]
+          )
         ) {
           visited.push(neighbour);
           fringes[k].push(neighbour);

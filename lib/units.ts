@@ -9,7 +9,10 @@ const units: Unit[] = [
     src: "/units/imperial-4.png",
     alt: "/imperial-4",
     isActive: false,
-    hasMoved: false
+    hasMoved: false,
+    hasAttacked: false,
+    army: "Imperial",
+    range: 8,
   },
   {
     name: "Lord Knights of the Empire",
@@ -19,7 +22,10 @@ const units: Unit[] = [
     src: "/units/imperial-6.png",
     alt: "/imperial-6",
     isActive: false,
-    hasMoved: false
+    hasMoved: false,
+    hasAttacked: false,
+    army: "Imperial",
+    range: 1,
   },
   {
     name: "Imperial Archers of Grunburg",
@@ -30,6 +36,9 @@ const units: Unit[] = [
     alt: "/imperial-3",
     isActive: false,
     hasMoved: false,
+    hasAttacked: false,
+    army: "Imperial",
+    range: 2,
   },
   {
     name: "Imperial Archers of Bogenhaffen",
@@ -40,6 +49,9 @@ const units: Unit[] = [
     alt: "/imperial-3",
     isActive: false,
     hasMoved: false,
+    hasAttacked: false,
+    army: "Imperial",
+    range: 2,
   },
   {
     name: "Crossbowmen Melgar's",
@@ -50,6 +62,9 @@ const units: Unit[] = [
     alt: "/imperial-3",
     isActive: false,
     hasMoved: false,
+    hasAttacked: false,
+    army: "Imperial",
+    range: 3,
   },
   {
     name: "Men-At-Arms of Reikwald",
@@ -60,6 +75,9 @@ const units: Unit[] = [
     alt: "/imperial-1",
     isActive: false,
     hasMoved: false,
+    hasAttacked: false,
+    army: "Imperial",
+    range: 1,
   },
   {
     name: "Men-At-Arms of Grunburg",
@@ -70,6 +88,9 @@ const units: Unit[] = [
     alt: "/imperial-1",
     isActive: false,
     hasMoved: false,
+    hasAttacked: false,
+    army: "Imperial",
+    range: 1,
   },
   {
     name: "Men-At-Arms of Altdorf",
@@ -80,6 +101,9 @@ const units: Unit[] = [
     alt: "/imperial-1",
     isActive: false,
     hasMoved: false,
+    hasAttacked: false,
+    army: "Imperial",
+    range: 1,
   },
   {
     name: "Imperial Knights of Baron Delborne's",
@@ -90,6 +114,9 @@ const units: Unit[] = [
     alt: "/imperial-1",
     isActive: false,
     hasMoved: false,
+    hasAttacked: false,
+    army: "Imperial",
+    range: 1,
   },
   {
     name: "Imperial Knights of Duke Blitzen's",
@@ -98,7 +125,11 @@ const units: Unit[] = [
     y: 5,
     src: "/units/imperial-5.png",
     alt: "/imperial-1",
-    isActive: false, hasMoved: false,
+    isActive: false,
+    hasMoved: false,
+    hasAttacked: false,
+    army: "Imperial",
+    range: 1,
   },
   {
     name: "Imperial Knights Prince Normand's",
@@ -109,6 +140,9 @@ const units: Unit[] = [
     alt: "/imperial-1",
     isActive: false,
     hasMoved: false,
+    hasAttacked: false,
+    army: "Imperial",
+    range: 1,
   },
   {
     name: "Champions of Chaos Gorefist's",
@@ -119,6 +153,9 @@ const units: Unit[] = [
     alt: "/imperial-4",
     isActive: false,
     hasMoved: false,
+    hasAttacked: false,
+    army: "Chaos",
+    range: 1,
   },
   {
     name: "Ogre Champion of Grimorg",
@@ -129,6 +166,9 @@ const units: Unit[] = [
     alt: "/imperial-6",
     isActive: false,
     hasMoved: false,
+    hasAttacked: false,
+    army: "Chaos",
+    range: 1,
   },
   {
     name: "Chaos Warriors Goreband's",
@@ -139,6 +179,9 @@ const units: Unit[] = [
     alt: "/imperial-4",
     isActive: false,
     hasMoved: false,
+    hasAttacked: false,
+    army: "Chaos",
+    range: 1,
   },
   {
     name: "Chaos Warriors Finmar's",
@@ -149,6 +192,9 @@ const units: Unit[] = [
     alt: "/imperial-4",
     isActive: false,
     hasMoved: false,
+    hasAttacked: false,
+    army: "Chaos",
+    range: 1,
   },
   {
     name: "Wolf Riders Bogrot's",
@@ -159,6 +205,9 @@ const units: Unit[] = [
     alt: "/imperial-4",
     isActive: false,
     hasMoved: false,
+    hasAttacked: false,
+    army: "Chaos",
+    range: 1,
   },
   {
     name: "Wolf Riders Black Fang's",
@@ -169,6 +218,9 @@ const units: Unit[] = [
     alt: "/imperial-4",
     isActive: false,
     hasMoved: false,
+    hasAttacked: false,
+    army: "Chaos",
+    range: 1,
   },
   {
     name: "Beastmen of Bale",
@@ -179,6 +231,9 @@ const units: Unit[] = [
     alt: "/imperial-4",
     isActive: false,
     hasMoved: false,
+    hasAttacked: false,
+    army: "Imperial",
+    range: 1,
   },
   {
     name: "Beastmen of Flint",
@@ -189,6 +244,9 @@ const units: Unit[] = [
     alt: "/imperial-4",
     isActive: false,
     hasMoved: false,
+    hasAttacked: false,
+    army: "Chaos",
+    range: 1,
   },
   {
     name: "Orcs Gazkull's",
@@ -199,6 +257,9 @@ const units: Unit[] = [
     alt: "/imperial-4",
     isActive: false,
     hasMoved: false,
+    hasAttacked: false,
+    army: "Imperial",
+    range: 1,
   },
   {
     name: "Orcs Zogrod's",
@@ -209,6 +270,9 @@ const units: Unit[] = [
     alt: "/imperial-4",
     isActive: false,
     hasMoved: false,
+    hasAttacked: false,
+    army: "Chaos",
+    range: 1,
   },
   {
     name: "Goblins of Grom",
@@ -219,6 +283,9 @@ const units: Unit[] = [
     alt: "/imperial-4",
     isActive: false,
     hasMoved: false,
+    hasAttacked: false,
+    army: "Chaos",
+    range: 1,
   },
   {
     name: "Goblins of Uglub",
@@ -229,6 +296,9 @@ const units: Unit[] = [
     alt: "/imperial-4",
     isActive: false,
     hasMoved: false,
+    hasAttacked: false,
+    army: "Chaos",
+    range: 1,
   },
   {
     name: "Chaos Archers Doomguard",
@@ -239,6 +309,9 @@ const units: Unit[] = [
     alt: "/imperial-4",
     isActive: false,
     hasMoved: false,
+    hasAttacked: false,
+    army: "Chaos",
+    range: 2,
   },
   {
     name: "Chaos Archers Fellmor's",
@@ -249,7 +322,10 @@ const units: Unit[] = [
     alt: "/imperial-4",
     isActive: false,
     hasMoved: false,
-  }
+    hasAttacked: false,
+    army: "Chaos",
+    range: 2,
+  },
 ];
 
 export default units;

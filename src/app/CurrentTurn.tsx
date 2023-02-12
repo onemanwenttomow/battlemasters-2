@@ -20,6 +20,7 @@ export default function CurrentTurn() {
             <tr>
               <th>Unit</th>
               <th>Moved</th>
+              <th>Attacked</th>
             </tr>
           </thead>
           <tbody>
@@ -28,7 +29,7 @@ export default function CurrentTurn() {
                 const isSelected = unit.id === activeUnit;
                 return (
                   <tr key={unit.id}>
-                    <td>
+                    <td className="p-2">
                       <Image
                         src={unit.src}
                         alt={unit.id}
@@ -41,7 +42,7 @@ export default function CurrentTurn() {
                         onClick={() => setActiveUnit(unit.id)}
                       />
                     </td>
-                    <td className="flex">
+                    <td className="p-2">
                       <div>{unit.hasMoved ? "✅" : "❌"}</div>
                       <button
                         disabled={unit.hasMoved}
@@ -49,6 +50,10 @@ export default function CurrentTurn() {
                       >
                         Skip
                       </button>
+                    </td>
+                    <td className="p-2">
+                      <div>{unit.hasAttacked ? "✅" : "❌"}</div>
+                      <button>Skip</button>
                     </td>
                   </tr>
                 );

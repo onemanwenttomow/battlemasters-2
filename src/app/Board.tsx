@@ -6,10 +6,25 @@ import useStore from "hooks/useStore";
 import Unit from "./Unit";
 
 export default function Board() {
-  const { tileHasUnit, possibleMoves, moveUnit } = useStore((state) => state);
+  const { tileHasUnit, possibleMoves, possibleAttacks, moveUnit } = useStore(
+    (state) => state
+  );
 
   function isPossibleMove(x: number, y: number) {
     return possibleMoves.some((el) => el[0] === x && el[1] === y);
+  }
+
+  function isPossibleAttack(x: number, y: number) {
+    return possibleAttacks.some((el) => el[0] === x && el[1] === y);
+  }
+
+  function getBrightness(move: boolean, attack: boolean) {
+    if (move) {
+      return "1.4";
+    } else if (attack) {
+      return "0.7";
+    }
+    return "1";
   }
 
   function handleClick(tile: Tiles, x: number, y: number) {
@@ -23,30 +38,35 @@ export default function Board() {
       style={{ height: "620px" }}
     >
       {board.map((row, y) =>
-        row.map((tile, x) => (
-          <li
-            key={y + x + tile}
-            className="col-span-2 row-span-3"
-            style={{
-              gridColumnStart: y % 2 === 0 ? x * 2 + 2 : x * 2 + 1,
-              gridRowStart: y * 2 + 1,
-              transform: `translateY(-${y * 22.25}px)`,
-              cursor: `${isPossibleMove(x, y) ? "cell" : "auto"}`,
-            }}
-          >
-            <div
-              className="h-full hexagon bg-no-repeat relative"
+        row.map((tile, x) => {
+          const move = isPossibleMove(x, y);
+          const attack = isPossibleAttack(x, y);
+          const brightness = getBrightness(move, attack);
+          return (
+            <li
+              key={y + x + tile}
+              className="col-span-2 row-span-3"
               style={{
-                background: tilesDictionary[tile],
-                filter: `brightness(${isPossibleMove(x, y) ? "1.4" : "1"})`,
+                gridColumnStart: y % 2 === 0 ? x * 2 + 2 : x * 2 + 1,
+                gridRowStart: y * 2 + 1,
+                transform: `translateY(-${y * 22.25}px)`,
+                cursor: `${isPossibleMove(x, y) ? "cell" : "auto"}`,
               }}
-              onClick={() => handleClick(tile, x, y)}
             >
-              <div className="absolute top-4 left-4 text-sm">{`[${x}, ${y}]`}</div>
-              {tileHasUnit(x, y) && <Unit x={x} y={y} />}
-            </div>
-          </li>
-        ))
+              <div
+                className="h-full hexagon bg-no-repeat relative"
+                style={{
+                  background: tilesDictionary[tile],
+                  filter: `brightness(${brightness})`,
+                }}
+                onClick={() => handleClick(tile, x, y)}
+              >
+                <div className="absolute top-4 left-4 text-sm">{`[${x}, ${y}]`}</div>
+                {tileHasUnit(x, y) && <Unit x={x} y={y} />}
+              </div>
+            </li>
+          );
+        })
       )}
     </ul>
   );
