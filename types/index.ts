@@ -5,6 +5,7 @@ export interface Unit {
   y: number;
   src: string;
   alt: string;
+  isActive: boolean;
 }
 
 type UnitId =

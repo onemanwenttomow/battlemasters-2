@@ -8,7 +8,6 @@ import { findNeighbours } from "lib/utils";
 
 interface GameState {
   units: Unit[];
-  activeUnits: Unit[];
   activeUnit: Unit | null;
   playingCards: PlayingCards;
   playedCards: PlayingCards;
@@ -23,7 +22,6 @@ interface GameState {
 
 const useGameStore = create<GameState>((set, get) => ({
   units,
-  activeUnits: [],
   activeUnit: null,
   playingCards,
   playedCards: [],
@@ -33,9 +31,12 @@ const useGameStore = create<GameState>((set, get) => ({
     set((state) => ({
       playingCards: shuffle(state.playingCards),
       gameStarted: true,
-      activeUnits: get().playingCards[0].ids.map((id) =>
-        get().units.find((unit) => unit.id === id)
-      ) as Unit[],
+      units: get().units.map((unit) => {
+        return {
+          ...unit,
+          isActive: get().playingCards[0].ids.includes(unit.id),
+        };
+      }) as Unit[],
     })),
   drawNextCard: () =>
     set((state) => {
@@ -48,18 +49,24 @@ const useGameStore = create<GameState>((set, get) => ({
         ...state.playedCards,
         newPlayingCards.shift(),
       ] as PlayingCards;
+      const activeUnits = get().units.map((unit) => {
+        return {
+          ...unit,
+          isActive: newPlayingCards[0].ids.includes(unit.id),
+        };
+      }) as Unit[];
       return {
         playingCards: newPlayingCards,
         playedCards,
         possibleMoves: [],
         activeUnit: null,
-        activeUnits: newPlayingCards[0].ids.map((id) =>
-          get().units.find((unit) => unit.id === id)
-        ) as Unit[],
+        units: activeUnits,
       };
     }),
   setActiveUnit: (id: string) => {
-    const activeUnit = get().activeUnits.find((unit) => unit.id === id) || null;
+    const activeId =
+      get().playingCards[0].ids.find((_id) => _id === id) || null;
+    const activeUnit = get().units.find((unit) => unit.id === activeId);
     let possibleMoves: Offset[] = [];
     if (activeUnit) {
       possibleMoves = findNeighbours(
@@ -68,9 +75,7 @@ const useGameStore = create<GameState>((set, get) => ({
         get().playingCards[0]
       ).filter(
         (move) =>
-          !get().units.find(
-            (unit) => unit.x === move[0] && unit.y === move[1]
-          )
+          !get().units.find((unit) => unit.x === move[0] && unit.y === move[1])
       ) as Offset[];
     }
     set({ activeUnit, possibleMoves });

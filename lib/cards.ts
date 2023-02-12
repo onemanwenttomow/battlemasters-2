@@ -244,27 +244,27 @@ const cards: Card[] = [
   {
     ids: ["grimorg"],
     img: "/cards/playing-card-7.png",
-    moves: 1,
+    moves: 0,
   },
   {
     ids: ["grimorg"],
     img: "/cards/playing-card-7.png",
-    moves: 1,
+    moves: 0,
   },
   {
     ids: ["grimorg"],
     img: "/cards/playing-card-7.png",
-    moves: 1,
+    moves: 0,
   },
   {
     ids: ["grimorg"],
     img: "/cards/playing-card-7.png",
-    moves: 1,
+    moves: 0,
   },
   {
     ids: ["grimorg"],
     img: "/cards/playing-card-7.png",
-    moves: 1,
+    moves: 0,
   },
   {
     ids: ["grom", "uglub", "gazkulls", "zogrods", "bale", "flint"],
