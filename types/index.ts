@@ -9,7 +9,7 @@ export interface Unit {
   hasMoved: boolean;
 }
 
-type UnitId =
+export type UnitId =
   | "canon"
   | "empire-knights"
   | "grunberg-archers"

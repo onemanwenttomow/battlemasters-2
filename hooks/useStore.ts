@@ -2,7 +2,7 @@ import { create } from "zustand";
 
 import units from "lib/units";
 import playingCards from "lib/cards";
-import { Unit, PlayingCards, Offset } from "types";
+import { Unit, PlayingCards, Offset, UnitId } from "types";
 import { shuffle } from "lib/utils";
 import { findNeighbours } from "lib/utils";
 
@@ -19,6 +19,7 @@ interface GameState {
   drawNextCard: () => void;
   setActiveUnit: (id: string) => void;
   moveUnit: (x: number, y: number) => void;
+  skipMove: (id: UnitId) => void;
 }
 
 const useGameStore = create<GameState>((set, get) => ({
@@ -102,8 +103,20 @@ const useGameStore = create<GameState>((set, get) => ({
         possibleMoves: [],
         activeUnit: { ...activeUnit, hasMoved: true }
       }
+    });
+  },
+  skipMove: (id: UnitId) => {
+    const activeUnit = get().units.find(unit => unit.id === id) as Unit;
+    const updatedUnits = get().units.map(unit => {
+      if (unit.id === id) {
+        return {
+          ...unit,
+          hasMoved: true
+        }
+      }
+      return unit
     })
-
+    set({ activeUnit: { ...activeUnit, hasMoved: true }, units: updatedUnits })
   },
   getUnitByCoords: (x: number, y: number) =>
     get().units.find((unit) => unit.x === x && unit.y === y),
