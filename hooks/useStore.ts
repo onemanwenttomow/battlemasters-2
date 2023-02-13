@@ -62,6 +62,7 @@ const useGameStore = create<GameState>((set, get) => ({
         ...unit,
         isActive: newPlayingCards[0].ids.includes(unit.id),
         hasMoved: false,
+        hasAttacked: false
       };
     }) as Unit[];
 
