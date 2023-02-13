@@ -23,7 +23,7 @@ export default function UnitImage({ x, y }: Props) {
   const attackingUnit = units.find((unit) => unit.id === activeUnit) as Unit;
   const canBeAttacked =
     possibleAttacks.find((coord) => coord[0] === x && coord[1] === y) &&
-    attackingUnit.army !== unit.army;
+    attackingUnit?.army !== unit.army;
 
   function handleClick() {
     if (!isActive) return;
