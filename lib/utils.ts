@@ -47,9 +47,9 @@ export function findNeighbours(x: number, row: number, card: Card) {
   return hexReachable([x, row], card.moves);
 }
 
-export function findAttackZone(x: number, y: number, unit: Unit) {
+export function findAttackZone(x: number, y: number, range: number) {
   // TODO: check if card has special movement and then change number to 2
-  return possibleAttackRadius([x, y], unit.range);
+  return possibleAttackRadius([x, y], range);
 }
 
 function isValidTile(tile: Tiles) {

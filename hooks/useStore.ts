@@ -141,7 +141,7 @@ const useGameStore = create<GameState>((set, get) => ({
     const possibleAttacks = findAttackZone(
       activeUnit.x,
       activeUnit.y,
-      activeUnit
+      activeUnit.range
     );
 
     set({ units: updatedUnits, possibleAttacks, possibleMoves: [] });
