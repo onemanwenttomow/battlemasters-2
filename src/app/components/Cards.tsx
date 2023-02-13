@@ -20,6 +20,23 @@ export default function Cards() {
 
   return (
     <div>
+      <div
+        className="flex overflow-auto w-96 m-2 bg-gray-200"
+        style={{ minHeight: "30px" }}
+      >
+        {playedCards
+          .slice()
+          .reverse()
+          .map((card) => (
+            <Image
+              key={Math.random()}
+              src={card.img}
+              width="46"
+              height="30"
+              alt={card.ids.join(",")}
+            />
+          ))}
+      </div>
       <div className="flex items-start">
         <Image
           src="/cards/card-back.png"
@@ -30,25 +47,13 @@ export default function Cards() {
           priority
         />
         {cardsShuffled && (
-          <Image src={currentCard.img} alt="card" width="200" height="130" />
+          <Image
+            src={currentCard.img}
+            alt={currentCard.ids.join(",")}
+            width="200"
+            height="130"
+          />
         )}
-      </div>
-      <div
-        className="flex overflow-auto w-96 m-2 bg-gray-200"
-        style={{ minHeight: "52px" }}
-      >
-        {playedCards
-          .slice()
-          .reverse()
-          .map((card) => (
-            <Image
-              key={Math.random()}
-              src={card.img}
-              width="80"
-              height="52"
-              alt="card.id"
-            />
-          ))}
       </div>
     </div>
   );

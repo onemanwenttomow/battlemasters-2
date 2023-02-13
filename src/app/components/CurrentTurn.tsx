@@ -45,7 +45,9 @@ export default function CurrentTurn() {
                       />
                     </td>
                     <td className="p-2">
-                      <div>{unit.hasMoved ? "✅" : "⏳"}</div>
+                      <div className="inline-block">
+                        {unit.hasMoved ? "✅" : "⏳"}
+                      </div>
                       <button
                         className="disabled:opacity-75 disabled:bg-gray-200 bg-blue-500 px-2 py-1"
                         disabled={unit.hasMoved}
@@ -55,7 +57,9 @@ export default function CurrentTurn() {
                       </button>
                     </td>
                     <td className="p-2">
-                      <div>{unit.hasAttacked ? "✅" : "⏳"}</div>
+                      <div className="inline-block">
+                        {unit.hasAttacked ? "✅" : "⏳"}
+                      </div>
                       <button
                         className="disabled:opacity-75 disabled:bg-gray-200 bg-blue-500 px-2 py-1"
                         disabled={unit.hasAttacked || !unit.hasMoved}

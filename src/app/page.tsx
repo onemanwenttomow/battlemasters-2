@@ -1,7 +1,7 @@
 "use client";
-import Board from "@/app/Board";
-import Cards from "./Cards";
-import CurrentTurn from "./CurrentTurn";
+import Board from "./components/Board";
+import Cards from "./components/Cards";
+import CurrentTurn from "./components/CurrentTurn";
 
 export default function Home() {
   return (
