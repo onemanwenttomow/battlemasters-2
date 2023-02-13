@@ -133,7 +133,7 @@ const useGameStore = create<GameState>((set, get) => ({
       activeUnit
     );
 
-    set({ units: updatedUnits, possibleAttacks });
+    set({ units: updatedUnits, possibleAttacks, possibleMoves: [] });
   },
   getUnitByCoords: (x: number, y: number) =>
     get().units.find((unit) => unit.x === x && unit.y === y),
