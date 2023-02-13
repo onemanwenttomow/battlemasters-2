@@ -127,6 +127,7 @@ const useGameStore = create<GameState>((set, get) => ({
   },
 
   skipMove: (id: UnitId) => {
+    // TODO if no active unit then set one
     const activeUnit = get().units.find((unit) => unit.id === id) as Unit;
     const updatedUnits = get().units.map((unit) => {
       if (unit.id === id) {
@@ -148,17 +149,18 @@ const useGameStore = create<GameState>((set, get) => ({
   },
 
   skipAttack: (id: UnitId) => {
-    const activeUnit = get().units.find((unit) => unit.id === id) as Unit;
-    const updatedUnits = get().units.map((unit) => {
-      if (unit.id === id) {
-        return {
-          ...unit,
-          hasAttacked: true,
-        };
-      }
-      return unit;
-    });
-    set({ units: updatedUnits, possibleAttacks: [] });
+      // TODO if no active unit then set one
+
+      const updatedUnits = get().units.map((unit) => {
+          if (unit.id === id) {
+              return {
+                  ...unit,
+                  hasAttacked: true
+              };
+          }
+          return unit;
+      });
+      set({ units: updatedUnits, possibleAttacks: [] });
   },
 
   getUnitByCoords: (x: number, y: number) =>
