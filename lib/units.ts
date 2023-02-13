@@ -232,7 +232,7 @@ const units: Unit[] = [
     isActive: false,
     hasMoved: false,
     hasAttacked: false,
-    army: "Imperial",
+    army: "Chaos",
     range: 1,
   },
   {
@@ -258,7 +258,7 @@ const units: Unit[] = [
     isActive: false,
     hasMoved: false,
     hasAttacked: false,
-    army: "Imperial",
+    army: "Chaos",
     range: 1,
   },
   {
