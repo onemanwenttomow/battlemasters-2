@@ -77,7 +77,8 @@ const useGameStore = create<GameState>((set, get) => ({
   },
 
   setActiveUnit: (id: UnitId) => {
-    const activeUnit = get().units.find((unit) => unit.id === id);
+    const activeUnit = get().units.find((unit) => unit.id === id) as Unit;
+    const turnComplete = activeUnit.hasAttacked && activeUnit.hasAttacked;
 
     let possibleMoves: Offset[] = [];
     if (activeUnit && !activeUnit.hasMoved) {
@@ -92,8 +93,12 @@ const useGameStore = create<GameState>((set, get) => ({
     }
 
     let possibleAttacks: Offset[] = [];
-    if (activeUnit && activeUnit.hasMoved) {
-      possibleAttacks = findAttackZone(activeUnit.x, activeUnit.y, activeUnit.range);
+    if (activeUnit && activeUnit.hasMoved && !turnComplete) {
+      possibleAttacks = findAttackZone(
+        activeUnit.x,
+        activeUnit.y,
+        activeUnit.range
+      );
     }
 
     set({ activeUnit: id, possibleMoves, possibleAttacks });
@@ -149,18 +154,18 @@ const useGameStore = create<GameState>((set, get) => ({
   },
 
   skipAttack: (id: UnitId) => {
-      // TODO if no active unit then set one
+    // TODO if no active unit then set one
 
-      const updatedUnits = get().units.map((unit) => {
-          if (unit.id === id) {
-              return {
-                  ...unit,
-                  hasAttacked: true
-              };
-          }
-          return unit;
-      });
-      set({ units: updatedUnits, possibleAttacks: [] });
+    const updatedUnits = get().units.map((unit) => {
+      if (unit.id === id) {
+        return {
+          ...unit,
+          hasAttacked: true
+        };
+      }
+      return unit;
+    });
+    set({ units: updatedUnits, possibleAttacks: [] });
   },
 
   getUnitByCoords: (x: number, y: number) =>
