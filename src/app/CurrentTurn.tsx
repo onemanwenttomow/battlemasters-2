@@ -2,7 +2,9 @@ import Image from "next/image";
 import useStore from "hooks/useStore";
 
 export default function CurrentTurn() {
-  const { activeUnit, setActiveUnit, skipMove } = useStore((store) => store);
+  const { activeUnit, setActiveUnit, skipMove, skipAttack } = useStore(
+    (store) => store
+  );
 
   const activeUnits = useStore((store) =>
     store.units.filter((unit) => unit.isActive)
@@ -43,8 +45,9 @@ export default function CurrentTurn() {
                       />
                     </td>
                     <td className="p-2">
-                      <div>{unit.hasMoved ? "✅" : "❌"}</div>
+                      <div>{unit.hasMoved ? "✅" : "⏳"}</div>
                       <button
+                        className="disabled:opacity-75 disabled:bg-gray-200 bg-blue-500 px-2 py-1"
                         disabled={unit.hasMoved}
                         onClick={() => skipMove(unit.id)}
                       >
@@ -52,8 +55,14 @@ export default function CurrentTurn() {
                       </button>
                     </td>
                     <td className="p-2">
-                      <div>{unit.hasAttacked ? "✅" : "❌"}</div>
-                      <button>Skip</button>
+                      <div>{unit.hasAttacked ? "✅" : "⏳"}</div>
+                      <button
+                        className="disabled:opacity-75 disabled:bg-gray-200 bg-blue-500 px-2 py-1"
+                        disabled={unit.hasAttacked || !unit.hasMoved}
+                        onClick={() => skipAttack(unit.id)}
+                      >
+                        Skip
+                      </button>
                     </td>
                   </tr>
                 );
