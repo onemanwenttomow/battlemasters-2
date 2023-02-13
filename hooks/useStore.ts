@@ -93,7 +93,7 @@ const useGameStore = create<GameState>((set, get) => ({
 
     let possibleAttacks: Offset[] = [];
     if (activeUnit && activeUnit.hasMoved) {
-      possibleAttacks = findAttackZone(activeUnit.x, activeUnit.y, activeUnit);
+      possibleAttacks = findAttackZone(activeUnit.x, activeUnit.y, activeUnit.range);
     }
 
     set({ activeUnit: id, possibleMoves, possibleAttacks });
@@ -106,7 +106,7 @@ const useGameStore = create<GameState>((set, get) => ({
       (unit) => unit.id === activeUnitId
     ) as Unit;
     // calculate possible attacks
-    const possibleAttacks = findAttackZone(x, y, activeUnit);
+    const possibleAttacks = findAttackZone(x, y, activeUnit.range);
     set((state) => {
       return {
         units: state.units.map((unit) => {
