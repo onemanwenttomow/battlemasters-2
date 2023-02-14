@@ -43,6 +43,12 @@ export type UnitId =
   | "doomguard"
   | "fellmoors";
 
+export interface Dice {
+  id: number;
+  value: number;
+  rolled: boolean;
+}
+
 export type PlayingCards = Array<Card>;
 
 export interface Card {

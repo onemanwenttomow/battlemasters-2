@@ -2,8 +2,8 @@ import { create } from "zustand";
 
 import units from "lib/units";
 import playingCards from "lib/cards";
-import { Unit, PlayingCards, Offset, UnitId } from "types";
-import { findAttackZone, shuffle } from "lib/utils";
+import { Unit, PlayingCards, Offset, UnitId, Dice } from "types";
+import { findAttackZone, generateDice, shuffle } from "lib/utils";
 import { findNeighbours } from "lib/utils";
 
 interface GameState {
@@ -17,6 +17,8 @@ interface GameState {
   battleInProgress: boolean;
   attackingUnitId: UnitId | null;
   defendingUnitId: UnitId | null;
+  attackingDice: Dice[];
+  defendingDice: Dice[];
   getUnitByCoords: (x: number, y: number) => Unit | undefined;
   tileHasUnit: (x: number, y: number) => boolean;
   shufflePlayingCards: () => void;
@@ -26,7 +28,7 @@ interface GameState {
   skipMove: (id: UnitId) => void;
   skipAttack: (id: UnitId) => void;
   startBattle: (attackingId: UnitId, defendingId: UnitId) => void;
-  endBattle: () => void;
+  endBattle: (attackingUnitId: UnitId, defendingUnitId: UnitId) => void;
 }
 
 const useGameStore = create<GameState>((set, get) => ({
@@ -40,7 +42,8 @@ const useGameStore = create<GameState>((set, get) => ({
   battleInProgress: false,
   attackingUnitId: null,
   defendingUnitId: null,
-
+  attackingDice: [],
+  defendingDice: [],
   shufflePlayingCards: () =>
     set((state) => ({
       playingCards: shuffle(state.playingCards),
@@ -178,15 +181,40 @@ const useGameStore = create<GameState>((set, get) => ({
   },
 
   startBattle: (attackingUnitId: UnitId, defendingUnitId: UnitId) => {
+    const attackingUnit = get().units.find(
+      (unit) => unit.id === attackingUnitId
+    ) as Unit;
+    const defendingUnit = get().units.find(
+      (unit) => unit.id === defendingUnitId
+    ) as Unit;
+
     set({
       battleInProgress: true,
       attackingUnitId,
-      defendingUnitId
+      defendingUnitId,
+      attackingDice: generateDice(attackingUnit.attackValue),
+      defendingDice: generateDice(defendingUnit.attackValue)
     });
   },
 
-  endBattle: () => {
-    set({battleInProgress: false, defendingUnitId: null, attackingUnitId: null})
+  endBattle: (attackingUnitId: UnitId, defendingUnitId: UnitId) => {
+    // TODO deal damage to defending unit
+
+    const units = get().units.map(unit => {
+      if (unit.id === attackingUnitId) {
+        return { ...unit, hasAttacked: true }
+      } else {
+        return unit;
+      }
+    })
+
+    set({
+      battleInProgress: false,
+      defendingUnitId: null,
+      attackingUnitId: null,
+      units,
+      possibleAttacks: []
+    });
   },
 
   getUnitByCoords: (x: number, y: number) =>

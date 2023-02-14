@@ -1,5 +1,17 @@
-import { Card, Cube, Offset, PlayingCards, Tiles, Unit } from "types";
+import { Card, Cube, Offset, PlayingCards, Tiles } from "types";
 import { board } from "./board";
+
+export function generateDice(num: number) {
+  return [...Array.from(Array(num))].map((x, i) => ({
+    id: i,
+    rolled: false,
+    value: generateRandomNumber(6)
+  }));
+}
+
+function generateRandomNumber(max: number, min = 1) {
+  return Math.floor(max * Math.random()) + min;
+}
 
 export function shuffle(array: PlayingCards) {
   let currentIndex = array.length,
