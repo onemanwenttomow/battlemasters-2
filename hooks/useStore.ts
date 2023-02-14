@@ -188,6 +188,8 @@ const useGameStore = create<GameState>((set, get) => ({
       (unit) => unit.id === defendingUnitId
     ) as Unit;
 
+    // TODO check current card if bonus dice roll
+
     set({
       battleInProgress: true,
       attackingUnitId,
