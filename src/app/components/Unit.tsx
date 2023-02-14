@@ -11,6 +11,7 @@ export default function UnitImage({ x, y }: Props) {
   const {
     getUnitByCoords,
     setActiveUnit,
+    startBattle,
     gameStarted,
     activeUnit,
     units,
@@ -33,6 +34,7 @@ export default function UnitImage({ x, y }: Props) {
 
   function handleAttack() {
     console.log(`${attackingUnit.id} attacks ${unit.id}`);
+    startBattle(attackingUnit.id, unit.id);
   }
 
   return (

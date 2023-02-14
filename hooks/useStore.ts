@@ -23,6 +23,7 @@ interface GameState {
   moveUnit: (x: number, y: number) => void;
   skipMove: (id: UnitId) => void;
   skipAttack: (id: UnitId) => void;
+  startBattle: (attackingId: UnitId, defendingId: UnitId) => void;
 }
 
 const useGameStore = create<GameState>((set, get) => ({
@@ -33,7 +34,7 @@ const useGameStore = create<GameState>((set, get) => ({
   gameStarted: false,
   possibleMoves: [],
   possibleAttacks: [],
-  battleInProgress: true,
+  battleInProgress: false,
 
   shufflePlayingCards: () =>
     set((state) => ({
@@ -168,6 +169,13 @@ const useGameStore = create<GameState>((set, get) => ({
       return unit;
     });
     set({ units: updatedUnits, possibleAttacks: [] });
+  },
+
+  startBattle: (attackingId: UnitId, defendingId: UnitId) => {
+    set({
+      battleInProgress: true,
+    });
+    setTimeout(() => set({ battleInProgress: false }), 10000);
   },
 
   getUnitByCoords: (x: number, y: number) =>
