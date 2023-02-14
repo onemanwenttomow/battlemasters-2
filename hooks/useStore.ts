@@ -8,13 +8,15 @@ import { findNeighbours } from "lib/utils";
 
 interface GameState {
   units: Unit[];
-  activeUnit: UnitId | "";
+  activeUnit: UnitId | null;
   playingCards: PlayingCards;
   playedCards: PlayingCards;
   gameStarted: boolean;
   possibleMoves: Offset[];
   possibleAttacks: Offset[];
   battleInProgress: boolean;
+  attackingUnitId: UnitId | null;
+  defendingUnitId: UnitId | null;
   getUnitByCoords: (x: number, y: number) => Unit | undefined;
   tileHasUnit: (x: number, y: number) => boolean;
   shufflePlayingCards: () => void;
@@ -24,17 +26,20 @@ interface GameState {
   skipMove: (id: UnitId) => void;
   skipAttack: (id: UnitId) => void;
   startBattle: (attackingId: UnitId, defendingId: UnitId) => void;
+  endBattle: () => void;
 }
 
 const useGameStore = create<GameState>((set, get) => ({
   units,
-  activeUnit: "",
+  activeUnit: null,
   playingCards,
   playedCards: [],
   gameStarted: false,
   possibleMoves: [],
   possibleAttacks: [],
   battleInProgress: false,
+  attackingUnitId: null,
+  defendingUnitId: null,
 
   shufflePlayingCards: () =>
     set((state) => ({
@@ -43,9 +48,9 @@ const useGameStore = create<GameState>((set, get) => ({
       units: get().units.map((unit) => {
         return {
           ...unit,
-          isActive: get().playingCards[0].ids.includes(unit.id),
+          isActive: get().playingCards[0].ids.includes(unit.id)
         };
-      }) as Unit[],
+      }) as Unit[]
     })),
 
   drawNextCard: () => {
@@ -57,7 +62,7 @@ const useGameStore = create<GameState>((set, get) => ({
 
     const playedCards = [
       ...get().playedCards,
-      newPlayingCards.shift(),
+      newPlayingCards.shift()
     ] as PlayingCards;
 
     const activeUnits = get().units.map((unit) => {
@@ -65,7 +70,7 @@ const useGameStore = create<GameState>((set, get) => ({
         ...unit,
         isActive: newPlayingCards[0].ids.includes(unit.id),
         hasMoved: false,
-        hasAttacked: false,
+        hasAttacked: false
       };
     }) as Unit[];
 
@@ -74,8 +79,8 @@ const useGameStore = create<GameState>((set, get) => ({
       playedCards,
       possibleMoves: [],
       possibleAttacks: [],
-      activeUnit: "",
-      units: activeUnits,
+      activeUnit: null,
+      units: activeUnits
     });
   },
 
@@ -91,7 +96,9 @@ const useGameStore = create<GameState>((set, get) => ({
         get().playingCards[0]
       ).filter(
         (move) =>
-          !get().units.find((unit) => unit.x === move[0] && unit.y === move[1])
+          !get().units.find(
+            (unit) => unit.x === move[0] && unit.y === move[1]
+          )
       ) as Offset[];
     }
 
@@ -110,10 +117,11 @@ const useGameStore = create<GameState>((set, get) => ({
   moveUnit: (x: number, y: number) => {
     const activeUnitId = get().activeUnit;
     if (!activeUnitId) return;
+
     const activeUnit = get().units.find(
       (unit) => unit.id === activeUnitId
     ) as Unit;
-    // calculate possible attacks
+
     const possibleAttacks = findAttackZone(x, y, activeUnit.range);
     set((state) => {
       return {
@@ -123,26 +131,25 @@ const useGameStore = create<GameState>((set, get) => ({
               ...unit,
               x,
               y,
-              hasMoved: true,
+              hasMoved: true
             };
           }
           return unit;
         }),
         possibleMoves: [],
-        possibleAttacks,
+        possibleAttacks
       };
     });
   },
 
   skipMove: (id: UnitId) => {
-    // TODO if no active unit then set one
     set({ activeUnit: id });
     const activeUnit = get().units.find((unit) => unit.id === id) as Unit;
     const updatedUnits = get().units.map((unit) => {
       if (unit.id === id) {
         return {
           ...unit,
-          hasMoved: true,
+          hasMoved: true
         };
       }
       return unit;
@@ -158,13 +165,11 @@ const useGameStore = create<GameState>((set, get) => ({
   },
 
   skipAttack: (id: UnitId) => {
-    // TODO if no active unit then set one
-
     const updatedUnits = get().units.map((unit) => {
       if (unit.id === id) {
         return {
           ...unit,
-          hasAttacked: true,
+          hasAttacked: true
         };
       }
       return unit;
@@ -172,17 +177,22 @@ const useGameStore = create<GameState>((set, get) => ({
     set({ units: updatedUnits, possibleAttacks: [] });
   },
 
-  startBattle: (attackingId: UnitId, defendingId: UnitId) => {
+  startBattle: (attackingUnitId: UnitId, defendingUnitId: UnitId) => {
     set({
       battleInProgress: true,
+      attackingUnitId,
+      defendingUnitId
     });
-    setTimeout(() => set({ battleInProgress: false }), 10000);
+  },
+
+  endBattle: () => {
+    set({battleInProgress: false, defendingUnitId: null, attackingUnitId: null})
   },
 
   getUnitByCoords: (x: number, y: number) =>
     get().units.find((unit) => unit.x === x && unit.y === y),
   tileHasUnit: (x: number, y: number) =>
-    get().units.some((unit) => unit.x === x && unit.y === y),
+    get().units.some((unit) => unit.x === x && unit.y === y)
 }));
 
 export default useGameStore;
