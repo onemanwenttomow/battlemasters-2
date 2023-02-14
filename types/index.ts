@@ -10,6 +10,8 @@ export interface Unit {
   hasAttacked: boolean;
   army: Army;
   range: number;
+  attackValue: number;
+  damageSustained: 0
 }
 
 type Army = "Imperial" | "Chaos";
