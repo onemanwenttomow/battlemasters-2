@@ -14,6 +14,7 @@ interface GameState {
   gameStarted: boolean;
   possibleMoves: Offset[];
   possibleAttacks: Offset[];
+  battleInProgress: boolean;
   getUnitByCoords: (x: number, y: number) => Unit | undefined;
   tileHasUnit: (x: number, y: number) => boolean;
   shufflePlayingCards: () => void;
@@ -32,6 +33,7 @@ const useGameStore = create<GameState>((set, get) => ({
   gameStarted: false,
   possibleMoves: [],
   possibleAttacks: [],
+  battleInProgress: true,
 
   shufflePlayingCards: () =>
     set((state) => ({
@@ -62,7 +64,7 @@ const useGameStore = create<GameState>((set, get) => ({
         ...unit,
         isActive: newPlayingCards[0].ids.includes(unit.id),
         hasMoved: false,
-        hasAttacked: false
+        hasAttacked: false,
       };
     }) as Unit[];
 
@@ -160,7 +162,7 @@ const useGameStore = create<GameState>((set, get) => ({
       if (unit.id === id) {
         return {
           ...unit,
-          hasAttacked: true
+          hasAttacked: true,
         };
       }
       return unit;

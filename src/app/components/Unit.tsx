@@ -24,6 +24,7 @@ export default function UnitImage({ x, y }: Props) {
   const canBeAttacked =
     possibleAttacks.find((coord) => coord[0] === x && coord[1] === y) &&
     attackingUnit?.army !== unit.army;
+  const turnComplete = unit.hasAttacked && unit.hasAttacked;
 
   function handleClick() {
     if (!isActive) return;
@@ -40,7 +41,7 @@ export default function UnitImage({ x, y }: Props) {
         src={unit.src || "/error.png"}
         alt={unit.alt || "/error.png"}
         className={`unit-shadow mx-auto top-5 relative border border-1 border-gray-700 ${
-          isActive && "animate-bounce"
+          isActive && !turnComplete && "animate-bounce"
         }`}
         style={{
           cursor: `${isActive ? "pointer" : "auto"}`,
