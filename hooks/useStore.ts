@@ -136,6 +136,7 @@ const useGameStore = create<GameState>((set, get) => ({
 
   skipMove: (id: UnitId) => {
     // TODO if no active unit then set one
+    set({ activeUnit: id });
     const activeUnit = get().units.find((unit) => unit.id === id) as Unit;
     const updatedUnits = get().units.map((unit) => {
       if (unit.id === id) {
