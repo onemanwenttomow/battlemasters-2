@@ -51,9 +51,9 @@ const useGameStore = create<GameState>((set, get) => ({
       units: get().units.map((unit) => {
         return {
           ...unit,
-          isActive: get().playingCards[0].ids.includes(unit.id)
+          isActive: get().playingCards[0].ids.includes(unit.id),
         };
-      }) as Unit[]
+      }) as Unit[],
     })),
 
   drawNextCard: () => {
@@ -65,7 +65,7 @@ const useGameStore = create<GameState>((set, get) => ({
 
     const playedCards = [
       ...get().playedCards,
-      newPlayingCards.shift()
+      newPlayingCards.shift(),
     ] as PlayingCards;
 
     const activeUnits = get().units.map((unit) => {
@@ -73,7 +73,7 @@ const useGameStore = create<GameState>((set, get) => ({
         ...unit,
         isActive: newPlayingCards[0].ids.includes(unit.id),
         hasMoved: false,
-        hasAttacked: false
+        hasAttacked: false,
       };
     }) as Unit[];
 
@@ -83,7 +83,7 @@ const useGameStore = create<GameState>((set, get) => ({
       possibleMoves: [],
       possibleAttacks: [],
       activeUnit: null,
-      units: activeUnits
+      units: activeUnits,
     });
   },
 
@@ -92,6 +92,7 @@ const useGameStore = create<GameState>((set, get) => ({
     const turnComplete = activeUnit.hasAttacked && activeUnit.hasAttacked;
 
     let possibleMoves: Offset[] = [];
+    // TODO the following cannot enter the tower, knights, wolf riders, canon, ogre
     if (activeUnit && !activeUnit.hasMoved) {
       possibleMoves = findNeighbours(
         activeUnit.x,
@@ -99,9 +100,7 @@ const useGameStore = create<GameState>((set, get) => ({
         get().playingCards[0]
       ).filter(
         (move) =>
-          !get().units.find(
-            (unit) => unit.x === move[0] && unit.y === move[1]
-          )
+          !get().units.find((unit) => unit.x === move[0] && unit.y === move[1])
       ) as Offset[];
     }
 
@@ -134,13 +133,13 @@ const useGameStore = create<GameState>((set, get) => ({
               ...unit,
               x,
               y,
-              hasMoved: true
+              hasMoved: true,
             };
           }
           return unit;
         }),
         possibleMoves: [],
-        possibleAttacks
+        possibleAttacks,
       };
     });
   },
@@ -152,7 +151,7 @@ const useGameStore = create<GameState>((set, get) => ({
       if (unit.id === id) {
         return {
           ...unit,
-          hasMoved: true
+          hasMoved: true,
         };
       }
       return unit;
@@ -172,7 +171,7 @@ const useGameStore = create<GameState>((set, get) => ({
       if (unit.id === id) {
         return {
           ...unit,
-          hasAttacked: true
+          hasAttacked: true,
         };
       }
       return unit;
@@ -188,41 +187,65 @@ const useGameStore = create<GameState>((set, get) => ({
       (unit) => unit.id === defendingUnitId
     ) as Unit;
 
-    // TODO check current card if bonus dice roll
+    const { extraDice } = get().playingCards[0];
+    // TODO if defending unit or attacking unit is in ditch, attack is -1 , unless attacking unit is archer or crossbow
+    // if defender is in tower then attacking unit gets one less dice
+    // if attacker is in tower than attacker gets one extra dice
+    const attackingDice = generateDice(attackingUnit.combatValue + extraDice);
+
+    // TODO check if defending unit gets any bonus (i.e. 1 extra defence when in tower)
+    const defendingDice = generateDice(defendingUnit.combatValue);
 
     set({
       battleInProgress: true,
       attackingUnitId,
       defendingUnitId,
-      attackingDice: generateDice(attackingUnit.attackValue),
-      defendingDice: generateDice(defendingUnit.attackValue)
+      attackingDice,
+      defendingDice,
     });
   },
 
   endBattle: (attackingUnitId: UnitId, defendingUnitId: UnitId) => {
-    // TODO deal damage to defending unit
+    // calculate total damage.
+    const totalAttack = get()
+      .attackingDice.map((dice) => dice.value)
+      .filter((num) => num < 4).length;
+    const totalDefence = get()
+      .defendingDice.map((dice) => dice.value)
+      .filter((num) => num === 4).length;
 
-    const units = get().units.map(unit => {
-      if (unit.id === attackingUnitId) {
-        return { ...unit, hasAttacked: true }
-      } else {
-        return unit;
-      }
-    })
+    const totalDamage = Math.max(0, totalAttack - totalDefence);
+
+    const units = get()
+      .units.map((unit) => {
+        if (unit.id === attackingUnitId) {
+          return { ...unit, hasAttacked: true };
+        } else if (unit.id === defendingUnitId) {
+          return {
+            ...unit,
+            damageSustained: unit.damageSustained + totalDamage,
+          };
+        } else {
+          return unit;
+        }
+      })
+      .filter((unit) => unit.damageSustained < 3);
 
     set({
       battleInProgress: false,
       defendingUnitId: null,
       attackingUnitId: null,
       units,
-      possibleAttacks: []
+      possibleAttacks: [],
+      attackingDice: [],
+      defendingDice: [],
     });
   },
 
   getUnitByCoords: (x: number, y: number) =>
     get().units.find((unit) => unit.x === x && unit.y === y),
   tileHasUnit: (x: number, y: number) =>
-    get().units.some((unit) => unit.x === x && unit.y === y)
+    get().units.some((unit) => unit.x === x && unit.y === y),
 }));
 
 export default useGameStore;

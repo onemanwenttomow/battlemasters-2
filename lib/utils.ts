@@ -4,8 +4,7 @@ import { board } from "./board";
 export function generateDice(num: number) {
   return [...Array.from(Array(num))].map((x, i) => ({
     id: i,
-    rolled: false,
-    value: generateRandomNumber(6)
+    value: generateRandomNumber(6),
   }));
 }
 

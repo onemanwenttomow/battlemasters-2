@@ -13,8 +13,8 @@ const units: Unit[] = [
     hasAttacked: false,
     army: "Imperial",
     range: 8,
-    attackValue: 2,
-    damageSustained: 0
+    combatValue: 2,
+    damageSustained: 0,
   },
   {
     name: "Lord Knights of the Empire",
@@ -28,8 +28,8 @@ const units: Unit[] = [
     hasAttacked: false,
     army: "Imperial",
     range: 1,
-    attackValue: 5,
-    damageSustained: 0
+    combatValue: 5,
+    damageSustained: 0,
   },
   {
     name: "Imperial Archers of Grunburg",
@@ -43,8 +43,8 @@ const units: Unit[] = [
     hasAttacked: false,
     army: "Imperial",
     range: 2,
-    attackValue: 3,
-    damageSustained: 0
+    combatValue: 3,
+    damageSustained: 0,
   },
   {
     name: "Imperial Archers of Bogenhaffen",
@@ -58,8 +58,8 @@ const units: Unit[] = [
     hasAttacked: false,
     army: "Imperial",
     range: 2,
-    attackValue: 3,
-    damageSustained: 0
+    combatValue: 3,
+    damageSustained: 0,
   },
   {
     name: "Crossbowmen Melgar's",
@@ -73,8 +73,8 @@ const units: Unit[] = [
     hasAttacked: false,
     army: "Imperial",
     range: 3,
-    attackValue: 3,
-    damageSustained: 0
+    combatValue: 3,
+    damageSustained: 0,
   },
   {
     name: "Men-At-Arms of Reikwald",
@@ -88,8 +88,8 @@ const units: Unit[] = [
     hasAttacked: false,
     army: "Imperial",
     range: 1,
-    attackValue: 3,
-    damageSustained: 0
+    combatValue: 3,
+    damageSustained: 0,
   },
   {
     name: "Men-At-Arms of Grunburg",
@@ -103,8 +103,8 @@ const units: Unit[] = [
     hasAttacked: false,
     army: "Imperial",
     range: 1,
-    attackValue: 3,
-    damageSustained: 0
+    combatValue: 3,
+    damageSustained: 0,
   },
   {
     name: "Men-At-Arms of Altdorf",
@@ -118,8 +118,8 @@ const units: Unit[] = [
     hasAttacked: false,
     army: "Imperial",
     range: 1,
-    attackValue: 3,
-    damageSustained: 0
+    combatValue: 3,
+    damageSustained: 0,
   },
   {
     name: "Imperial Knights of Baron Delborne's",
@@ -133,8 +133,8 @@ const units: Unit[] = [
     hasAttacked: false,
     army: "Imperial",
     range: 1,
-    attackValue: 4,
-    damageSustained: 0
+    combatValue: 4,
+    damageSustained: 0,
   },
   {
     name: "Imperial Knights of Duke Blitzen's",
@@ -148,8 +148,8 @@ const units: Unit[] = [
     hasAttacked: false,
     army: "Imperial",
     range: 1,
-    attackValue: 4,
-    damageSustained: 0
+    combatValue: 4,
+    damageSustained: 0,
   },
   {
     name: "Imperial Knights Prince Normand's",
@@ -163,8 +163,8 @@ const units: Unit[] = [
     hasAttacked: false,
     army: "Imperial",
     range: 1,
-    attackValue: 4,
-    damageSustained: 0
+    combatValue: 4,
+    damageSustained: 0,
   },
   {
     name: "Champions of Chaos Gorefist's",
@@ -178,8 +178,8 @@ const units: Unit[] = [
     hasAttacked: false,
     army: "Chaos",
     range: 1,
-    attackValue: 5,
-    damageSustained: 0
+    combatValue: 5,
+    damageSustained: 0,
   },
   {
     name: "Ogre Champion of Grimorg",
@@ -193,8 +193,8 @@ const units: Unit[] = [
     hasAttacked: false,
     army: "Chaos",
     range: 1,
-    attackValue: 4,
-    damageSustained: 0
+    combatValue: 4,
+    damageSustained: 0,
   },
   {
     name: "Chaos Warriors Goreband's",
@@ -208,8 +208,8 @@ const units: Unit[] = [
     hasAttacked: false,
     army: "Chaos",
     range: 1,
-    attackValue: 4,
-    damageSustained: 0
+    combatValue: 4,
+    damageSustained: 0,
   },
   {
     name: "Chaos Warriors Finmar's",
@@ -223,8 +223,8 @@ const units: Unit[] = [
     hasAttacked: false,
     army: "Chaos",
     range: 1,
-    attackValue: 4,
-    damageSustained: 0
+    combatValue: 4,
+    damageSustained: 0,
   },
   {
     name: "Wolf Riders Bogrot's",
@@ -238,8 +238,8 @@ const units: Unit[] = [
     hasAttacked: false,
     army: "Chaos",
     range: 1,
-    attackValue: 2,
-    damageSustained: 0
+    combatValue: 2,
+    damageSustained: 0,
   },
   {
     name: "Wolf Riders Black Fang's",
@@ -253,8 +253,8 @@ const units: Unit[] = [
     hasAttacked: false,
     army: "Chaos",
     range: 1,
-    attackValue: 2,
-    damageSustained: 0
+    combatValue: 2,
+    damageSustained: 0,
   },
   {
     name: "Beastmen of Bale",
@@ -268,8 +268,8 @@ const units: Unit[] = [
     hasAttacked: false,
     army: "Chaos",
     range: 1,
-    attackValue: 3,
-    damageSustained: 0
+    combatValue: 3,
+    damageSustained: 0,
   },
   {
     name: "Beastmen of Flint",
@@ -283,8 +283,8 @@ const units: Unit[] = [
     hasAttacked: false,
     army: "Chaos",
     range: 1,
-    attackValue: 3,
-    damageSustained: 0
+    combatValue: 3,
+    damageSustained: 0,
   },
   {
     name: "Orcs Gazkull's",
@@ -298,8 +298,8 @@ const units: Unit[] = [
     hasAttacked: false,
     army: "Chaos",
     range: 1,
-    attackValue: 3,
-    damageSustained: 0
+    combatValue: 3,
+    damageSustained: 0,
   },
   {
     name: "Orcs Zogrod's",
@@ -313,8 +313,8 @@ const units: Unit[] = [
     hasAttacked: false,
     army: "Chaos",
     range: 1,
-    attackValue: 3,
-    damageSustained: 0
+    combatValue: 3,
+    damageSustained: 0,
   },
   {
     name: "Goblins of Grom",
@@ -328,8 +328,8 @@ const units: Unit[] = [
     hasAttacked: false,
     army: "Chaos",
     range: 1,
-    attackValue: 2,
-    damageSustained: 0
+    combatValue: 2,
+    damageSustained: 0,
   },
   {
     name: "Goblins of Uglub",
@@ -343,8 +343,8 @@ const units: Unit[] = [
     hasAttacked: false,
     army: "Chaos",
     range: 1,
-    attackValue: 2,
-    damageSustained: 0
+    combatValue: 2,
+    damageSustained: 0,
   },
   {
     name: "Chaos Archers Doomguard",
@@ -358,8 +358,8 @@ const units: Unit[] = [
     hasAttacked: false,
     army: "Chaos",
     range: 2,
-    attackValue: 2,
-    damageSustained: 0
+    combatValue: 2,
+    damageSustained: 0,
   },
   {
     name: "Chaos Archers Fellmor's",
@@ -373,9 +373,9 @@ const units: Unit[] = [
     hasAttacked: false,
     army: "Chaos",
     range: 2,
-    attackValue: 2,
-    damageSustained: 0
-  }
+    combatValue: 2,
+    damageSustained: 0,
+  },
 ];
 
 export default units;

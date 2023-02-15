@@ -10,8 +10,8 @@ export interface Unit {
   hasAttacked: boolean;
   army: Army;
   range: number;
-  attackValue: number;
-  damageSustained: 0
+  combatValue: number;
+  damageSustained: number;
 }
 
 type Army = "Imperial" | "Chaos";
@@ -46,7 +46,6 @@ export type UnitId =
 export interface Dice {
   id: number;
   value: number;
-  rolled: boolean;
 }
 
 export type PlayingCards = Array<Card>;
@@ -55,6 +54,7 @@ export interface Card {
   ids: Array<UnitId>;
   img: string;
   moves: number;
+  extraDice: 0 | 1;
 }
 
 export type Tiles = "river" | "grass" | "road" | "swamp" | "tower";
