@@ -12,6 +12,7 @@ export default function UnitImage({ x, y }: Props) {
     getUnitByCoords,
     setActiveUnit,
     startBattle,
+    startCanonBattle,
     gameStarted,
     activeUnit,
     units,
@@ -32,30 +33,37 @@ export default function UnitImage({ x, y }: Props) {
     setActiveUnit(unit.id);
   }
 
+  function handleBattleClick() {
+    if (attackingUnit.id === "canon") {
+      return startCanonBattle(unit.id);
+    }
+    startBattle(attackingUnit.id, unit.id);
+  }
+
   return (
-      <>
-          <Image
-              src={unit.src || "/error.png"}
-              alt={unit.alt || "/error.png"}
-              className={`unit-shadow mx-auto top-5 relative border border-1 border-gray-700 ${
-                  isActive && !turnComplete && "animate-bounce"
-              }`}
-              style={{
-                  cursor: `${isActive ? "pointer" : "auto"}`,
-                  filter: `brightness(${unit.id === activeUnit ? "1.4" : "1"})`
-              }}
-              width="32"
-              height="32"
-              onClick={handleClick}
-          />
-          {canBeAttacked && (
-              <div
-                  className="absolute top-2 left-5 bg-red-500 h-6 w-6 grid place-content-center cursor-pointer"
-                  onClick={() => startBattle(attackingUnit.id, unit.id)}
-              >
-                  ⚔️
-              </div>
-          )}
-      </>
+    <>
+      <Image
+        src={unit.src || "/error.png"}
+        alt={unit.alt || "/error.png"}
+        className={`unit-shadow mx-auto top-5 relative border border-1 border-gray-700 ${
+          isActive && !turnComplete && "animate-bounce"
+        }`}
+        style={{
+          cursor: `${isActive ? "pointer" : "auto"}`,
+          filter: `brightness(${unit.id === activeUnit ? "1.4" : "1"})`,
+        }}
+        width="32"
+        height="32"
+        onClick={handleClick}
+      />
+      {canBeAttacked && (
+        <div
+          className="absolute top-2 left-5 bg-red-500 h-6 w-6 grid place-content-center cursor-pointer"
+          onClick={handleBattleClick}
+        >
+          ⚔️
+        </div>
+      )}
+    </>
   );
 }

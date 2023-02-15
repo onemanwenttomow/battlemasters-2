@@ -3,8 +3,15 @@ import { create } from "zustand";
 import units from "lib/units";
 import playingCards from "lib/cards";
 import { Unit, PlayingCards, Offset, UnitId, Dice } from "types";
-import { findAttackZone, generateDice, shuffle } from "lib/utils";
-import { findNeighbours } from "lib/utils";
+import {
+  findAttackZone,
+  generateDice,
+  shuffle,
+  findNeighbours,
+  offsetToCube,
+  cubeLinedraw,
+  cubeToOffset,
+} from "lib/utils";
 
 interface GameState {
   units: Unit[];
@@ -20,6 +27,7 @@ interface GameState {
   attackingDice: Dice[];
   defendingDice: Dice[];
   getUnitByCoords: (x: number, y: number) => Unit | undefined;
+  getUnitById: (id: UnitId) => Unit;
   tileHasUnit: (x: number, y: number) => boolean;
   shufflePlayingCards: () => void;
   drawNextCard: () => void;
@@ -29,6 +37,7 @@ interface GameState {
   skipAttack: (id: UnitId) => void;
   startBattle: (attackingId: UnitId, defendingId: UnitId) => void;
   endBattle: (attackingUnitId: UnitId, defendingUnitId: UnitId) => void;
+  startCanonBattle: (defendingUnitId: UnitId) => void;
 }
 
 const useGameStore = create<GameState>((set, get) => ({
@@ -88,7 +97,7 @@ const useGameStore = create<GameState>((set, get) => ({
   },
 
   setActiveUnit: (id: UnitId) => {
-    const activeUnit = get().units.find((unit) => unit.id === id) as Unit;
+    const activeUnit = get().getUnitById(id);
     const turnComplete = activeUnit.hasAttacked && activeUnit.hasAttacked;
 
     let possibleMoves: Offset[] = [];
@@ -120,9 +129,7 @@ const useGameStore = create<GameState>((set, get) => ({
     const activeUnitId = get().activeUnit;
     if (!activeUnitId) return;
 
-    const activeUnit = get().units.find(
-      (unit) => unit.id === activeUnitId
-    ) as Unit;
+    const activeUnit = get().getUnitById(activeUnitId);
 
     const possibleAttacks = findAttackZone(x, y, activeUnit.range);
     set((state) => {
@@ -146,7 +153,7 @@ const useGameStore = create<GameState>((set, get) => ({
 
   skipMove: (id: UnitId) => {
     set({ activeUnit: id });
-    const activeUnit = get().units.find((unit) => unit.id === id) as Unit;
+    const activeUnit = get().getUnitById(id);
     const updatedUnits = get().units.map((unit) => {
       if (unit.id === id) {
         return {
@@ -180,12 +187,8 @@ const useGameStore = create<GameState>((set, get) => ({
   },
 
   startBattle: (attackingUnitId: UnitId, defendingUnitId: UnitId) => {
-    const attackingUnit = get().units.find(
-      (unit) => unit.id === attackingUnitId
-    ) as Unit;
-    const defendingUnit = get().units.find(
-      (unit) => unit.id === defendingUnitId
-    ) as Unit;
+    const attackingUnit = get().getUnitById(attackingUnitId);
+    const defendingUnit = get().getUnitById(defendingUnitId);
 
     const { extraDice } = get().playingCards[0];
     // TODO if defending unit or attacking unit is in ditch, attack is -1 , unless attacking unit is archer or crossbow
@@ -206,7 +209,6 @@ const useGameStore = create<GameState>((set, get) => ({
   },
 
   endBattle: (attackingUnitId: UnitId, defendingUnitId: UnitId) => {
-    // calculate total damage.
     const totalAttack = get()
       .attackingDice.map((dice) => dice.value)
       .filter((num) => num < 4).length;
@@ -242,6 +244,20 @@ const useGameStore = create<GameState>((set, get) => ({
     });
   },
 
+  startCanonBattle: (defendingUnitId: UnitId) => {
+    const canon = get().getUnitById("canon");
+    const defendingUnit = get().getUnitById(defendingUnitId);
+    const canonCube = offsetToCube(canon.x, canon.y);
+    const defendingCube = offsetToCube(defendingUnit.x, defendingUnit.y);
+    const linePath = cubeLinedraw(canonCube, defendingCube);
+    const linePathCoords = linePath.map(cubeToOffset);
+    console.log("linePathCoords", linePathCoords);
+
+    // use 2 coordinates to plot a path
+  },
+
+  getUnitById: (id: UnitId) =>
+    get().units.find((unit) => unit.id === id) as Unit,
   getUnitByCoords: (x: number, y: number) =>
     get().units.find((unit) => unit.x === x && unit.y === y),
   tileHasUnit: (x: number, y: number) =>

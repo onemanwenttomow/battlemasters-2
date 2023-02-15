@@ -54,12 +54,10 @@ const evenrDirectionDifferences: Offset[][] = [
 ];
 
 export function findNeighbours(x: number, row: number, card: Card) {
-  // TODO: check if card has special movement and then change number to 2
   return hexReachable([x, row], card.moves);
 }
 
 export function findAttackZone(x: number, y: number, range: number) {
-  // TODO: check if card has special movement and then change number to 2
   return possibleAttackRadius([x, y], range);
 }
 
@@ -91,6 +89,46 @@ export function cubeDistance(a: Cube, b: Cube) {
     Math.abs(a.r - b.r),
     Math.abs(a.s - b.s)
   );
+}
+
+function lerp(a: number, b: number, t: number) {
+  return a + (b - a) * t;
+}
+
+function cubeLerp(a: Cube, b: Cube, t: number) {
+  return { q: lerp(a.q, b.q, t), r: lerp(a.r, b.r, t), s: lerp(a.s, b.s, t) };
+}
+
+export function cubeLinedraw(a: Cube, b: Cube) {
+  const N = cubeDistance(a, b);
+  const results = [];
+  for (let i = 0; i <= N; i++) {
+    results.push(cubeRound(cubeLerp(a, b, (1.0 / N) * i)));
+  }
+  return results;
+}
+
+function cubeRound(frac: Cube) {
+  let q = Math.round(frac.q);
+  let r = Math.round(frac.r);
+  let s = Math.round(frac.s);
+
+  const q_diff = Math.abs(q - frac.q);
+  const r_diff = Math.abs(r - frac.r);
+  const s_diff = Math.abs(s - frac.s);
+
+  if (q_diff > r_diff && q_diff > s_diff) {
+    q = -r - s;
+  } else if (r_diff > s_diff) {
+    r = -q - s;
+  } else {
+    s = -q - r;
+  }
+  return {
+    q,
+    r,
+    s,
+  };
 }
 
 function hexReachable(start: Offset, movement: number) {
