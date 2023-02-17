@@ -61,7 +61,7 @@ export default function Board() {
                 }}
                 onClick={() => handleClick(tile, x, y)}
               >
-                {/* <div className="absolute top-4 left-4 text-sm">{`[${x}, ${y}]`}</div> */}
+                <div className="absolute top-4 left-4 text-sm">{`[${x}, ${y}]`}</div>
                 {tileHasUnit(x, y) && <Unit x={x} y={y} />}
               </div>
             </li>

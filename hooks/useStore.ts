@@ -246,12 +246,20 @@ const useGameStore = create<GameState>((set, get) => ({
   },
 
   startCanonBattle: (defendingUnitId: UnitId) => {
+    set({ canonCards: [] });
     const canon = get().getUnitById("canon");
     const defendingUnit = get().getUnitById(defendingUnitId);
     const canonPath = getCanonPath(canon, defendingUnit);
-    console.log("Canon path: ", canonPath);
-    // const shuffledCanonCards = shuffle(canonCards);
-    // console.log(shuffledCanonCards);
+    const shuffledCanonCards = shuffle(canonCards);
+    // add the target card.
+    shuffledCanonCards.unshift("/canon-cards/canon-target.png");
+    // remove canon from canonPath
+    canonPath.shift();
+    // console.log("shuffledCanonCards", shuffledCanonCards);
+    const newCanonCards = shuffledCanonCards.slice(0, canonPath.length);
+    console.log("newCanonCards", newCanonCards.reverse());
+    console.log("canonPath", canonPath);
+    set({ canonCards: newCanonCards });
   },
 
   getUnitById: (id: UnitId) =>

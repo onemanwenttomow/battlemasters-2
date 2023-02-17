@@ -12,7 +12,7 @@ function generateRandomNumber(max: number, min = 1) {
   return Math.floor(max * Math.random()) + min;
 }
 
-export function shuffle(array: PlayingCards) {
+export function shuffle<Type>(array: Type[]): Type[] {
   let currentIndex = array.length,
     randomIndex;
 
@@ -65,11 +65,11 @@ function isValidTile(tile: Tiles) {
   return tile !== undefined && tile !== "swamp" && tile !== "river";
 }
 
-export function getCanonPath(canon: Unit, defendingUnit: Unit) {
+export function getCanonPath(canon: Unit, defendingUnit: Unit): Offset[] {
   const canonCube = offsetToCube(canon.x, canon.y);
   const defendingCube = offsetToCube(defendingUnit.x, defendingUnit.y);
   const linePath = cubeLinedraw(canonCube, defendingCube);
-  return linePath.map(cubeToOffset);
+  return linePath.map(cubeToOffset) as Offset[];
 }
 
 // https://www.redblobgames.com/grids/hexagons/#conversions
@@ -106,9 +106,9 @@ function cubeLerp(a: Cube, b: Cube, t: number) {
   return { q: lerp(a.q, b.q, t), r: lerp(a.r, b.r, t), s: lerp(a.s, b.s, t) };
 }
 
-export function cubeLinedraw(a: Cube, b: Cube) {
+export function cubeLinedraw(a: Cube, b: Cube): Cube[] {
   const N = cubeDistance(a, b);
-  const results = [];
+  const results = [] as Cube[];
   for (let i = 0; i <= N; i++) {
     results.push(cubeRound(cubeLerp(a, b, (1.0 / N) * i)));
   }

@@ -1,4 +1,6 @@
-const canonCards = [
+import { CanonCard } from "types";
+
+const canonCards: CanonCard[] = [
   "/canon-cards/canon-explosion.png",
   "/canon-cards/canon-explosion.png",
   "/canon-cards/canon-bounce.png",
