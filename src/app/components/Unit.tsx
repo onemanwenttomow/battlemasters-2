@@ -17,6 +17,7 @@ export default function UnitImage({ x, y }: Props) {
     activeUnit,
     units,
     possibleAttacks,
+    canonTiles,
   } = useStore((state) => state);
 
   const activeCard = useStore((store) => store.playingCards[0]);

@@ -3,7 +3,7 @@ import { create } from "zustand";
 import units from "lib/units";
 import playingCards from "lib/cards";
 import canonCards from "lib/canonCards";
-import { Unit, PlayingCards, Offset, UnitId, Dice } from "types";
+import { Unit, PlayingCards, Offset, UnitId, Dice, CanonTile } from "types";
 import {
   findAttackZone,
   generateDice,
@@ -17,7 +17,7 @@ interface GameState {
   activeUnit: UnitId | null;
   playingCards: PlayingCards;
   playedCards: PlayingCards;
-  canonCards: string[];
+  canonTiles: CanonTile[];
   gameStarted: boolean;
   possibleMoves: Offset[];
   possibleAttacks: Offset[];
@@ -45,7 +45,7 @@ const useGameStore = create<GameState>((set, get) => ({
   activeUnit: null,
   playingCards,
   playedCards: [],
-  canonCards: [],
+  canonTiles: [],
   gameStarted: false,
   possibleMoves: [],
   possibleAttacks: [],
@@ -246,20 +246,27 @@ const useGameStore = create<GameState>((set, get) => ({
   },
 
   startCanonBattle: (defendingUnitId: UnitId) => {
-    set({ canonCards: [] });
+    set({ canonTiles: [] });
     const canon = get().getUnitById("canon");
     const defendingUnit = get().getUnitById(defendingUnitId);
     const canonPath = getCanonPath(canon, defendingUnit);
     const shuffledCanonCards = shuffle(canonCards);
+
     // add the target card.
     shuffledCanonCards.unshift("/canon-cards/canon-target.png");
     // remove canon from canonPath
     canonPath.shift();
-    // console.log("shuffledCanonCards", shuffledCanonCards);
-    const newCanonCards = shuffledCanonCards.slice(0, canonPath.length);
-    console.log("newCanonCards", newCanonCards.reverse());
-    console.log("canonPath", canonPath);
-    set({ canonCards: newCanonCards });
+
+    const newCanonCards = shuffledCanonCards
+      .slice(0, canonPath.length)
+      .reverse();
+    const canonTiles = newCanonCards.map((card, i) => ({
+      src: card,
+      offset: canonPath[i],
+      revealed: false,
+    })) as CanonTile[];
+
+    set({ canonTiles: canonTiles });
   },
 
   getUnitById: (id: UnitId) =>

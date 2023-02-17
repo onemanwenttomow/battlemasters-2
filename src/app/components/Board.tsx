@@ -4,11 +4,17 @@ import { board, tilesDictionary } from "lib/board";
 import { Tiles } from "types";
 import useStore from "hooks/useStore";
 import Unit from "./Unit";
+import Image from "next/image";
 
 export default function Board() {
-  const { tileHasUnit, possibleMoves, possibleAttacks, moveUnit } = useStore(
-    (state) => state
-  );
+  const { tileHasUnit, possibleMoves, possibleAttacks, canonTiles, moveUnit } =
+    useStore((state) => state);
+
+  function isCanonTile(x: number, y: number) {
+    return canonTiles.find(
+      (tile) => tile.offset[0] === x && tile.offset[1] === y
+    );
+  }
 
   function isPossibleMove(x: number, y: number) {
     return possibleMoves.some((el) => el[0] === x && el[1] === y);
@@ -42,6 +48,7 @@ export default function Board() {
           const move = isPossibleMove(x, y);
           const attack = isPossibleAttack(x, y);
           const brightness = getBrightness(move, attack);
+          const canonTile = isCanonTile(x, y);
           return (
             <li
               key={y + x + tile}
@@ -61,8 +68,17 @@ export default function Board() {
                 }}
                 onClick={() => handleClick(tile, x, y)}
               >
-                <div className="absolute top-4 left-4 text-sm">{`[${x}, ${y}]`}</div>
+                {/* <div className="absolute top-4 left-4 text-sm">{`[${x}, ${y}]`}</div> */}
                 {tileHasUnit(x, y) && <Unit x={x} y={y} />}
+                {canonTile && (
+                  <Image
+                    src={canonTile.src}
+                    alt="canon tile"
+                    height="50"
+                    width="50"
+                    className="rounded-full absolute top-2 left-2 brightness-125"
+                  />
+                )}
               </div>
             </li>
           );

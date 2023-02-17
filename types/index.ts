@@ -72,3 +72,9 @@ export type CanonCard =
   | "/canon-cards/canon-bounce.png"
   | "/canon-cards/canon-fly.png"
   | "/canon-cards/canon-target.png";
+
+export interface CanonTile {
+  src: CanonCard;
+  offset: Offset;
+  revealed: false;
+}
