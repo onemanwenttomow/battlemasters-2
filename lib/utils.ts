@@ -29,7 +29,7 @@ export function shuffle<Type>(array: Type[]): Type[] {
     ];
   }
 
-  return array;
+  return array.slice();
 }
 
 const evenrDirectionDifferences: Offset[][] = [
