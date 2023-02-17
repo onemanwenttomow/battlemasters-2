@@ -184,7 +184,7 @@ const useGameStore = create<GameState>((set, get) => ({
       }
       return unit;
     });
-    set({ units: updatedUnits, possibleAttacks: [] });
+    set({ units: updatedUnits, possibleAttacks: [], canonTiles: [] });
   },
 
   startBattle: (attackingUnitId: UnitId, defendingUnitId: UnitId) => {
