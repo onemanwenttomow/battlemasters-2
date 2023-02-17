@@ -2,15 +2,14 @@ import { create } from "zustand";
 
 import units from "lib/units";
 import playingCards from "lib/cards";
+import canonCards from "lib/canonCards";
 import { Unit, PlayingCards, Offset, UnitId, Dice } from "types";
 import {
   findAttackZone,
   generateDice,
   shuffle,
   findNeighbours,
-  offsetToCube,
-  cubeLinedraw,
-  cubeToOffset,
+  getCanonPath,
 } from "lib/utils";
 
 interface GameState {
@@ -18,6 +17,7 @@ interface GameState {
   activeUnit: UnitId | null;
   playingCards: PlayingCards;
   playedCards: PlayingCards;
+  canonCards: string[];
   gameStarted: boolean;
   possibleMoves: Offset[];
   possibleAttacks: Offset[];
@@ -45,6 +45,7 @@ const useGameStore = create<GameState>((set, get) => ({
   activeUnit: null,
   playingCards,
   playedCards: [],
+  canonCards: [],
   gameStarted: false,
   possibleMoves: [],
   possibleAttacks: [],
@@ -247,13 +248,10 @@ const useGameStore = create<GameState>((set, get) => ({
   startCanonBattle: (defendingUnitId: UnitId) => {
     const canon = get().getUnitById("canon");
     const defendingUnit = get().getUnitById(defendingUnitId);
-    const canonCube = offsetToCube(canon.x, canon.y);
-    const defendingCube = offsetToCube(defendingUnit.x, defendingUnit.y);
-    const linePath = cubeLinedraw(canonCube, defendingCube);
-    const linePathCoords = linePath.map(cubeToOffset);
-    console.log("linePathCoords", linePathCoords);
-
-    // use 2 coordinates to plot a path
+    const canonPath = getCanonPath(canon, defendingUnit);
+    console.log("Canon path: ", canonPath);
+    // const shuffledCanonCards = shuffle(canonCards);
+    // console.log(shuffledCanonCards);
   },
 
   getUnitById: (id: UnitId) =>

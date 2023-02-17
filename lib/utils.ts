@@ -1,4 +1,4 @@
-import { Card, Cube, Offset, PlayingCards, Tiles } from "types";
+import { Card, Cube, Offset, PlayingCards, Tiles, Unit } from "types";
 import { board } from "./board";
 
 export function generateDice(num: number) {
@@ -63,6 +63,13 @@ export function findAttackZone(x: number, y: number, range: number) {
 
 function isValidTile(tile: Tiles) {
   return tile !== undefined && tile !== "swamp" && tile !== "river";
+}
+
+export function getCanonPath(canon: Unit, defendingUnit: Unit) {
+  const canonCube = offsetToCube(canon.x, canon.y);
+  const defendingCube = offsetToCube(defendingUnit.x, defendingUnit.y);
+  const linePath = cubeLinedraw(canonCube, defendingCube);
+  return linePath.map(cubeToOffset);
 }
 
 // https://www.redblobgames.com/grids/hexagons/#conversions
