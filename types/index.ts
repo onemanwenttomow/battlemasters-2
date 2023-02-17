@@ -76,5 +76,6 @@ export type CanonCard =
 export interface CanonTile {
   src: CanonCard;
   offset: Offset;
-  revealed: false;
+  revealed: boolean;
+  isTarget: boolean
 }

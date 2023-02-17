@@ -38,6 +38,7 @@ interface GameState {
   startBattle: (attackingId: UnitId, defendingId: UnitId) => void;
   endBattle: (attackingUnitId: UnitId, defendingUnitId: UnitId) => void;
   startCanonBattle: (defendingUnitId: UnitId) => void;
+  canonTileReveal: (canonTile: CanonTile) => void;
 }
 
 const useGameStore = create<GameState>((set, get) => ({
@@ -260,13 +261,29 @@ const useGameStore = create<GameState>((set, get) => ({
     const newCanonCards = shuffledCanonCards
       .slice(0, canonPath.length)
       .reverse();
-    const canonTiles = newCanonCards.map((card, i) => ({
+    const canonTiles = newCanonCards.map((card, i): CanonTile => ({
       src: card,
       offset: canonPath[i],
       revealed: false,
-    })) as CanonTile[];
+      isTarget: i === newCanonCards.length - 1
+    }));
 
-    set({ canonTiles: canonTiles });
+    set({ canonTiles: canonTiles, possibleAttacks: [] });
+  },
+
+  canonTileReveal: (canonTile: CanonTile) => {
+    const canonTiles = get().canonTiles;
+    const idx = canonTiles.indexOf(canonTile);
+    const lowestIndex = canonTiles.findIndex(tile => !tile.revealed)
+    if (idx !== lowestIndex) return;
+
+    // check if first card AND is explosion.... handle special rules...
+
+    // check if bounce, if there is a unit on that space and deal damange.
+    // check if explosion, then remove unit on those coords.
+    // check if final card, then also remove unit at those coords
+
+    set({ canonTiles: canonTiles.map((tile, i) => i === idx ? { ...tile, revealed: true } : tile) })
   },
 
   getUnitById: (id: UnitId) =>

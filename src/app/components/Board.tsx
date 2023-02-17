@@ -4,11 +4,16 @@ import { board, tilesDictionary } from "lib/board";
 import { Tiles } from "types";
 import useStore from "hooks/useStore";
 import Unit from "./Unit";
-import Image from "next/image";
+import CanonTileImage from "./CanonTile";
 
 export default function Board() {
-  const { tileHasUnit, possibleMoves, possibleAttacks, canonTiles, moveUnit } =
-    useStore((state) => state);
+  const {
+    tileHasUnit,
+    possibleMoves,
+    possibleAttacks,
+    canonTiles,
+    moveUnit,
+  } = useStore((state) => state);
 
   function isCanonTile(x: number, y: number) {
     return canonTiles.find(
@@ -35,9 +40,9 @@ export default function Board() {
 
   function handleClick(tile: Tiles, x: number, y: number) {
     if (!isPossibleMove(x, y)) return;
-    console.log(tile);
     moveUnit(x, y);
   }
+
   return (
     <ul
       className="grid gap-[0.15rem] grid-cols-[repeat(27,_32.5px)] grid-rows-[repeat(14,_22.25px_44.5px)+22.25px] list-none"
@@ -57,28 +62,20 @@ export default function Board() {
                 gridColumnStart: y % 2 === 0 ? x * 2 + 2 : x * 2 + 1,
                 gridRowStart: y * 2 + 1,
                 transform: `translateY(-${y * 22.25}px)`,
-                cursor: `${isPossibleMove(x, y) ? "cell" : "auto"}`,
+                cursor: `${isPossibleMove(x, y) ? "cell" : "auto"}`
               }}
             >
               <div
                 className="h-full hexagon bg-no-repeat relative"
                 style={{
                   background: tilesDictionary[tile],
-                  filter: `brightness(${brightness})`,
+                  filter: `brightness(${brightness})`
                 }}
                 onClick={() => handleClick(tile, x, y)}
               >
                 {/* <div className="absolute top-4 left-4 text-sm">{`[${x}, ${y}]`}</div> */}
                 {tileHasUnit(x, y) && <Unit x={x} y={y} />}
-                {canonTile && (
-                  <Image
-                    src={canonTile.src}
-                    alt="canon tile"
-                    height="50"
-                    width="50"
-                    className="rounded-full absolute top-2 left-2 brightness-125"
-                  />
-                )}
+                {canonTile && <CanonTileImage canonTile={canonTile} />}
               </div>
             </li>
           );
