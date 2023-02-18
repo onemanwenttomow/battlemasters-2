@@ -202,3 +202,4 @@ function hexNeighbour(hex: Offset, dir: number) {
   const neighbour = evenrDirectionDifferences[idx][dir];
   return [neighbour[0] + hex[0], neighbour[1] + hex[1]] as Offset;
 }
+
