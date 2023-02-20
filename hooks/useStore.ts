@@ -3,7 +3,8 @@ import { create } from "zustand";
 import units from "lib/units";
 import playingCards from "lib/cards";
 import canonCards from "lib/canonCards";
-import { Unit, PlayingCards, Offset, UnitId, Dice, CanonTile } from "types";
+import ogreCards from "lib/ogreCards";
+import { Unit, PlayingCards, Offset, UnitId, Dice, CanonTile, OgreCard } from "types";
 import {
   findAttackZone,
   generateDice,
@@ -20,6 +21,7 @@ interface GameState {
   playedCards: PlayingCards;
   canonTiles: CanonTile[];
   canonMisFire: CanonTile | null;
+  ogreCards: OgreCard[];
   gameStarted: boolean;
   possibleMoves: Offset[];
   possibleAttacks: Offset[];
@@ -52,6 +54,7 @@ const useGameStore = create<GameState>((set, get) => ({
   playedCards: [],
   canonTiles: [],
   canonMisFire: null,
+  ogreCards: shuffle(ogreCards),
   gameStarted: false,
   possibleMoves: [],
   possibleAttacks: [],
@@ -99,7 +102,7 @@ const useGameStore = create<GameState>((set, get) => ({
       possibleMoves: [],
       possibleAttacks: [],
       activeUnit: null,
-      units: activeUnits
+      units: activeUnits,
     });
   },
 

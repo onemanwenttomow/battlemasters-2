@@ -73,7 +73,6 @@ export default function CurrentTurn() {
               })}
           </tbody>
         </table>
-        <div>{isGrimorg && <div>Grimorg Cards</div>}</div>
       </div>
     </div>
   );

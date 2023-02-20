@@ -73,6 +73,16 @@ export type CanonCard =
   | "/canon-cards/canon-fly.png"
   | "/canon-cards/canon-target.png";
 
+export interface OgreCard {
+  src: OgreSrc;
+  revealed: boolean;
+}
+
+export type OgreSrc =
+  | "/ogre-cards/ogre-attack-card.png"
+  | "/ogre-cards/ogre-move-card.png"
+
+
 export interface CanonTile {
   src: CanonCard;
   offset: Offset;
