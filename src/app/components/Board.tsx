@@ -6,6 +6,7 @@ import useStore from "hooks/useStore";
 import Unit from "./Unit";
 import CanonTileImage from "./CanonTile";
 import Image from "next/image";
+import CanonMisfire from "./CanonMisfire";
 
 export default function Board() {
   const {
@@ -83,15 +84,7 @@ export default function Board() {
                 {/* <div className="absolute top-4 left-4 text-sm">{`[${x}, ${y}]`}</div> */}
                 {tileHasUnit(x, y) && <Unit x={x} y={y} />}
                 {canonTile && <CanonTileImage canonTile={canonTile} />}
-                {canonMisTile && (
-                  <Image
-                    src="/canon-cards/canon-explosion.png"
-                    alt="canon tile"
-                    height="32"
-                    width="32"
-                    className="rounded-full absolute top-4 left-4 brightness-125 cursor-pointer"
-                  />
-                )}
+                {canonMisTile && <CanonMisfire />}
               </div>
             </li>
           );

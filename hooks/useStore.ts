@@ -40,6 +40,7 @@ interface GameState {
   endBattle: (attackingUnitId: UnitId, defendingUnitId: UnitId) => void;
   startCanonBattle: (defendingUnitId: UnitId) => void;
   canonTileReveal: (canonTile: CanonTile) => void;
+  canonMisfireReveal: () => void;
 }
 
 const useGameStore = create<GameState>((set, get) => ({
@@ -304,21 +305,13 @@ const useGameStore = create<GameState>((set, get) => ({
     // check if explosion, then remove unit on those coords.
     // check if final card, then also remove unit at those coords
     if (src === "/canon-cards/canon-explosion.png" || isTarget) {
+      const canon = get().getUnitById("canon");
+      canon.hasAttacked = true;
       damage = 6;
       canonTiles.length = idx + 1;
+
       setTimeout(() => {
-        set({
-          canonTiles: [],
-          units: get().units.map((unit) => {
-            if (unit.id === "canon") {
-              return {
-                ...unit,
-                hasAttacked: true,
-              };
-            }
-            return unit;
-          }),
-        });
+        set({ canonTiles: [] });
       }, 3000);
     }
 
@@ -341,6 +334,36 @@ const useGameStore = create<GameState>((set, get) => ({
       canonTiles: updatedCanonTiles,
       units,
     });
+  },
+
+  canonMisfireReveal: () => {
+    const prevCanonMisFire = get().canonMisFire as CanonTile;
+    const canonMisFire = {
+      ...prevCanonMisFire,
+      revealed: true,
+    } as CanonTile;
+
+    set({ canonMisFire });
+
+    // TODO check card for amount of damage
+
+    let damage = 0;
+    const { src } = prevCanonMisFire;
+    if (src === "/canon-cards/canon-bounce.png") {
+      damage = 1;
+    } else if (src === "/canon-cards/canon-explosion.png") {
+      damage = 3;
+    }
+
+    const canon = get().getUnitById("canon");
+    canon.damageSustained = damage;
+
+    setTimeout(() => {
+      set({
+        canonMisFire: null,
+        units: get().units.filter((unit) => unit.damageSustained < 3),
+      });
+    }, 3000);
   },
 
   getUnitById: (id: UnitId) =>
