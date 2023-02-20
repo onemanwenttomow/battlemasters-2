@@ -10,6 +10,7 @@ import {
   shuffle,
   findNeighbours,
   getCanonPath,
+  filterDefeatedUnits
 } from "lib/utils";
 
 interface GameState {
@@ -40,6 +41,7 @@ interface GameState {
   endBattle: (attackingUnitId: UnitId, defendingUnitId: UnitId) => void;
   startCanonBattle: (defendingUnitId: UnitId) => void;
   canonTileReveal: (canonTile: CanonTile) => void;
+  setCanonMisFire: () => void;
   canonMisfireReveal: () => void;
 }
 
@@ -65,9 +67,9 @@ const useGameStore = create<GameState>((set, get) => ({
       units: get().units.map((unit) => {
         return {
           ...unit,
-          isActive: get().playingCards[0].ids.includes(unit.id),
+          isActive: get().playingCards[0].ids.includes(unit.id)
         };
-      }) as Unit[],
+      }) as Unit[]
     })),
 
   drawNextCard: () => {
@@ -79,7 +81,7 @@ const useGameStore = create<GameState>((set, get) => ({
 
     const playedCards = [
       ...get().playedCards,
-      newPlayingCards.shift(),
+      newPlayingCards.shift()
     ] as PlayingCards;
 
     const activeUnits = get().units.map((unit) => {
@@ -87,7 +89,7 @@ const useGameStore = create<GameState>((set, get) => ({
         ...unit,
         isActive: newPlayingCards[0].ids.includes(unit.id),
         hasMoved: false,
-        hasAttacked: false,
+        hasAttacked: false
       };
     }) as Unit[];
 
@@ -97,34 +99,33 @@ const useGameStore = create<GameState>((set, get) => ({
       possibleMoves: [],
       possibleAttacks: [],
       activeUnit: null,
-      units: activeUnits,
+      units: activeUnits
     });
   },
 
   setActiveUnit: (id: UnitId) => {
     const activeUnit = get().getUnitById(id);
-    const turnComplete = activeUnit.hasAttacked && activeUnit.hasAttacked;
+    const { x, y, hasMoved, hasAttacked, range } = activeUnit;
+    const turnComplete = hasMoved && hasAttacked;
 
     let possibleMoves: Offset[] = [];
     // TODO the following cannot enter the tower, knights, wolf riders, canon, ogre
-    if (activeUnit && !activeUnit.hasMoved) {
+    if (activeUnit && !hasMoved) {
       possibleMoves = findNeighbours(
-        activeUnit.x,
-        activeUnit.y,
+        x,
+        y,
         get().playingCards[0]
       ).filter(
         (move) =>
-          !get().units.find((unit) => unit.x === move[0] && unit.y === move[1])
+          !get().units.find(
+            (unit) => unit.x === move[0] && unit.y === move[1]
+          )
       ) as Offset[];
     }
 
     let possibleAttacks: Offset[] = [];
-    if (activeUnit && activeUnit.hasMoved && !turnComplete) {
-      possibleAttacks = findAttackZone(
-        activeUnit.x,
-        activeUnit.y,
-        activeUnit.range
-      );
+    if (activeUnit && hasMoved && !turnComplete) {
+      possibleAttacks = findAttackZone(x, y, range);
     }
 
     set({ activeUnit: id, possibleMoves, possibleAttacks });
@@ -145,13 +146,13 @@ const useGameStore = create<GameState>((set, get) => ({
               ...unit,
               x,
               y,
-              hasMoved: true,
+              hasMoved: true
             };
           }
           return unit;
         }),
         possibleMoves: [],
-        possibleAttacks,
+        possibleAttacks
       };
     });
   },
@@ -159,21 +160,18 @@ const useGameStore = create<GameState>((set, get) => ({
   skipMove: (id: UnitId) => {
     set({ activeUnit: id });
     const activeUnit = get().getUnitById(id);
+    const { x, y, range } = activeUnit;
     const updatedUnits = get().units.map((unit) => {
       if (unit.id === id) {
         return {
           ...unit,
-          hasMoved: true,
+          hasMoved: true
         };
       }
       return unit;
     });
 
-    const possibleAttacks = findAttackZone(
-      activeUnit.x,
-      activeUnit.y,
-      activeUnit.range
-    );
+    const possibleAttacks = findAttackZone(x, y, range);
 
     set({ units: updatedUnits, possibleAttacks, possibleMoves: [] });
   },
@@ -183,7 +181,7 @@ const useGameStore = create<GameState>((set, get) => ({
       if (unit.id === id) {
         return {
           ...unit,
-          hasAttacked: true,
+          hasAttacked: true
         };
       }
       return unit;
@@ -199,7 +197,9 @@ const useGameStore = create<GameState>((set, get) => ({
     // TODO if defending unit or attacking unit is in ditch, attack is -1 , unless attacking unit is archer or crossbow
     // if defender is in tower then attacking unit gets one less dice
     // if attacker is in tower than attacker gets one extra dice
-    const attackingDice = generateDice(attackingUnit.combatValue + extraDice);
+    const attackingDice = generateDice(
+      attackingUnit.combatValue + extraDice
+    );
 
     // TODO check if defending unit gets any bonus (i.e. 1 extra defence when in tower)
     const defendingDice = generateDice(defendingUnit.combatValue);
@@ -209,7 +209,7 @@ const useGameStore = create<GameState>((set, get) => ({
       attackingUnitId,
       defendingUnitId,
       attackingDice,
-      defendingDice,
+      defendingDice
     });
   },
 
@@ -230,13 +230,13 @@ const useGameStore = create<GameState>((set, get) => ({
         } else if (unit.id === defendingUnitId) {
           return {
             ...unit,
-            damageSustained: unit.damageSustained + totalDamage,
+            damageSustained: unit.damageSustained + totalDamage
           };
         } else {
           return unit;
         }
       })
-      .filter((unit) => unit.damageSustained < 3);
+      .filter(filterDefeatedUnits);
 
     set({
       battleInProgress: false,
@@ -245,7 +245,7 @@ const useGameStore = create<GameState>((set, get) => ({
       units,
       possibleAttacks: [],
       attackingDice: [],
-      defendingDice: [],
+      defendingDice: []
     });
   },
 
@@ -269,7 +269,7 @@ const useGameStore = create<GameState>((set, get) => ({
         src: card,
         offset: canonPath[i],
         revealed: false,
-        isTarget: i === newCanonCards.length - 1,
+        isTarget: i === newCanonCards.length - 1
       })
     );
 
@@ -287,19 +287,7 @@ const useGameStore = create<GameState>((set, get) => ({
 
     // TODO check if first card AND is explosion.... handle special rules...
     if (src === "/canon-cards/canon-explosion.png" && idx === 0) {
-      const canon = get().getUnitById("canon");
-      const canonMisFireCards = canonCards;
-      canonMisFireCards.shift();
-      const shuffledMisFireCards = shuffle(canonMisFireCards);
-      const randomCard = shuffledMisFireCards[0];
-      const canonMisFireTile = {
-        revealed: false,
-        isTarget: false,
-        src: randomCard,
-        offset: [canon.x, canon.y],
-      } as CanonTile;
-
-      set({ canonMisFire: canonMisFireTile });
+      get().setCanonMisFire();
     }
 
     // check if explosion, then remove unit on those coords.
@@ -320,27 +308,46 @@ const useGameStore = create<GameState>((set, get) => ({
       damage = 1;
     }
 
-    const possibleUnitUnderCanon = get().getUnitByCoords(offset[0], offset[1]);
+    const possibleUnitUnderCanon = get().getUnitByCoords(
+      offset[0],
+      offset[1]
+    );
     if (possibleUnitUnderCanon) {
       possibleUnitUnderCanon.damageSustained += damage;
     }
 
-    const units = get().units.filter((unit) => unit.damageSustained < 3);
+    const units = get().units.filter(filterDefeatedUnits);
     const updatedCanonTiles = get().canonTiles.map((tile, i) =>
       i === idx ? { ...tile, revealed: true } : tile
     );
 
     set({
       canonTiles: updatedCanonTiles,
-      units,
+      units
     });
+  },
+
+  setCanonMisFire: () => {
+    const canon = get().getUnitById("canon");
+    const canonMisFireCards = canonCards;
+    canonMisFireCards.shift();
+    const shuffledMisFireCards = shuffle(canonMisFireCards);
+    const randomCard = shuffledMisFireCards[0];
+    const canonMisFireTile = {
+      revealed: false,
+      isTarget: false,
+      src: randomCard,
+      offset: [canon.x, canon.y]
+    } as CanonTile;
+
+    set({ canonMisFire: canonMisFireTile });
   },
 
   canonMisfireReveal: () => {
     const prevCanonMisFire = get().canonMisFire as CanonTile;
     const canonMisFire = {
       ...prevCanonMisFire,
-      revealed: true,
+      revealed: true
     } as CanonTile;
 
     set({ canonMisFire });
@@ -361,7 +368,7 @@ const useGameStore = create<GameState>((set, get) => ({
     setTimeout(() => {
       set({
         canonMisFire: null,
-        units: get().units.filter((unit) => unit.damageSustained < 3),
+        units: get().units.filter(filterDefeatedUnits)
       });
     }, 3000);
   },
@@ -371,7 +378,7 @@ const useGameStore = create<GameState>((set, get) => ({
   getUnitByCoords: (x: number, y: number) =>
     get().units.find((unit) => unit.x === x && unit.y === y),
   tileHasUnit: (x: number, y: number) =>
-    get().units.some((unit) => unit.x === x && unit.y === y),
+    get().units.some((unit) => unit.x === x && unit.y === y)
 }));
 
 export default useGameStore;

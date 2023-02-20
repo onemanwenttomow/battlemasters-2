@@ -203,3 +203,6 @@ function hexNeighbour(hex: Offset, dir: number) {
   return [neighbour[0] + hex[0], neighbour[1] + hex[1]] as Offset;
 }
 
+export function filterDefeatedUnits(unit: Unit) {
+  return unit.damageSustained < 3;
+}
