@@ -286,7 +286,6 @@ const useGameStore = create<GameState>((set, get) => ({
 
     // TODO check if first card AND is explosion.... handle special rules...
     if (src === "/canon-cards/canon-explosion.png" && idx === 0) {
-      console.log("handle canon misfire");
       const canon = get().getUnitById("canon");
       const canonMisFireCards = canonCards;
       canonMisFireCards.shift();
@@ -320,7 +319,7 @@ const useGameStore = create<GameState>((set, get) => ({
             return unit;
           }),
         });
-      }, 30000);
+      }, 3000);
     }
 
     // check if bounce, if there is a unit on that space and deal damange.

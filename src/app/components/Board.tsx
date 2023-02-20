@@ -5,6 +5,7 @@ import { Tiles } from "types";
 import useStore from "hooks/useStore";
 import Unit from "./Unit";
 import CanonTileImage from "./CanonTile";
+import Image from "next/image";
 
 export default function Board() {
   const {
@@ -20,6 +21,10 @@ export default function Board() {
     return canonTiles.find(
       (tile) => tile.offset[0] === x && tile.offset[1] === y
     );
+  }
+
+  function isCanonMisfire(x: number, y: number) {
+    return canonMisFire?.offset[0] === x && canonMisFire?.offset[1] === y;
   }
 
   function isPossibleMove(x: number, y: number) {
@@ -55,6 +60,7 @@ export default function Board() {
           const attack = isPossibleAttack(x, y);
           const brightness = getBrightness(move, attack);
           const canonTile = isCanonTile(x, y);
+          const canonMisTile = isCanonMisfire(x, y);
           return (
             <li
               key={y + x + tile}
@@ -77,6 +83,15 @@ export default function Board() {
                 {/* <div className="absolute top-4 left-4 text-sm">{`[${x}, ${y}]`}</div> */}
                 {tileHasUnit(x, y) && <Unit x={x} y={y} />}
                 {canonTile && <CanonTileImage canonTile={canonTile} />}
+                {canonMisTile && (
+                  <Image
+                    src="/canon-cards/canon-explosion.png"
+                    alt="canon tile"
+                    height="32"
+                    width="32"
+                    className="rounded-full absolute top-4 left-4 brightness-125 cursor-pointer"
+                  />
+                )}
               </div>
             </li>
           );
