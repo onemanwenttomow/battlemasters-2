@@ -16,16 +16,18 @@ export default function BattleUnit({ unit, dice }: Props) {
       <Image src={unit.src} alt={unit.alt} height="50" width="50" />
       <p>
         Damage:{" "}
-        {[...Array.from(Array(unit.damageSustained))].map((damage) => (
-          <Image
-            key={damage}
-            className="inline"
-            src="/extra-tiles/damage.png"
-            alt="damage"
-            height="25"
-            width="25"
-          />
-        ))}
+        {[...Array.from(Array(unit.damageSustained))]
+          .map((_el, i) => i)
+          .map((damage) => (
+            <Image
+              key={damage}
+              className="inline"
+              src="/extra-tiles/damage.png"
+              alt="damage"
+              height="25"
+              width="25"
+            />
+          ))}
       </p>
       <div>
         {dice.map(({ id, value }, i) => (
