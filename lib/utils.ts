@@ -1,4 +1,4 @@
-import { Card, Cube, Offset, PlayingCards, Tiles, Unit } from "types";
+import { Card, Cube, Offset, OgreCard, PlayingCards, Tiles, Unit } from "types";
 import { board } from "./board";
 
 export function generateDice(num: number) {
@@ -204,5 +204,13 @@ function hexNeighbour(hex: Offset, dir: number) {
 }
 
 export function filterDefeatedUnits(unit: Unit) {
-  return unit.damageSustained < 3;
+  const isGrimorg = unit.id === "grimorg";
+  return isGrimorg ? unit.damageSustained < 6 : unit.damageSustained < 3;
+}
+
+export function getCurrentOgreCard(acc: null | OgreCard, card: OgreCard) {
+  if (card.revealed === true && !acc) {
+    return card;
+  }
+  return acc;
 }

@@ -283,7 +283,7 @@ const cards: Card[] = [
   {
     ids: ["grimorg"],
     img: "/cards/playing-card-7.png",
-    moves: 0,
+    moves: 1,
     extraDice: 0,
   },
   {
