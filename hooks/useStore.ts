@@ -1,9 +1,9 @@
 import { create } from "zustand";
 
 import units from "lib/units";
-import playingCards from "lib/cards";
-import canonCards from "lib/canonCards";
-import ogreCards from "lib/ogreCards";
+import playingCards from "lib/cards/cards";
+import canonCards from "lib/cards/canonCards";
+import ogreCards from "lib/cards/ogreCards";
 import {
   Unit,
   PlayingCards,
