@@ -397,7 +397,7 @@ const useGameStore = create<GameState>((set, get) => ({
 
   setCanonMisFire: () => {
     const canon = get().getUnitById("canon");
-    const canonMisFireCards = canonCards;
+    const canonMisFireCards = [...canonCards];
     canonMisFireCards.shift();
     const shuffledMisFireCards = shuffle(canonMisFireCards);
     const randomCard = shuffledMisFireCards[0];
