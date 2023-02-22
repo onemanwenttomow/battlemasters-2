@@ -1,4 +1,4 @@
-import { Tiles } from "types";
+import { Offset, Tiles } from "types";
 
 export const board = [
   [
@@ -176,6 +176,12 @@ export const board = [
     "grass",
   ],
 ] as Array<Array<Tiles>>;
+
+const towerRow = board.find((row) => row.includes("tower")) as Tiles[];
+const towerY = board.indexOf(towerRow);
+const towerX = towerRow.indexOf("tower");
+
+export const towerOffset: Offset = [towerX, towerY];
 
 export const tilesDictionary = {
   river:

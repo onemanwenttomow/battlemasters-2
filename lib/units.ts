@@ -1,4 +1,23 @@
-import { Unit } from "types";
+import { Unit, UnitId } from "types";
+
+export const canEnterTower: UnitId[] = [
+  "grunberg-archers",
+  "bogenhaffen",
+  "melgar",
+  "reikwald",
+  "grunburg-arms",
+  "altdorf",
+  "gorebands",
+  "finmars",
+  "bale",
+  "flint",
+  "gazkulls",
+  "zogrods",
+  "grom",
+  "uglub",
+  "doomguard",
+  "fellmoors",
+];
 
 const units: Unit[] = [
   {

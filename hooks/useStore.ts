@@ -1,9 +1,10 @@
 import { create } from "zustand";
 
-import units from "lib/units";
+import units, { canEnterTower } from "lib/units";
 import playingCards from "lib/cards/cards";
 import canonCards from "lib/cards/canonCards";
 import ogreCards from "lib/cards/ogreCards";
+import { towerOffset } from "lib/board";
 import {
   Unit,
   PlayingCards,
@@ -21,6 +22,7 @@ import {
   getCanonPath,
   filterDefeatedUnits,
   getCurrentOgreCard,
+  isTowerTile,
 } from "lib/utils";
 
 interface GameState {
@@ -133,10 +135,19 @@ const useGameStore = create<GameState>((set, get) => ({
     let possibleMoves: Offset[] = [];
     // TODO the following cannot enter the tower, knights, wolf riders, canon, ogre
     if (activeUnit && !hasMoved) {
-      possibleMoves = findNeighbours(x, y, get().playingCards[0]).filter(
-        (move) =>
-          !get().units.find((unit) => unit.x === move[0] && unit.y === move[1])
-      ) as Offset[];
+      possibleMoves = findNeighbours(x, y, get().playingCards[0])
+        .filter(
+          (potentialMove) =>
+            !get().units.find(
+              (unit) =>
+                unit.x === potentialMove[0] && unit.y === potentialMove[1]
+            )
+        )
+        // check if unit can enter tower...
+        .filter(
+          (potentialMove) =>
+            !(isTowerTile(potentialMove) && !canEnterTower.includes(id))
+        ) as Offset[];
     }
 
     let possibleAttacks: Offset[] = [];
