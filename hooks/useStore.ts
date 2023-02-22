@@ -230,11 +230,23 @@ const useGameStore = create<GameState>((set, get) => ({
     const { extraDice } = get().playingCards[0];
     // TODO if defending unit or attacking unit is in ditch, attack is -1 , unless attacking unit is archer or crossbow
     // if defender is in tower then attacking unit gets one less dice
-    // if attacker is in tower than attacker gets one extra dice
-    const attackingDice = generateDice(attackingUnit.combatValue + extraDice);
+    let towerDefenseBonus = 0;
+    if (isTowerTile([defendingUnit.x, defendingUnit.y])) {
+      towerDefenseBonus = 1;
+    }
 
-    // TODO check if defending unit gets any bonus (i.e. 1 extra defence when in tower)
-    const defendingDice = generateDice(defendingUnit.combatValue);
+    // if attacker is in tower than attacker gets one extra dice
+    let towerAttackBonus = 0;
+    if (isTowerTile([attackingUnit.x, attackingUnit.y])) {
+      towerAttackBonus = 1;
+    }
+
+    const attackingDice = generateDice(
+      attackingUnit.combatValue + extraDice + towerAttackBonus
+    );
+    const defendingDice = generateDice(
+      defendingUnit.combatValue + towerDefenseBonus
+    );
 
     set({
       battleInProgress: true,
