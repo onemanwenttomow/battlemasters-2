@@ -183,6 +183,12 @@ const towerX = towerRow.indexOf("tower");
 
 export const towerOffset: Offset = [towerX, towerY];
 
+const ditchRow = board.find((row) => row.includes("ditch")) as Tiles[];
+const ditchY = board.indexOf(ditchRow);
+const ditchX = ditchRow.indexOf("ditch");
+
+export const ditchOffset: Offset = [ditchX, ditchY];
+
 export const tilesDictionary = {
   river:
     "url('/tiles/waveWater.png') center no-repeat, url('/tiles/tileWater.png') center",

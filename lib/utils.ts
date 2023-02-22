@@ -1,5 +1,5 @@
 import { Card, Cube, Offset, OgreCard, PlayingCards, Tiles, Unit } from "types";
-import { board, towerOffset } from "./board";
+import { board, ditchOffset, towerOffset } from "./board";
 
 export function generateDice(num: number) {
   return [...Array.from(Array(num))].map((x, i) => ({
@@ -215,6 +215,10 @@ export function getCurrentOgreCard(acc: null | OgreCard, card: OgreCard) {
   return acc;
 }
 
-export function isTowerTile(move: Offset) {
-  return move[0] === towerOffset[0] && move[1] === towerOffset[1];
+export function isTowerTile(offset: Offset) {
+  return offset[0] === towerOffset[0] && offset[1] === towerOffset[1];
+}
+
+export function isDitchTile(offset: Offset) {
+  return offset[0] === ditchOffset[0] && offset[1] === ditchOffset[1];
 }

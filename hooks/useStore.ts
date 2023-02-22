@@ -4,7 +4,6 @@ import units, { canEnterTower } from "lib/units";
 import playingCards from "lib/cards/cards";
 import canonCards from "lib/cards/canonCards";
 import ogreCards from "lib/cards/ogreCards";
-import { towerOffset } from "lib/board";
 import {
   Unit,
   PlayingCards,
@@ -23,6 +22,7 @@ import {
   filterDefeatedUnits,
   getCurrentOgreCard,
   isTowerTile,
+  isDitchTile,
 } from "lib/utils";
 
 interface GameState {
@@ -230,7 +230,19 @@ const useGameStore = create<GameState>((set, get) => ({
     const { extraDice } = get().playingCards[0];
 
     // DITCH bonus
-    // TODO if defending unit or attacking unit is in ditch, attack is -1 , unless attacking unit is archer or crossbow
+    const isDitch =
+      isDitchTile([defendingUnit.x, defendingUnit.y]) ||
+      isDitchTile([attackingUnit.x, attackingUnit.y]);
+
+    // person attacking over ditch gets one less
+    // person defending over ditch gets one more.
+    let ditchDefense = 0;
+    let ditchAttack = 0;
+    // TODO isDitch attack does not apply if archer...
+    if (isDitch) {
+      ditchAttack = -1;
+      ditchDefense = 1;
+    }
 
     // TOWER bonus
     // if defender is in tower then attacking unit gets one less dice
@@ -249,9 +261,12 @@ const useGameStore = create<GameState>((set, get) => ({
       attackingUnit.combatValue +
         extraDice +
         towerAttackBonus -
-        towerDefenseBonus
+        towerDefenseBonus +
+        ditchAttack
     );
-    const defendingDice = generateDice(defendingUnit.combatValue);
+    const defendingDice = generateDice(
+      defendingUnit.combatValue + ditchDefense
+    );
 
     set({
       battleInProgress: true,
