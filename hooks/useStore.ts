@@ -110,10 +110,12 @@ const useGameStore = create<GameState>((set, get) => ({
 
     if (newPlayingCards[0].ids.includes("grimorg")) {
       set({
-        ogreCards: get().ogreCards.map((card) => ({
-          ...card,
-          revealed: false,
-        })),
+        ogreCards: shuffle([
+          ...get().ogreCards.map((card) => ({
+            ...card,
+            revealed: false,
+          })),
+        ]),
       });
     }
 
