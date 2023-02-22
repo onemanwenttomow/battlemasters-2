@@ -57,7 +57,7 @@ export interface Card {
   extraDice: 0 | 1;
 }
 
-export type Tiles = "river" | "grass" | "road" | "swamp" | "tower";
+export type Tiles = "river" | "grass" | "road" | "swamp" | "tower" | "ditch";
 
 export interface Cube {
   q: number;
@@ -80,12 +80,11 @@ export interface OgreCard {
 
 export type OgreSrc =
   | "/ogre-cards/ogre-attack-card.png"
-  | "/ogre-cards/ogre-move-card.png"
-
+  | "/ogre-cards/ogre-move-card.png";
 
 export interface CanonTile {
   src: CanonCard;
   offset: Offset;
   revealed: boolean;
-  isTarget: boolean
+  isTarget: boolean;
 }

@@ -80,7 +80,7 @@ export const board = [
     "road",
     "grass",
     "road",
-    "grass",
+    "ditch",
     "road",
     "grass",
     "road",
@@ -191,4 +191,5 @@ export const tilesDictionary = {
   swamp:
     "url('/tiles/rockStone_moss3.png'), url('/tiles/tileGrass.png') no-repeat",
   tower: "url('/tiles/rockRing.png'), url('/tiles/tileGrass.png') no-repeat",
+  ditch: "url('/tiles/tileMagic.png') no-repeat",
 };
