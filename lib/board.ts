@@ -44,6 +44,7 @@ export const tilesDictionary = {
         width: "33px",
         top: "30px",
         left: "10px",
+        scale: 1,
       },
     ],
   },
@@ -64,6 +65,7 @@ export const tilesDictionary = {
         height: "20px",
         top: "30px",
         left: "30px",
+        scale: 1,
       },
       {
         src: "/tiles/bushGrass.png",
@@ -71,6 +73,7 @@ export const tilesDictionary = {
         height: "20px",
         top: "0px",
         left: "25px",
+        scale: 1,
       },
       {
         src: "/tiles/bushDirt.png",
@@ -78,6 +81,7 @@ export const tilesDictionary = {
         height: "20px",
         top: "10px",
         left: "10px",
+        scale: 1,
       },
       {
         src: "/tiles/bushGrass.png",
@@ -85,6 +89,7 @@ export const tilesDictionary = {
         height: "20px",
         top: "30px",
         left: "15px",
+        scale: 1,
       },
       {
         src: "/tiles/bushDirt.png",
@@ -92,6 +97,7 @@ export const tilesDictionary = {
         height: "20px",
         top: "10px",
         left: "40px",
+        scale: 1,
       },
       {
         src: "/tiles/bushDirt.png",
@@ -99,6 +105,7 @@ export const tilesDictionary = {
         height: "20px",
         top: "40px",
         left: "10px",
+        scale: 1,
       },
       {
         src: "/tiles/bushGrass.png",
@@ -106,6 +113,7 @@ export const tilesDictionary = {
         height: "20px",
         top: "40px",
         left: "45px",
+        scale: 1,
       },
     ],
   },
@@ -116,8 +124,9 @@ export const tilesDictionary = {
         src: "/tiles/rockRing.png",
         height: "76px",
         width: "65px",
-        top: "-5px",
+        top: "-2px",
         left: "0",
+        scale: 0.8,
       },
     ],
   },

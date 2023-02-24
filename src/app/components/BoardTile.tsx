@@ -39,6 +39,7 @@ export default function BoardTile({
             height: extra.height,
             top: extra.top,
             left: extra.left,
+            transform: `scale(${extra.scale})`,
           }}
         ></div>
       ))}
