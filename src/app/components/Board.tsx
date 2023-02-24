@@ -1,12 +1,11 @@
 "use client";
 
-import { board, tilesDictionary } from "lib/board";
-import { Tiles } from "types";
+import { board } from "lib/board";
 import useStore from "hooks/useStore";
 import Unit from "./Unit";
 import CanonTileImage from "./CanonTile";
-import Image from "next/image";
 import CanonMisfire from "./CanonMisfire";
+import BoardTile from "./BoardTile";
 
 export default function Board() {
   const {
@@ -45,7 +44,7 @@ export default function Board() {
     return "1";
   }
 
-  function handleClick(tile: Tiles, x: number, y: number) {
+  function handleClick(x: number, y: number) {
     if (!isPossibleMove(x, y)) return;
     moveUnit(x, y);
   }
@@ -73,19 +72,18 @@ export default function Board() {
                 cursor: `${isPossibleMove(x, y) ? "cell" : "auto"}`,
               }}
             >
-              <div
-                className="h-full hexagon bg-no-repeat relative"
-                style={{
-                  background: tilesDictionary[tile],
-                  filter: `brightness(${brightness})`,
-                }}
-                onClick={() => handleClick(tile, x, y)}
+              <BoardTile
+                x={x}
+                y={y}
+                handleClick={handleClick}
+                brightness={brightness}
+                tile={tile}
               >
                 {/* <div className="absolute top-4 left-4 text-sm">{`[${x}, ${y}]`}</div> */}
                 {tileHasUnit(x, y) && <Unit x={x} y={y} />}
                 {canonTile && <CanonTileImage canonTile={canonTile} />}
                 {canonMisTile && <CanonMisfire />}
-              </div>
+              </BoardTile>
             </li>
           );
         })

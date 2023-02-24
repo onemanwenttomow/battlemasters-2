@@ -1,4 +1,4 @@
-import { Card, Cube, Offset, OgreCard, PlayingCards, Tiles, Unit } from "types";
+import { Card, Cube, Offset, OgreCard, Tile, Unit } from "types";
 import { board, ditchOffset, towerOffset } from "./board";
 
 export function generateDice(num: number) {
@@ -61,8 +61,8 @@ export function findAttackZone(x: number, y: number, range: number) {
   return possibleAttackRadius([x, y], range);
 }
 
-function isValidTile(tile: Tiles) {
-  return tile !== undefined && tile !== "swamp" && tile !== "river";
+function isValidTile(tile: Tile) {
+  return tile !== undefined && tile !== "sw" && tile !== "ri";
 }
 
 export function getCanonPath(canon: Unit, defendingUnit: Unit): Offset[] {
@@ -191,9 +191,7 @@ function possibleAttackRadius(start: Offset, movement: number) {
 
 function isBlocked(neighbour: Offset) {
   const boardTile = board[neighbour[1]] && board[neighbour[1]][neighbour[0]];
-  return (
-    boardTile === undefined || boardTile === "swamp" || boardTile === "river"
-  );
+  return boardTile === undefined || boardTile === "sw" || boardTile === "ri";
 }
 
 function hexNeighbour(hex: Offset, dir: number) {

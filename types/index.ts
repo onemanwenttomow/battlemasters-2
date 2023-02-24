@@ -57,7 +57,7 @@ export interface Card {
   extraDice: 0 | 1;
 }
 
-export type Tiles = "river" | "grass" | "road" | "swamp" | "tower" | "ditch";
+export type Tile = "ri" | "g" | "ro" | "sw" | "to" | "di";
 
 export interface Cube {
   q: number;
