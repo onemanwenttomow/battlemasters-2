@@ -88,3 +88,12 @@ export interface CanonTile {
   revealed: boolean;
   isTarget: boolean;
 }
+
+export type CampaignId =
+  | "battle-of-the-borderlands"
+  | "battle-of-the-river-tengin";
+
+export interface Campaign {
+  title: string;
+  id: CampaignId;
+}

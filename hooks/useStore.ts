@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-import { board } from "lib/campaigns/battle-of-the-borderlands";
+import { campaigns } from "lib/campaigns";
 import units, { canEnterTower } from "lib/units";
 import playingCards from "lib/cards/cards";
 import canonCards from "lib/cards/canonCards";
@@ -15,6 +15,7 @@ import {
   CanonTile,
   OgreCard,
   Tile,
+  CampaignId,
 } from "types";
 
 import {
@@ -46,7 +47,7 @@ interface GameState {
   defendingUnitId: UnitId | null;
   attackingDice: Dice[];
   defendingDice: Dice[];
-  setCampaign: (id: string) => void;
+  setCampaign: (id: CampaignId) => void;
   getUnitByCoords: (x: number, y: number) => Unit | undefined;
   getUnitById: (id: UnitId) => Unit;
   tileHasUnit: (x: number, y: number) => boolean;
@@ -66,7 +67,7 @@ interface GameState {
 }
 
 const useGameStore = create<GameState>((set, get) => ({
-  board,
+  board: campaigns["battle-of-the-borderlands"].board,
   units,
   activeUnit: null,
   playingCards,
@@ -83,8 +84,21 @@ const useGameStore = create<GameState>((set, get) => ({
   attackingDice: [],
   defendingDice: [],
 
-  setCampaign: (id: string) => {
-    console.log(id);
+  setCampaign: (id: CampaignId) => {
+    const { unitPositions, board } = campaigns[id];
+    const fullUnits = get().units;
+    const units = fullUnits.map((unit) => {
+      const { x, y } = unitPositions.find(
+        (_unit) => _unit.id === unit.id
+      ) as Unit;
+      return {
+        ...unit,
+        x,
+        y,
+      };
+    });
+
+    set({ board, units });
   },
 
   shufflePlayingCards: () =>

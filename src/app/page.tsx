@@ -5,8 +5,9 @@ import Cards from "./components/Cards";
 import CurrentTurn from "./components/CurrentTurn";
 import useGameStore from "hooks/useStore";
 import OgreCards from "./components/OgreCards";
+import { Campaign } from "types";
 
-const campaigns = [
+const campaigns: Campaign[] = [
   { title: "Battle of the Borderlands", id: "battle-of-the-borderlands" },
   { title: "Battle of the river Tengin", id: "battle-of-the-river-tengin" },
 ];
