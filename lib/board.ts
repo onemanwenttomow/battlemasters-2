@@ -1,4 +1,4 @@
-import { Offset, Tile } from "types";
+import { Tile } from "types";
 
 // g - grass
 // ro - road

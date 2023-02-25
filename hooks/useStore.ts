@@ -1,6 +1,6 @@
 import { create } from "zustand";
 
-import { board } from "lib/board";
+import { board } from "lib/campaigns/battle-of-the-borderlands";
 import units, { canEnterTower } from "lib/units";
 import playingCards from "lib/cards/cards";
 import canonCards from "lib/cards/canonCards";
@@ -46,6 +46,7 @@ interface GameState {
   defendingUnitId: UnitId | null;
   attackingDice: Dice[];
   defendingDice: Dice[];
+  setCampaign: (id: string) => void;
   getUnitByCoords: (x: number, y: number) => Unit | undefined;
   getUnitById: (id: UnitId) => Unit;
   tileHasUnit: (x: number, y: number) => boolean;
@@ -81,6 +82,11 @@ const useGameStore = create<GameState>((set, get) => ({
   defendingUnitId: null,
   attackingDice: [],
   defendingDice: [],
+
+  setCampaign: (id: string) => {
+    console.log(id);
+  },
+
   shufflePlayingCards: () =>
     set((state) => ({
       playingCards: shuffle(state.playingCards),

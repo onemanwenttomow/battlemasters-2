@@ -6,8 +6,13 @@ import CurrentTurn from "./components/CurrentTurn";
 import useGameStore from "hooks/useStore";
 import OgreCards from "./components/OgreCards";
 
+const campaigns = [
+  { title: "Battle of the Borderlands", id: "battle-of-the-borderlands" },
+  { title: "Battle of the river Tengin", id: "battle-of-the-river-tengin" },
+];
+
 export default function Home() {
-  const { battleInProgress, ogreCards } = useGameStore((store) => store);
+  const { battleInProgress, setCampaign } = useGameStore((store) => store);
 
   return (
     <main className="p-4 grid grid-cols-[_1fr_1fr]">
@@ -17,6 +22,16 @@ export default function Home() {
         <Cards />
         <CurrentTurn />
         <OgreCards />
+        <div>
+          <h2>Campaigns</h2>
+          <ul>
+            {campaigns.map((campaign) => (
+              <li key={campaign.id} onClick={() => setCampaign(campaign.id)}>
+                {campaign.title}
+              </li>
+            ))}
+          </ul>
+        </div>
       </div>
     </main>
   );
