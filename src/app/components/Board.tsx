@@ -1,6 +1,6 @@
 "use client";
 
-import { board } from "lib/board";
+// import { board } from "lib/board";
 import useStore from "hooks/useStore";
 import Unit from "./Unit";
 import CanonTileImage from "./CanonTile";
@@ -10,11 +10,12 @@ import BoardTile from "./BoardTile";
 export default function Board() {
   const {
     tileHasUnit,
+    moveUnit,
+    board,
     possibleMoves,
     possibleAttacks,
     canonTiles,
     canonMisFire,
-    moveUnit,
   } = useStore((state) => state);
 
   function isCanonTile(x: number, y: number) {

@@ -1,9 +1,11 @@
 import { create } from "zustand";
 
+import { board } from "lib/board";
 import units, { canEnterTower } from "lib/units";
 import playingCards from "lib/cards/cards";
 import canonCards from "lib/cards/canonCards";
 import ogreCards from "lib/cards/ogreCards";
+
 import {
   Unit,
   PlayingCards,
@@ -12,7 +14,9 @@ import {
   Dice,
   CanonTile,
   OgreCard,
+  Tile,
 } from "types";
+
 import {
   findAttackZone,
   generateDice,
@@ -26,6 +30,7 @@ import {
 } from "lib/utils";
 
 interface GameState {
+  board: Array<Array<Tile>>;
   units: Unit[];
   activeUnit: UnitId | null;
   playingCards: PlayingCards;
@@ -60,6 +65,7 @@ interface GameState {
 }
 
 const useGameStore = create<GameState>((set, get) => ({
+  board,
   units,
   activeUnit: null,
   playingCards,
@@ -137,7 +143,7 @@ const useGameStore = create<GameState>((set, get) => ({
     let possibleMoves: Offset[] = [];
     // TODO the following cannot enter the tower, knights, wolf riders, canon, ogre
     if (activeUnit && !hasMoved) {
-      possibleMoves = findNeighbours(x, y, get().playingCards[0])
+      possibleMoves = findNeighbours(x, y, get().playingCards[0], get().board)
         .filter(
           (potentialMove) =>
             !get().units.find(
@@ -148,7 +154,10 @@ const useGameStore = create<GameState>((set, get) => ({
         // check if unit can enter tower...
         .filter(
           (potentialMove) =>
-            !(isTowerTile(potentialMove) && !canEnterTower.includes(id))
+            !(
+              isTowerTile(potentialMove, get().board) &&
+              !canEnterTower.includes(id)
+            )
         ) as Offset[];
     }
 
@@ -230,11 +239,12 @@ const useGameStore = create<GameState>((set, get) => ({
     const defendingUnit = get().getUnitById(defendingUnitId);
 
     const { extraDice } = get().playingCards[0];
+    const board = get().board;
 
     // DITCH bonus
     const isDitch =
-      isDitchTile([defendingUnit.x, defendingUnit.y]) ||
-      isDitchTile([attackingUnit.x, attackingUnit.y]);
+      isDitchTile([defendingUnit.x, defendingUnit.y], board) ||
+      isDitchTile([attackingUnit.x, attackingUnit.y], board);
 
     // person attacking over ditch gets one less
     // person defending over ditch gets one more.
@@ -249,13 +259,13 @@ const useGameStore = create<GameState>((set, get) => ({
     // TOWER bonus
     // if defender is in tower then attacking unit gets one less dice
     let towerDefenseBonus = 0;
-    if (isTowerTile([defendingUnit.x, defendingUnit.y])) {
+    if (isTowerTile([defendingUnit.x, defendingUnit.y], board)) {
       towerDefenseBonus = 1;
     }
 
     // if attacker is in tower than attacker gets one extra dice
     let towerAttackBonus = 0;
-    if (isTowerTile([attackingUnit.x, attackingUnit.y])) {
+    if (isTowerTile([attackingUnit.x, attackingUnit.y], board)) {
       towerAttackBonus = 1;
     }
 

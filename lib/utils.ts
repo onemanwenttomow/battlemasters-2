@@ -1,5 +1,4 @@
 import { Card, Cube, Offset, OgreCard, Tile, Unit } from "types";
-import { board, ditchOffset, towerOffset } from "./board";
 
 export function generateDice(num: number) {
   return [...Array.from(Array(num))].map((x, i) => ({
@@ -53,8 +52,13 @@ const evenrDirectionDifferences: Offset[][] = [
   ],
 ];
 
-export function findNeighbours(x: number, row: number, card: Card) {
-  return hexReachable([x, row], card.moves);
+export function findNeighbours(
+  x: number,
+  row: number,
+  card: Card,
+  board: Array<Array<Tile>>
+) {
+  return hexReachable([x, row], card.moves, board);
 }
 
 export function findAttackZone(x: number, y: number, range: number) {
@@ -138,7 +142,11 @@ function cubeRound(frac: Cube) {
   };
 }
 
-function hexReachable(start: Offset, movement: number) {
+function hexReachable(
+  start: Offset,
+  movement: number,
+  board: Array<Array<Tile>>
+) {
   const visited: Offset[] = []; // set of hexes
   const fringes: Offset[][] = []; // array of arrays of hexes
   fringes.push([start]);
@@ -152,7 +160,7 @@ function hexReachable(start: Offset, movement: number) {
           !visited.some(
             (el) => el[0] === neighbour[0] && el[1] === neighbour[1]
           ) &&
-          !isBlocked(neighbour)
+          !isBlocked(neighbour, board)
         ) {
           visited.push(neighbour);
           fringes[k].push(neighbour);
@@ -189,7 +197,7 @@ function possibleAttackRadius(start: Offset, movement: number) {
   return visited.filter((el) => el[0] !== start[0] || el[1] !== start[1]);
 }
 
-function isBlocked(neighbour: Offset) {
+function isBlocked(neighbour: Offset, board: Array<Array<Tile>>) {
   const boardTile = board[neighbour[1]] && board[neighbour[1]][neighbour[0]];
   return boardTile === undefined || boardTile === "sw" || boardTile === "ri";
 }
@@ -213,10 +221,26 @@ export function getCurrentOgreCard(acc: null | OgreCard, card: OgreCard) {
   return acc;
 }
 
-export function isTowerTile(offset: Offset) {
+function getTowerOffset(board: Array<Array<Tile>>) {
+  const towerRow = board.find((row) => row.includes("to")) as Tile[];
+  const towerY = board.indexOf(towerRow);
+  const towerX = towerRow.indexOf("to");
+  return [towerX, towerY];
+}
+
+export function isTowerTile(offset: Offset, board: Array<Array<Tile>>) {
+  const towerOffset = getTowerOffset(board);
   return offset[0] === towerOffset[0] && offset[1] === towerOffset[1];
 }
 
-export function isDitchTile(offset: Offset) {
+function getDitchOffset(board: Array<Array<Tile>>) {
+  const ditchRow = board.find((row) => row.includes("di")) as Tile[];
+  const ditchY = board.indexOf(ditchRow);
+  const ditchX = ditchRow.indexOf("di");
+  return [ditchX, ditchY];
+}
+
+export function isDitchTile(offset: Offset, board: Array<Array<Tile>>) {
+  const ditchOffset = getDitchOffset(board);
   return offset[0] === ditchOffset[0] && offset[1] === ditchOffset[1];
 }

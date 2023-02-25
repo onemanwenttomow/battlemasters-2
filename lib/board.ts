@@ -1,5 +1,4 @@
 import { Offset, Tile } from "types";
-import { generateRandomNumber } from "./utils";
 
 // g - grass
 // ro - road
@@ -22,18 +21,6 @@ export const board = [
   ["g", "g", "ro", "g", "g", "g", "ro", "g", "g", "g", "ro", "g"],
   ["g", "g", "ro", "g", "g", "g", "ro", "g", "g", "g", "ro", "g", "g"],
 ] as Array<Array<Tile>>;
-
-const towerRow = board.find((row) => row.includes("to")) as Tile[];
-const towerY = board.indexOf(towerRow);
-const towerX = towerRow.indexOf("to");
-
-export const towerOffset: Offset = [towerX, towerY];
-
-const ditchRow = board.find((row) => row.includes("di")) as Tile[];
-const ditchY = board.indexOf(ditchRow);
-const ditchX = ditchRow.indexOf("di");
-
-export const ditchOffset: Offset = [ditchX, ditchY];
 
 interface TileExtrasDetails {
   src: string;
