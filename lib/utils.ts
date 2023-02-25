@@ -222,7 +222,7 @@ export function getCurrentOgreCard(acc: null | OgreCard, card: OgreCard) {
 }
 
 function getTowerOffset(board: Array<Array<Tile>>) {
-  const towerRow = board.find((row) => row.includes("to")) as Tile[];
+  const towerRow = board.find((row) => row.includes("to"));
   if (!towerRow) {
     return [999, 999];
   }
@@ -237,7 +237,7 @@ export function isTowerTile(offset: Offset, board: Array<Array<Tile>>) {
 }
 
 function getDitchOffset(board: Array<Array<Tile>>) {
-  const ditchRow = board.find((row) => row.includes("di")) as Tile[];
+  const ditchRow = board.find((row) => row.includes("di"));
   if (!ditchRow) {
     return [999, 999];
   }
