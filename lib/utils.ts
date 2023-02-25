@@ -8,7 +8,7 @@ export function generateDice(num: number) {
   }));
 }
 
-function generateRandomNumber(max: number, min = 1) {
+export function generateRandomNumber(max: number, min = 1) {
   return Math.floor(max * Math.random()) + min;
 }
 

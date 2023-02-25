@@ -1,4 +1,5 @@
 import { Offset, Tile } from "types";
+import { generateRandomNumber } from "./utils";
 
 // g - grass
 // ro - road
@@ -34,8 +35,26 @@ const ditchX = ditchRow.indexOf("di");
 
 export const ditchOffset: Offset = [ditchX, ditchY];
 
-export const tilesDictionary = {
+interface TileExtrasDetails {
+  src: string;
+  height: string;
+  width: string;
+  top: string;
+  left: string;
+  scale: number;
+}
+
+interface TileDetails {
+  src: string;
+  type: string;
+  extras: TileExtrasDetails[];
+}
+
+type TilesDictionary = Record<Tile, TileDetails>;
+
+export const tilesDictionary: TilesDictionary = {
   ri: {
+    type: "river",
     src: "/tiles/tileWater.png",
     extras: [
       {
@@ -49,15 +68,18 @@ export const tilesDictionary = {
     ],
   },
   g: {
+    type: "grass",
     src: "/tiles/tileGrass.png",
     extras: [],
   },
   ro: {
+    type: "road",
     src: "/tiles/tileDirt.png",
     extras: [],
   },
   sw: {
     src: "/tiles/tileGrass.png",
+    type: "swamp",
     extras: [
       {
         src: "/tiles/bushDirt.png",
@@ -118,6 +140,7 @@ export const tilesDictionary = {
     ],
   },
   to: {
+    type: "tower",
     src: "/tiles/tileGrass.png",
     extras: [
       {
@@ -131,6 +154,7 @@ export const tilesDictionary = {
     ],
   },
   di: {
+    type: "ditch",
     src: "/tiles/tileMagic.png",
     extras: [],
   },
