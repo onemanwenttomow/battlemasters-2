@@ -1,8 +1,8 @@
 export interface Unit {
   name: string;
   id: UnitId;
-  x: number;
-  y: number;
+  x: number | null;
+  y: number | null;
   src: string;
   alt: string;
   isActive: boolean;

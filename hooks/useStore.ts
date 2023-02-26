@@ -160,6 +160,8 @@ const useGameStore = create<GameState>((set, get) => ({
     const { x, y, hasMoved, hasAttacked, range } = activeUnit;
     const turnComplete = hasMoved && hasAttacked;
 
+    if (!x || !y) return;
+
     let possibleMoves: Offset[] = [];
     // TODO the following cannot enter the tower, knights, wolf riders, canon, ogre
     if (activeUnit && !hasMoved) {
@@ -226,6 +228,8 @@ const useGameStore = create<GameState>((set, get) => ({
     set({ activeUnit: id });
     const activeUnit = get().getUnitById(id);
     const { x, y, range } = activeUnit;
+    if (!x || !y) return;
+
     const updatedUnits = get().units.map((unit) => {
       if (unit.id === id) {
         return {
@@ -257,6 +261,15 @@ const useGameStore = create<GameState>((set, get) => ({
   startBattle: (attackingUnitId: UnitId, defendingUnitId: UnitId) => {
     const attackingUnit = get().getUnitById(attackingUnitId);
     const defendingUnit = get().getUnitById(defendingUnitId);
+
+    if (
+      !defendingUnit.x ||
+      !attackingUnit.x ||
+      !defendingUnit.y ||
+      !attackingUnit.y
+    ) {
+      return;
+    }
 
     const { extraDice } = get().playingCards[0];
     const board = get().board;
