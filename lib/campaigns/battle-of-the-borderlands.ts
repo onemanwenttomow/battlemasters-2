@@ -49,7 +49,13 @@ const unitPositions: Pick<Unit, "id" | "x" | "y">[] = [
   { id: "fellmoors", x: 4, y: 11 },
 ];
 
+const startingZones = {
+  imperial: { x: [], y: [] },
+  chaos: { x: [], y: [] },
+};
+
 export const campaign = {
   board,
   unitPositions,
+  startingZones,
 };

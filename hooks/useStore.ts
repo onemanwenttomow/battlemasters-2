@@ -7,14 +7,12 @@ import canonCards from "lib/cards/canonCards";
 import ogreCards from "lib/cards/ogreCards";
 
 import {
+  GameState,
   Unit,
   PlayingCards,
   Offset,
   UnitId,
-  Dice,
   CanonTile,
-  OgreCard,
-  Tile,
   CampaignId,
 } from "types";
 
@@ -30,44 +28,12 @@ import {
   isDitchTile,
 } from "lib/utils";
 
-interface GameState {
-  board: Array<Array<Tile>>;
-  units: Unit[];
-  activeUnit: UnitId | null;
-  playingCards: PlayingCards;
-  playedCards: PlayingCards;
-  canonTiles: CanonTile[];
-  canonMisFire: CanonTile | null;
-  ogreCards: OgreCard[];
-  gameStarted: boolean;
-  possibleMoves: Offset[];
-  possibleAttacks: Offset[];
-  battleInProgress: boolean;
-  attackingUnitId: UnitId | null;
-  defendingUnitId: UnitId | null;
-  attackingDice: Dice[];
-  defendingDice: Dice[];
-  setCampaign: (id: CampaignId) => void;
-  getUnitByCoords: (x: number, y: number) => Unit | undefined;
-  getUnitById: (id: UnitId) => Unit;
-  tileHasUnit: (x: number, y: number) => boolean;
-  shufflePlayingCards: () => void;
-  drawNextCard: () => void;
-  setActiveUnit: (id: UnitId) => void;
-  moveUnit: (x: number, y: number) => void;
-  skipMove: (id: UnitId) => void;
-  skipAttack: (id: UnitId) => void;
-  startBattle: (attackingId: UnitId, defendingId: UnitId) => void;
-  endBattle: (attackingUnitId: UnitId, defendingUnitId: UnitId) => void;
-  startCanonBattle: (defendingUnitId: UnitId) => void;
-  canonTileReveal: (canonTile: CanonTile) => void;
-  setCanonMisFire: () => void;
-  canonMisfireReveal: () => void;
-  drawOgreCard: () => void;
-}
-
 const useGameStore = create<GameState>((set, get) => ({
-  board: campaigns["battle-of-the-borderlands"].board,
+  board: [],
+  startingZones: {
+    imperial: { x: [], y: [] },
+    chaos: { x: [], y: [] },
+  },
   units,
   activeUnit: null,
   playingCards,
@@ -85,7 +51,7 @@ const useGameStore = create<GameState>((set, get) => ({
   defendingDice: [],
 
   setCampaign: (id: CampaignId) => {
-    const { unitPositions, board } = campaigns[id];
+    const { unitPositions, board, startingZones } = campaigns[id];
     const fullUnits = get().units;
     const units = fullUnits.map((unit) => {
       const { x, y } = unitPositions.find(
@@ -98,7 +64,7 @@ const useGameStore = create<GameState>((set, get) => ({
       };
     });
 
-    set({ board, units });
+    set({ board, units, startingZones });
   },
 
   shufflePlayingCards: () =>

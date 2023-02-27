@@ -5,34 +5,24 @@ import Cards from "./components/Cards";
 import CurrentTurn from "./components/CurrentTurn";
 import useGameStore from "hooks/useStore";
 import OgreCards from "./components/OgreCards";
-import { Campaign } from "types";
-
-const campaigns: Campaign[] = [
-  { title: "Battle of the Borderlands", id: "battle-of-the-borderlands" },
-  { title: "Battle of the river Tengin", id: "battle-of-the-river-tengin" },
-];
+import CampaignSelection from "./components/CampaignSelection";
 
 export default function Home() {
-  const { battleInProgress, setCampaign } = useGameStore((store) => store);
+  const { battleInProgress, units, board } = useGameStore((store) => store);
+
+  const allUnitsOnBoard = units.every((unit) => unit.x && unit.y);
+  // display units on not on board
+  const unitsNotOnBoard = units.filter((unit) => !unit.x && !unit.y);
 
   return (
     <main className="p-4 grid grid-cols-[_1fr_1fr]">
-      <Board />
+      {!!board.length ? <Board /> : <CampaignSelection />}
       <div className="relative">
         {battleInProgress && <Battle />}
         <Cards />
         <CurrentTurn />
         <OgreCards />
-        <div>
-          <h2>Campaigns</h2>
-          <ul>
-            {campaigns.map((campaign) => (
-              <li key={campaign.id} onClick={() => setCampaign(campaign.id)}>
-                {campaign.title}
-              </li>
-            ))}
-          </ul>
-        </div>
+        <h2>All units on board: {allUnitsOnBoard.toString()}</h2>
       </div>
     </main>
   );

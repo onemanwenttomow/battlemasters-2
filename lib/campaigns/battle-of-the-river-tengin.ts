@@ -21,8 +21,6 @@ export const board = [
   ["g", "g", "ro", "g", "g", "g", "ro", "g", "g", "g", "ro", "g", "g"],
 ] as Array<Array<Tile>>;
 
-// for now 999 means user needs to add them to the baord
-
 const unitPositions: Pick<Unit, "id" | "x" | "y">[] = [
   { id: "canon", x: 7, y: 7 },
   { id: "empire-knights", x: 10, y: 8 },
@@ -51,7 +49,13 @@ const unitPositions: Pick<Unit, "id" | "x" | "y">[] = [
   { id: "fellmoors", x: null, y: null },
 ];
 
+const startingZones = {
+  imperial: { x: [], y: [] },
+  chaos: { x: [], y: [0, 1] },
+};
+
 export const campaign = {
   board,
   unitPositions,
+  startingZones,
 };

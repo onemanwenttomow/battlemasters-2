@@ -1,3 +1,51 @@
+export interface GameState {
+  board: Array<Array<Tile>>;
+  startingZones: StartingZones;
+  units: Unit[];
+  activeUnit: UnitId | null;
+  playingCards: PlayingCards;
+  playedCards: PlayingCards;
+  canonTiles: CanonTile[];
+  canonMisFire: CanonTile | null;
+  ogreCards: OgreCard[];
+  gameStarted: boolean;
+  possibleMoves: Offset[];
+  possibleAttacks: Offset[];
+  battleInProgress: boolean;
+  attackingUnitId: UnitId | null;
+  defendingUnitId: UnitId | null;
+  attackingDice: Dice[];
+  defendingDice: Dice[];
+  setCampaign: (id: CampaignId) => void;
+  getUnitByCoords: (x: number, y: number) => Unit | undefined;
+  getUnitById: (id: UnitId) => Unit;
+  tileHasUnit: (x: number, y: number) => boolean;
+  shufflePlayingCards: () => void;
+  drawNextCard: () => void;
+  setActiveUnit: (id: UnitId) => void;
+  moveUnit: (x: number, y: number) => void;
+  skipMove: (id: UnitId) => void;
+  skipAttack: (id: UnitId) => void;
+  startBattle: (attackingId: UnitId, defendingId: UnitId) => void;
+  endBattle: (attackingUnitId: UnitId, defendingUnitId: UnitId) => void;
+  startCanonBattle: (defendingUnitId: UnitId) => void;
+  canonTileReveal: (canonTile: CanonTile) => void;
+  setCanonMisFire: () => void;
+  canonMisfireReveal: () => void;
+  drawOgreCard: () => void;
+}
+
+export interface StartingZones {
+  imperial: {
+    x: number[];
+    y: number[];
+  };
+  chaos: {
+    x: number[];
+    y: number[];
+  };
+}
+
 export interface Unit {
   name: string;
   id: UnitId;
