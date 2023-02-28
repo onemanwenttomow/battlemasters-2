@@ -62,7 +62,7 @@ export interface Unit {
   damageSustained: number;
 }
 
-type Army = "Imperial" | "Chaos";
+export type Army = "Imperial" | "Chaos";
 
 export type UnitId =
   | "canon"
