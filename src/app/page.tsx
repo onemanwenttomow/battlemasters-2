@@ -30,19 +30,23 @@ export default function Home() {
         <CurrentTurn />
         <OgreCards />
         <h2>All units on board: {allUnitsOnBoard.toString()}</h2>
-        <h3>Chaos units not on board</h3>
-        <div className="flex flex-wrap">
-          {chaosUnitsNotOnBoard.map((unit) => (
-            <Image
-              key={unit.id}
-              src={unit.src}
-              alt={unit.id}
-              width="32"
-              height="32"
-              className="cursor-pointer"
-            />
-          ))}
-        </div>
+        {!!board.length && (
+          <>
+            <h3>Chaos units not on board</h3>
+            <div className="flex flex-wrap">
+              {chaosUnitsNotOnBoard.map((unit) => (
+                <Image
+                  key={unit.id}
+                  src={unit.src}
+                  alt={unit.id}
+                  width="32"
+                  height="32"
+                  className="cursor-pointer"
+                />
+              ))}
+            </div>
+          </>
+        )}
       </div>
     </main>
   );
