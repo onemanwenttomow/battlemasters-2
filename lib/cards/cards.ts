@@ -180,6 +180,18 @@ const cards: Card[] = [
   },
   {
     ids: ["empire-knights", "blitzens", "normands", "delbornes"],
+    img: "/cards/playing-card-20.png",
+    moves: 1,
+    extraDice: 0,
+  },
+  {
+    ids: ["empire-knights", "blitzens", "normands", "delbornes"],
+    img: "/cards/playing-card-20.png",
+    moves: 1,
+    extraDice: 0,
+  },
+  {
+    ids: ["empire-knights", "blitzens", "normands", "delbornes"],
     img: "/cards/playing-card-22.png",
     moves: 1,
     extraDice: 1,
