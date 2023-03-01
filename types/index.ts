@@ -35,6 +35,7 @@ export interface GameState {
   canonMisfireReveal: () => void;
   drawOgreCard: () => void;
   setPreGameActiveUnit: (id: UnitId, army: Army) => void;
+  randomiseUnits: (army: Army) => void;
 }
 
 export interface StartingZones {

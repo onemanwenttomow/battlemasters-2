@@ -5,6 +5,7 @@ import units, { canEnterTower } from "lib/units";
 import playingCards from "lib/cards/cards";
 import canonCards from "lib/cards/canonCards";
 import ogreCards from "lib/cards/ogreCards";
+import { generateRandomNumber } from "lib/utils"
 
 import {
   GameState,
@@ -14,6 +15,7 @@ import {
   UnitId,
   CanonTile,
   CampaignId,
+  Army,
 } from "types";
 
 import {
@@ -138,6 +140,33 @@ const useGameStore = create<GameState>((set, get) => ({
     });
   },
 
+  randomiseUnits: (army) => {
+    const unitsNotOnBoard = [...get().units.filter(unit => unit.x === null || unit.y === null)];
+    const { x, y } = get().startingZones[army];
+    const unitsWithPositions: Offset[] = [];
+
+    while (unitsWithPositions.length < unitsNotOnBoard.length) {
+      const board = get().board;
+      // generate a random row
+      const row = generateRandomNumber(Math.max(...y) + 1, Math.min(...y));
+      // generate a random x
+      const x = generateRandomNumber(board[row].length, 0)
+      // check if unit has already been given that position, and if not push it into array.
+      if (!unitsWithPositions.find(pos => pos[0] === x && pos[1] === row)) {
+        unitsWithPositions.push([x, row]);
+      }
+    }
+
+    const unitsRandomPositions = unitsNotOnBoard.map((unit, i) => ({ ...unit, x: unitsWithPositions[i][0], y: unitsWithPositions[i][1] }));
+    set({
+      units: get().units.map(unit => {
+        const foundUnit = unitsRandomPositions.find((u) => u.id === unit.id);
+        return foundUnit ? foundUnit : unit
+      })
+    })
+
+  },
+
   setActiveUnit: (id: UnitId) => {
     const activeUnit = get().getUnitById(id);
     const { x, y, hasMoved, hasAttacked, range } = activeUnit;
@@ -196,22 +225,6 @@ const useGameStore = create<GameState>((set, get) => ({
 
     if (get().addUnitToBoard) {
       possibleAttacks = [];
-      return set({
-        units: get().units.map((unit) => {
-          if (unit.id === activeUnitId) {
-            return {
-              ...unit,
-              x,
-              y,
-              hasMoved: true,
-              hasAttacked: true,
-            };
-          }
-          return unit;
-        }),
-        possibleMoves: [],
-        possibleAttacks: [],
-      });
     }
 
     set((state) => {
@@ -231,8 +244,6 @@ const useGameStore = create<GameState>((set, get) => ({
         possibleAttacks: activeUnitId === "grimorg" ? [] : possibleAttacks,
       };
     });
-
-    console.log("units", get().units);
   },
 
   skipMove: (id: UnitId) => {
@@ -315,10 +326,10 @@ const useGameStore = create<GameState>((set, get) => ({
 
     const attackingDice = generateDice(
       attackingUnit.combatValue +
-        extraDice +
-        towerAttackBonus -
-        towerDefenseBonus +
-        ditchAttack
+      extraDice +
+      towerAttackBonus -
+      towerDefenseBonus +
+      ditchAttack
     );
     const defendingDice = generateDice(
       defendingUnit.combatValue + ditchDefense

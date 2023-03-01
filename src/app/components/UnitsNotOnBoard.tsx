@@ -4,7 +4,7 @@ import { Army, Unit } from "../../../types";
 
 export default function UnitsNotOnBoard() {
   const { units } = useGameStore((store) => store);
-  const unitsNotOnBoard = units.filter((unit) => !unit.x && !unit.y);
+  const unitsNotOnBoard = units.filter((unit) => unit.x === null && unit.y === null);
 
   return (
     <>
@@ -20,7 +20,7 @@ interface Props {
 }
 
 function ArmyNotOnBoard({ army, unitsNotOnBoard }: Props) {
-  const { setPreGameActiveUnit } = useGameStore((store) => store);
+  const { setPreGameActiveUnit, randomiseUnits } = useGameStore((store) => store);
 
   const armyNotOnBoard = unitsNotOnBoard.filter((unit) => unit.army === army);
 
@@ -44,6 +44,7 @@ function ArmyNotOnBoard({ army, unitsNotOnBoard }: Props) {
           />
         ))}
       </div>
+      <button type="button" onClick={() => randomiseUnits(army)}>Randomise</button>
     </>
   );
 }
