@@ -50,8 +50,8 @@ const unitPositions: Pick<Unit, "id" | "x" | "y">[] = [
 ];
 
 const startingZones = {
-  imperial: { x: [], y: [] },
-  chaos: { x: [], y: [0, 1] },
+  Imperial: { x: [], y: [] },
+  Chaos: { x: [], y: [0, 1] },
 };
 
 export const campaign = {

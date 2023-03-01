@@ -3,6 +3,7 @@ export interface GameState {
   startingZones: StartingZones;
   units: Unit[];
   activeUnit: UnitId | null;
+  addUnitToBoard: boolean;
   playingCards: PlayingCards;
   playedCards: PlayingCards;
   canonTiles: CanonTile[];
@@ -33,14 +34,15 @@ export interface GameState {
   setCanonMisFire: () => void;
   canonMisfireReveal: () => void;
   drawOgreCard: () => void;
+  setPreGameActiveUnit: (id: UnitId, army: Army) => void;
 }
 
 export interface StartingZones {
-  imperial: {
+  Imperial: {
     x: number[];
     y: number[];
   };
-  chaos: {
+  Chaos: {
     x: number[];
     y: number[];
   };

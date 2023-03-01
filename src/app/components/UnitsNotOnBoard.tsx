@@ -20,6 +20,8 @@ interface Props {
 }
 
 function ArmyNotOnBoard({ army, unitsNotOnBoard }: Props) {
+  const { setPreGameActiveUnit } = useGameStore((store) => store);
+
   const armyNotOnBoard = unitsNotOnBoard.filter((unit) => unit.army === army);
 
   if (!armyNotOnBoard.length) {
@@ -38,6 +40,7 @@ function ArmyNotOnBoard({ army, unitsNotOnBoard }: Props) {
             width="32"
             height="32"
             className="cursor-pointer"
+            onClick={() => setPreGameActiveUnit(unit.id, army)}
           />
         ))}
       </div>

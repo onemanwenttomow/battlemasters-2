@@ -11,7 +11,9 @@ import UnitsNotOnBoard from "./components/UnitsNotOnBoard";
 export default function Home() {
   const { battleInProgress, units, board } = useGameStore((store) => store);
 
-  const allUnitsOnBoard = units.every((unit) => unit.x && unit.y);
+  const allUnitsOnBoard = units.every(
+    (unit) => unit.x !== null && unit.y !== null
+  );
 
   return (
     <main className="p-4 grid grid-cols-[_1fr_1fr]">

@@ -31,11 +31,12 @@ import {
 const useGameStore = create<GameState>((set, get) => ({
   board: [],
   startingZones: {
-    imperial: { x: [], y: [] },
-    chaos: { x: [], y: [] },
+    Imperial: { x: [], y: [] },
+    Chaos: { x: [], y: [] },
   },
   units,
   activeUnit: null,
+  addUnitToBoard: false,
   playingCards,
   playedCards: [],
   canonTiles: [],
@@ -118,6 +119,22 @@ const useGameStore = create<GameState>((set, get) => ({
       possibleAttacks: [],
       activeUnit: null,
       units: activeUnits,
+      addUnitToBoard: false,
+    });
+  },
+
+  setPreGameActiveUnit: (id, army) => {
+    const { x, y } = get().startingZones[army];
+    // handle rows (still need to handle cols)
+    const possibleMoves: Offset[] = [];
+    for (let i = y[0]; i <= y[1]; i++) {
+      const row = get().board[i];
+      row.forEach((_tile, x) => possibleMoves.push([x, i]));
+    }
+    set({
+      possibleMoves,
+      activeUnit: id,
+      addUnitToBoard: true,
     });
   },
 
@@ -126,7 +143,7 @@ const useGameStore = create<GameState>((set, get) => ({
     const { x, y, hasMoved, hasAttacked, range } = activeUnit;
     const turnComplete = hasMoved && hasAttacked;
 
-    if (!x || !y) return;
+    if (x === null || y === null) return;
 
     let possibleMoves: Offset[] = [];
     // TODO the following cannot enter the tower, knights, wolf riders, canon, ogre
@@ -161,7 +178,12 @@ const useGameStore = create<GameState>((set, get) => ({
       }
     }
 
-    set({ activeUnit: id, possibleMoves, possibleAttacks });
+    set({
+      activeUnit: id,
+      possibleMoves,
+      possibleAttacks,
+      addUnitToBoard: false,
+    });
   },
 
   moveUnit: (x: number, y: number) => {
@@ -170,7 +192,28 @@ const useGameStore = create<GameState>((set, get) => ({
 
     const activeUnit = get().getUnitById(activeUnitId);
 
-    const possibleAttacks = findAttackZone(x, y, activeUnit.range);
+    let possibleAttacks = findAttackZone(x, y, activeUnit.range);
+
+    if (get().addUnitToBoard) {
+      possibleAttacks = [];
+      return set({
+        units: get().units.map((unit) => {
+          if (unit.id === activeUnitId) {
+            return {
+              ...unit,
+              x,
+              y,
+              hasMoved: true,
+              hasAttacked: true,
+            };
+          }
+          return unit;
+        }),
+        possibleMoves: [],
+        possibleAttacks: [],
+      });
+    }
+
     set((state) => {
       return {
         units: state.units.map((unit) => {
@@ -188,13 +231,15 @@ const useGameStore = create<GameState>((set, get) => ({
         possibleAttacks: activeUnitId === "grimorg" ? [] : possibleAttacks,
       };
     });
+
+    console.log("units", get().units);
   },
 
   skipMove: (id: UnitId) => {
     set({ activeUnit: id });
     const activeUnit = get().getUnitById(id);
     const { x, y, range } = activeUnit;
-    if (!x || !y) return;
+    if (x === null || y === null) return;
 
     const updatedUnits = get().units.map((unit) => {
       if (unit.id === id) {
@@ -229,10 +274,10 @@ const useGameStore = create<GameState>((set, get) => ({
     const defendingUnit = get().getUnitById(defendingUnitId);
 
     if (
-      !defendingUnit.x ||
-      !attackingUnit.x ||
-      !defendingUnit.y ||
-      !attackingUnit.y
+      defendingUnit.x === null ||
+      attackingUnit.x === null ||
+      defendingUnit.y === null ||
+      attackingUnit.y === null
     ) {
       return;
     }
