@@ -70,7 +70,12 @@ function isValidTile(tile: Tile) {
 }
 
 export function getCanonPath(canon: Unit, defendingUnit: Unit): Offset[] {
-  if (!canon.x || !canon.y || !defendingUnit.x || !defendingUnit.y) {
+  if (
+    canon.x === null ||
+    canon.y === null ||
+    defendingUnit.x === null ||
+    defendingUnit.y === null
+  ) {
     return [];
   }
   const canonCube = offsetToCube(canon.x, canon.y);

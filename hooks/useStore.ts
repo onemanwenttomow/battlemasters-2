@@ -18,7 +18,6 @@ import {
   UnitId,
   CanonTile,
   CampaignId,
-  Army,
 } from "types";
 
 import {
@@ -381,6 +380,7 @@ const useGameStore = create<GameState>((set, get) => ({
     const canon = get().getUnitById("canon");
     const defendingUnit = get().getUnitById(defendingUnitId);
     const canonPath = getCanonPath(canon, defendingUnit);
+
     const shuffledCanonCards = shuffle(canonCards);
 
     // add the target card.
