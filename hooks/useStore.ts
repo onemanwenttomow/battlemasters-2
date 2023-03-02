@@ -5,7 +5,10 @@ import units, { canEnterTower } from "lib/units";
 import playingCards from "lib/cards/cards";
 import canonCards from "lib/cards/canonCards";
 import ogreCards from "lib/cards/ogreCards";
-import { generateRandomNumber } from "lib/utils"
+import {
+  getPossibleStartingMoves,
+  getRandomStartingPositions,
+} from "lib/utils";
 
 import {
   GameState,
@@ -127,12 +130,9 @@ const useGameStore = create<GameState>((set, get) => ({
 
   setPreGameActiveUnit: (id, army) => {
     const { x, y } = get().startingZones[army];
-    // handle rows (still need to handle cols)
-    const possibleMoves: Offset[] = [];
-    for (let i = y[0]; i <= y[1]; i++) {
-      const row = get().board[i];
-      row.forEach((_tile, x) => possibleMoves.push([x, i]));
-    }
+    // TODO handle rows (still need to handle cols)
+    const possibleMoves = getPossibleStartingMoves(get().board, y);
+
     set({
       possibleMoves,
       activeUnit: id,
@@ -141,36 +141,33 @@ const useGameStore = create<GameState>((set, get) => ({
   },
 
   randomiseUnits: (army) => {
-    const unitsNotOnBoard = [...get().units.filter(unit => unit.x === null || unit.y === null)];
+    const unitsNotOnBoard = [
+      ...get().units.filter((unit) => unit.x === null || unit.y === null),
+    ];
     const { x, y } = get().startingZones[army];
-    const unitsWithPositions: Offset[] = [];
+    const board = get().board;
+    const num = unitsNotOnBoard.length;
+    const unitsWithPositions = getRandomStartingPositions(num, y, board);
 
-    while (unitsWithPositions.length < unitsNotOnBoard.length) {
-      const board = get().board;
-      // generate a random row
-      const row = generateRandomNumber(Math.max(...y) + 1, Math.min(...y));
-      // generate a random x
-      const x = generateRandomNumber(board[row].length, 0)
-      // check if unit has already been given that position, and if not push it into array.
-      if (!unitsWithPositions.find(pos => pos[0] === x && pos[1] === row)) {
-        unitsWithPositions.push([x, row]);
-      }
-    }
+    const unitsRandomPositions = unitsNotOnBoard.map((unit, i) => ({
+      ...unit,
+      x: unitsWithPositions[i][0],
+      y: unitsWithPositions[i][1],
+    }));
 
-    const unitsRandomPositions = unitsNotOnBoard.map((unit, i) => ({ ...unit, x: unitsWithPositions[i][0], y: unitsWithPositions[i][1] }));
     set({
-      units: get().units.map(unit => {
+      units: get().units.map((unit) => {
         const foundUnit = unitsRandomPositions.find((u) => u.id === unit.id);
-        return foundUnit ? foundUnit : unit
-      })
-    })
-
+        return foundUnit ? foundUnit : unit;
+      }),
+    });
   },
 
   setActiveUnit: (id: UnitId) => {
     const activeUnit = get().getUnitById(id);
     const { x, y, hasMoved, hasAttacked, range } = activeUnit;
     const turnComplete = hasMoved && hasAttacked;
+    const board = get().board;
 
     if (x === null || y === null) return;
 
@@ -178,21 +175,15 @@ const useGameStore = create<GameState>((set, get) => ({
     // TODO the following cannot enter the tower, knights, wolf riders, canon, ogre
     if (activeUnit && !hasMoved) {
       possibleMoves = findNeighbours(x, y, get().playingCards[0], get().board)
+        // check if tile is occupied by another unit
         .filter(
-          (potentialMove) =>
-            !get().units.find(
-              (unit) =>
-                unit.x === potentialMove[0] && unit.y === potentialMove[1]
-            )
+          ([x, y]) => !get().units.find((unit) => unit.x === x && unit.y === y)
         )
         // check if unit can enter tower...
         .filter(
           (potentialMove) =>
-            !(
-              isTowerTile(potentialMove, get().board) &&
-              !canEnterTower.includes(id)
-            )
-        ) as Offset[];
+            !(isTowerTile(potentialMove, board) && !canEnterTower.includes(id))
+        );
     }
 
     let possibleAttacks: Offset[] = [];
@@ -326,10 +317,10 @@ const useGameStore = create<GameState>((set, get) => ({
 
     const attackingDice = generateDice(
       attackingUnit.combatValue +
-      extraDice +
-      towerAttackBonus -
-      towerDefenseBonus +
-      ditchAttack
+        extraDice +
+        towerAttackBonus -
+        towerDefenseBonus +
+        ditchAttack
     );
     const defendingDice = generateDice(
       defendingUnit.combatValue + ditchDefense
@@ -354,7 +345,6 @@ const useGameStore = create<GameState>((set, get) => ({
 
     const totalDamage = Math.max(0, totalAttack - totalDefence);
 
-    // TODO if unit is ogre, remove one random card per damage received...
     if (defendingUnitId === "grimorg") {
       const ogreCards = shuffle([...get().ogreCards]).slice(totalDamage);
       set({ ogreCards });

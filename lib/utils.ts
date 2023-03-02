@@ -253,3 +253,36 @@ export function isDitchTile(offset: Offset, board: Array<Array<Tile>>) {
   const ditchOffset = getDitchOffset(board);
   return offset[0] === ditchOffset[0] && offset[1] === ditchOffset[1];
 }
+
+export function getRandomStartingPositions(
+  numberNotOnBoard: number,
+  y: number[],
+  board: Array<Array<Tile>>
+) {
+  const unitsWithPositions: Offset[] = [];
+
+  while (unitsWithPositions.length < numberNotOnBoard) {
+    // generate a random row
+    const row = generateRandomNumber(Math.max(...y) + 1, Math.min(...y));
+    // generate a random x
+    const x = generateRandomNumber(board[row].length, 0);
+    // check if unit has already been given that position, and if not push it into array.
+    if (!unitsWithPositions.find((pos) => pos[0] === x && pos[1] === row)) {
+      unitsWithPositions.push([x, row]);
+    }
+  }
+
+  return unitsWithPositions;
+}
+
+export function getPossibleStartingMoves(
+  board: Array<Array<Tile>>,
+  y: number[]
+) {
+  const possibleMoves: Offset[] = [];
+  for (let i = y[0]; i <= y[1]; i++) {
+    const row = board[i];
+    row.forEach((_tile, x) => possibleMoves.push([x, i]));
+  }
+  return possibleMoves;
+}
