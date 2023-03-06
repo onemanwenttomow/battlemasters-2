@@ -282,12 +282,21 @@ export function getRandomStartingPositions(
 
 export function getPossibleStartingMoves(
   board: Array<Array<Tile>>,
-  y: number[]
+  y: number[],
+  x: number
 ) {
   const possibleMoves: Offset[] = [];
   for (let i = y[0]; i <= y[1]; i++) {
     const row = board[i];
     row.forEach((_tile, x) => possibleMoves.push([x, i]));
+  }
+  // check X
+  for (let y = 0; y < board.length; y++) {
+    const rowLength = board[y].length - 1;
+    for (let _x = 0; _x < Math.abs(x); _x++) {
+      const position: Offset = x > 0 ? [_x, y] : [rowLength - _x, y];
+      possibleMoves.push(position);
+    }
   }
   return possibleMoves;
 }

@@ -40,11 +40,11 @@ export interface GameState {
 
 export interface StartingZones {
   Imperial: {
-    x: number[];
+    x: number;
     y: number[];
   };
   Chaos: {
-    x: number[];
+    x: number;
     y: number[];
   };
 }
@@ -142,7 +142,8 @@ export interface CanonTile {
 
 export type CampaignId =
   | "battle-of-the-borderlands"
-  | "battle-of-the-river-tengin";
+  | "battle-of-the-river-tengin"
+  | "battle-on-the-road-to-grunberg";
 
 export interface Campaign {
   title: string;

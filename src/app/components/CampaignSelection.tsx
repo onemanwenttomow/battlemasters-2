@@ -4,6 +4,10 @@ import { Campaign } from "types";
 const campaigns: Campaign[] = [
   { title: "Battle of the Borderlands", id: "battle-of-the-borderlands" },
   { title: "Battle of the River Tengin", id: "battle-of-the-river-tengin" },
+  {
+    title: "Battle on the Road to Grunberg",
+    id: "battle-on-the-road-to-grunberg",
+  },
 ];
 
 export default function CampaignSelection() {

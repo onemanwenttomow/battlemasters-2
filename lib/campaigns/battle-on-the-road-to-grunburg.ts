@@ -12,27 +12,27 @@ export const board = [
   ["ro", "g", "ri", "ri", "ro", "g", "ri", "ri", "ro", "g", "ri", "ri"],
   ["ro", "ri", "ri", "g", "ro", "ri", "ri", "g", "ro", "ri", "ri", "g", "ro"],
   ["ro", "g", "g", "ro", "ro", "g", "g", "ro", "ro", "g", "g", "ro"],
-  ["g", "ro", "g", "ro", "g", "ro", "g", "ro", "g", "ro", "g", "ro", "g"],
-  ["g", "ro", "ro", "to", "g", "ro", "ro", "g", "g", "ro", "ro", "g"],
+  ["g", "ro", "g", "ro", "g", "ro", "sw", "ro", "g", "ro", "g", "ro", "g"],
+  ["g", "ro", "ro", "g", "g", "ro", "ro", "g", "g", "ro", "ro", "g"],
   ["g", "g", "ro", "g", "g", "g", "ro", "g", "g", "g", "ro", "g", "g"],
   ["g", "g", "ro", "g", "g", "g", "ro", "g", "g", "g", "ro", "g"],
-  ["g", "g", "g", "ro", "g", "g", "g", "ro", "g", "g", "g", "ro", "g"],
+  ["g", "g", "g", "ro", "g", "g", "sw", "ro", "g", "g", "g", "ro", "g"],
   ["g", "g", "ro", "g", "g", "g", "ro", "g", "g", "g", "ro", "g"],
-  ["g", "g", "ro", "g", "g", "g", "ro", "g", "g", "g", "ro", "g", "g"],
+  ["g", "g", "ro", "g", "g", "g", "ro", "sw", "g", "g", "ro", "g", "g"],
 ] as Array<Array<Tile>>;
 
 const unitPositions: Pick<Unit, "id" | "x" | "y">[] = [
-  { id: "canon", x: 7, y: 7 },
-  { id: "empire-knights", x: 10, y: 8 },
-  { id: "grunberg-archers", x: 4, y: 4 },
-  { id: "bogenhaffen", x: 7, y: 4 },
-  { id: "melgar", x: 4, y: 5 },
-  { id: "reikwald", x: 4, y: 3 },
-  { id: "grunburg-arms", x: 0, y: 2 },
-  { id: "altdorf", x: 8, y: 3 },
-  { id: "delbornes", x: 11, y: 9 },
-  { id: "blitzens", x: 10, y: 10 },
-  { id: "normands", x: 10, y: 11 },
+  { id: "canon", x: null, y: null },
+  { id: "empire-knights", x: null, y: null },
+  { id: "grunberg-archers", x: null, y: null },
+  { id: "bogenhaffen", x: null, y: null },
+  { id: "melgar", x: null, y: null },
+  { id: "reikwald", x: null, y: null },
+  { id: "grunburg-arms", x: null, y: null },
+  { id: "altdorf", x: null, y: null },
+  { id: "delbornes", x: null, y: null },
+  { id: "blitzens", x: null, y: null },
+  { id: "normands", x: null, y: null },
   { id: "gorefists", x: null, y: null },
   { id: "grimorg", x: null, y: null },
   { id: "gorebands", x: null, y: null },
@@ -50,8 +50,8 @@ const unitPositions: Pick<Unit, "id" | "x" | "y">[] = [
 ];
 
 const startingZones = {
-  Imperial: { x: 0, y: [] },
-  Chaos: { x: 0, y: [0, 1] },
+  Imperial: { x: -1, y: [] },
+  Chaos: { x: 1, y: [] },
 };
 
 export const campaign = {

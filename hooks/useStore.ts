@@ -35,8 +35,8 @@ import {
 const useGameStore = create<GameState>((set, get) => ({
   board: [],
   startingZones: {
-    Imperial: { x: [], y: [] },
-    Chaos: { x: [], y: [] },
+    Imperial: { x: 0, y: [] },
+    Chaos: { x: 0, y: [] },
   },
   units,
   activeUnit: null,
@@ -130,7 +130,11 @@ const useGameStore = create<GameState>((set, get) => ({
   setPreGameActiveUnit: (id, army) => {
     const { x, y } = get().startingZones[army];
     // TODO handle rows (still need to handle cols)
-    const possibleMoves = getPossibleStartingMoves(get().board, y);
+    const possibleMoves = getPossibleStartingMoves(get().board, y, x);
+
+    // TODO remove spaces where units cannot move
+
+    // TODO only assign battle on road initial move ONCE card has been drawn....
 
     set({
       possibleMoves,
@@ -171,7 +175,6 @@ const useGameStore = create<GameState>((set, get) => ({
     if (x === null || y === null) return;
 
     let possibleMoves: Offset[] = [];
-    // TODO the following cannot enter the tower, knights, wolf riders, canon, ogre
     if (activeUnit && !hasMoved) {
       possibleMoves = findNeighbours(x, y, get().playingCards[0], get().board)
         // check if tile is occupied by another unit
