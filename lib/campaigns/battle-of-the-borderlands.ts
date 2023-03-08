@@ -58,4 +58,6 @@ export const campaign = {
   board,
   unitPositions,
   startingZones,
+  canRandomise: false,
+  canPositionPreStart: false,
 };

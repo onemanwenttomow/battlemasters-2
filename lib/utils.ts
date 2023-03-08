@@ -298,5 +298,5 @@ export function getPossibleStartingMoves(
       possibleMoves.push(position);
     }
   }
-  return possibleMoves;
+  return possibleMoves.filter((move) => !isBlocked(move, board));
 }

@@ -41,6 +41,8 @@ const useGameStore = create<GameState>((set, get) => ({
   units,
   activeUnit: null,
   addUnitToBoard: false,
+  canRandomise: false,
+  canPositionPreStart: false,
   playingCards,
   playedCards: [],
   canonTiles: [],
@@ -56,7 +58,13 @@ const useGameStore = create<GameState>((set, get) => ({
   defendingDice: [],
 
   setCampaign: (id: CampaignId) => {
-    const { unitPositions, board, startingZones } = campaigns[id];
+    const {
+      unitPositions,
+      board,
+      startingZones,
+      canRandomise,
+      canPositionPreStart,
+    } = campaigns[id];
     const fullUnits = get().units;
     const units = fullUnits.map((unit) => {
       const { x, y } = unitPositions.find(
@@ -69,7 +77,7 @@ const useGameStore = create<GameState>((set, get) => ({
       };
     });
 
-    set({ board, units, startingZones });
+    set({ board, units, startingZones, canRandomise, canPositionPreStart });
   },
 
   shufflePlayingCards: () =>
@@ -129,12 +137,10 @@ const useGameStore = create<GameState>((set, get) => ({
 
   setPreGameActiveUnit: (id, army) => {
     const { x, y } = get().startingZones[army];
-    // TODO handle rows (still need to handle cols)
-    const possibleMoves = getPossibleStartingMoves(get().board, y, x);
 
-    // TODO remove spaces where units cannot move
-
-    // TODO only assign battle on road initial move ONCE card has been drawn....
+    const possibleMoves = getPossibleStartingMoves(get().board, y, x).filter(
+      ([x, y]) => !get().units.find((unit) => unit.x === x && unit.y === y)
+    );
 
     set({
       possibleMoves,
@@ -144,6 +150,7 @@ const useGameStore = create<GameState>((set, get) => ({
   },
 
   randomiseUnits: (army) => {
+    // TODO find by when more than one manually added... and then randomise loses some units
     const unitsNotOnBoard = [
       ...get().units.filter((unit) => unit.x === null || unit.y === null),
     ];

@@ -1,10 +1,12 @@
 import Image from "next/image";
 import useGameStore from "../../../hooks/useStore";
-import { Army, Unit } from "../../../types";
+import { Army, Unit, UnitId } from "../../../types";
 
 export default function UnitsNotOnBoard() {
   const { units } = useGameStore((store) => store);
-  const unitsNotOnBoard = units.filter((unit) => unit.x === null && unit.y === null);
+  const unitsNotOnBoard = units.filter(
+    (unit) => unit.x === null && unit.y === null
+  );
 
   return (
     <>
@@ -20,9 +22,29 @@ interface Props {
 }
 
 function ArmyNotOnBoard({ army, unitsNotOnBoard }: Props) {
-  const { setPreGameActiveUnit, randomiseUnits } = useGameStore((store) => store);
+  const {
+    gameStarted,
+    canRandomise,
+    canPositionPreStart,
+    setPreGameActiveUnit,
+    randomiseUnits,
+  } = useGameStore((store) => store);
+  const activeCard = useGameStore((store) => store.playingCards[0]);
 
   const armyNotOnBoard = unitsNotOnBoard.filter((unit) => unit.army === army);
+
+  function handleClick(id: UnitId, army: Army) {
+    // (can only add units to board once cards have been drawn)
+    if (!gameStarted && !canPositionPreStart) {
+      return;
+    }
+
+    if (gameStarted && activeCard?.ids.includes(id)) {
+      return setPreGameActiveUnit(id, army);
+    }
+
+    setPreGameActiveUnit(id, army);
+  }
 
   if (!armyNotOnBoard.length) {
     return null;
@@ -40,11 +62,21 @@ function ArmyNotOnBoard({ army, unitsNotOnBoard }: Props) {
             width="32"
             height="32"
             className="cursor-pointer"
-            onClick={() => setPreGameActiveUnit(unit.id, army)}
+            onClick={() => handleClick(unit.id, army)}
+            style={{
+              filter: `brightness(${
+                gameStarted && activeCard?.ids.includes(unit.id) ? "1.4" : "1"
+              })`,
+            }}
           />
         ))}
       </div>
-      <button type="button" onClick={() => randomiseUnits(army)}>Randomise</button>
+
+      {canRandomise && (
+        <button type="button" onClick={() => randomiseUnits(army)}>
+          Randomise
+        </button>
+      )}
     </>
   );
 }

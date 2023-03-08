@@ -4,6 +4,8 @@ export interface GameState {
   units: Unit[];
   activeUnit: UnitId | null;
   addUnitToBoard: boolean;
+  canRandomise: boolean;
+  canPositionPreStart: boolean;
   playingCards: PlayingCards;
   playedCards: PlayingCards;
   canonTiles: CanonTile[];
