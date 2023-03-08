@@ -262,7 +262,8 @@ export function isDitchTile(offset: Offset, board: Array<Array<Tile>>) {
 export function getRandomStartingPositions(
   numberNotOnBoard: number,
   y: number[],
-  board: Array<Array<Tile>>
+  board: Array<Array<Tile>>,
+  unitsAlreadyAdded: Unit[]
 ) {
   const unitsWithPositions: Offset[] = [];
 
@@ -272,7 +273,10 @@ export function getRandomStartingPositions(
     // generate a random x
     const x = generateRandomNumber(board[row].length, 0);
     // check if unit has already been given that position, and if not push it into array.
-    if (!unitsWithPositions.find((pos) => pos[0] === x && pos[1] === row)) {
+    if (
+      !unitsWithPositions.find((pos) => pos[0] === x && pos[1] === row) &&
+      !unitsAlreadyAdded.find((unit) => unit.x === x && unit.y === row)
+    ) {
       unitsWithPositions.push([x, row]);
     }
   }

@@ -142,22 +142,43 @@ const useGameStore = create<GameState>((set, get) => ({
       ([x, y]) => !get().units.find((unit) => unit.x === x && unit.y === y)
     );
 
+    const units = get().units.map((unit) => {
+      return unit.id === id ? { ...unit, hasAttacked: true } : unit;
+    });
+
+    let ogreCards = [...get().ogreCards];
+
+    if (id === "grimorg") {
+      ogreCards = ogreCards.map((card) => ({ ...card, revealed: true }));
+    }
+
     set({
       possibleMoves,
       activeUnit: id,
       addUnitToBoard: true,
+      units,
+      ogreCards,
     });
   },
 
   randomiseUnits: (army) => {
-    // TODO find by when more than one manually added... and then randomise loses some units
     const unitsNotOnBoard = [
       ...get().units.filter((unit) => unit.x === null || unit.y === null),
     ];
+    const unitsAlreadyAdded = [
+      ...get().units.filter((unit) => unit.army === army && unit.x),
+    ];
+
     const { x, y } = get().startingZones[army];
     const board = get().board;
     const num = unitsNotOnBoard.length;
-    const unitsWithPositions = getRandomStartingPositions(num, y, board);
+
+    const unitsWithPositions = getRandomStartingPositions(
+      num,
+      y,
+      board,
+      unitsAlreadyAdded
+    );
 
     const unitsRandomPositions = unitsNotOnBoard.map((unit, i) => ({
       ...unit,
