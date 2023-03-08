@@ -248,22 +248,23 @@ const useGameStore = create<GameState>((set, get) => ({
       possibleAttacks = [];
     }
 
-    set((state) => {
-      return {
-        units: state.units.map((unit) => {
-          if (unit.id === activeUnitId) {
-            return {
-              ...unit,
-              x,
-              y,
-              hasMoved: true,
-            };
-          }
-          return unit;
-        }),
-        possibleMoves: [],
-        possibleAttacks: activeUnitId === "grimorg" ? [] : possibleAttacks,
-      };
+    const units = get().units.map((unit) => {
+      if (unit.id === activeUnitId) {
+        return {
+          ...unit,
+          x,
+          y,
+          hasMoved: true,
+          hasAttacked: !!possibleAttacks.length,
+        };
+      }
+      return unit;
+    });
+
+    set({
+      units,
+      possibleMoves: [],
+      possibleAttacks: activeUnitId === "grimorg" ? [] : possibleAttacks,
     });
   },
 
