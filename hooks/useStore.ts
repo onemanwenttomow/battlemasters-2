@@ -264,7 +264,10 @@ const useGameStore = create<GameState>((set, get) => ({
     set({
       units,
       possibleMoves: [],
-      possibleAttacks: activeUnitId === "grimorg" ? [] : possibleAttacks,
+      possibleAttacks:
+        activeUnitId === "grimorg" || activeUnitId === "canon"
+          ? []
+          : possibleAttacks,
     });
   },
 
@@ -390,9 +393,8 @@ const useGameStore = create<GameState>((set, get) => ({
             ...unit,
             damageSustained: unit.damageSustained + totalDamage,
           };
-        } else {
-          return unit;
         }
+        return unit;
       })
       .filter(filterDefeatedUnits);
 
@@ -547,12 +549,9 @@ const useGameStore = create<GameState>((set, get) => ({
       i === 0 ? currentCard : card
     );
 
-    const units = get().units.map((unit) => {
-      if (unit.id === "grimorg") {
-        return grimorg;
-      }
-      return unit;
-    });
+    const units = get().units.map((unit) =>
+      unit.id === "grimorg" ? grimorg : unit
+    );
 
     const ogreCards = get().ogreCards.map((card) => {
       if (nextCard === card) {
