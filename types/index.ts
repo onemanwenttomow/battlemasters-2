@@ -17,8 +17,8 @@ export interface GameState {
   battleInProgress: boolean;
   attackingUnitId: UnitId | null;
   defendingUnitId: UnitId | null;
-  attackingDice: Dice[];
-  defendingDice: Dice[];
+  attackingDice: DiceInterface[];
+  defendingDice: DiceInterface[];
   setCampaign: (id: CampaignId) => void;
   getUnitByCoords: (x: number, y: number) => Unit | undefined;
   getUnitById: (id: UnitId) => Unit;
@@ -96,7 +96,7 @@ export type UnitId =
   | "doomguard"
   | "fellmoors";
 
-export interface Dice {
+export interface DiceInterface {
   id: number;
   value: number;
 }

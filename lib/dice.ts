@@ -1,8 +1,8 @@
 export const dice = [
-  "/extra-tiles/skull.png",
-  "/extra-tiles/skull.png",
-  "/extra-tiles/skull.png",
-  "/extra-tiles/shield.png",
-  "/extra-tiles/blank.png",
-  "/extra-tiles/blank.png",
+  { src: "/extra-tiles/skull.png", side: "front" },
+  { src: "/extra-tiles/skull.png", side: "right" },
+  { src: "/extra-tiles/skull.png", side: "back" },
+  { src: "/extra-tiles/shield.png", side: "left" },
+  { src: "/extra-tiles/blank.png", side: "top" },
+  { src: "/extra-tiles/blank.png", side: "bottom" },
 ];

@@ -1,11 +1,12 @@
 import Image from "next/image";
 import { useState } from "react";
-import { Dice, Unit } from "types";
+import { DiceInterface, Unit } from "types";
 import { dice as diceArray } from "lib/dice";
+import Dice from "./Dice";
 
 interface Props {
   unit: Unit;
-  dice: Dice[];
+  dice: DiceInterface[];
 }
 
 export default function BattleUnit({ unit, dice }: Props) {
@@ -38,15 +39,7 @@ export default function BattleUnit({ unit, dice }: Props) {
             >
               🎲
             </button>
-            {rolled.includes(i) && (
-              <Image
-                className="inline"
-                src={diceArray[value - 1]}
-                alt="dice"
-                height="50"
-                width="50"
-              />
-            )}
+            <Dice show={value} rolled={rolled.includes(i)} />
           </div>
         ))}
       </div>
