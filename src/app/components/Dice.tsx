@@ -14,14 +14,17 @@ export default function Dice({
   const mappedDiceArray = diceArray.map((die, i) =>
     i === nonRolledSide ? { ...die, src: "/extra-tiles/blank.png" } : die
   );
+
+  console.log('show: ',show);
+
   return (
     <div
       className="inline-block"
       style={{ perspective: "150px", height: "50px", width: "50px" }}
     >
       <div
-        className={`dice relative show-${
-          rolled ? sideToShow[show - 1] : sideToShow[nonRolledSide]
+        className={`dice relative ${
+          rolled ? `show-${sideToShow[show - 1]}` : "start"
         }`}
         style={{
           transformStyle: "preserve-3d",
