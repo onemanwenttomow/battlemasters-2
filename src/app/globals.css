@@ -18,12 +18,7 @@ main {
 
 @layer utilities {
   .hexagon {
-    clip-path: polygon(50% 0%,
-        100% 25%,
-        100% 75%,
-        50% 100%,
-        0% 75%,
-        0% 25%);
+    clip-path: polygon(50% 0%, 100% 25%, 100% 75%, 50% 100%, 0% 75%, 0% 25%);
   }
 }
 
@@ -33,28 +28,28 @@ main {
 }
 
 .dice__face {
-  border-radius:16px;
+  border-radius: 16px;
 }
 
 .dice__face::before {
-    position: absolute;
-    content: '';
-    width: 100%;
-    height: 100%;
-    border-radius: 16px;
-    background: #f6f3f0;
-    transform: translateZ(-1px);
+  position: absolute;
+  content: "";
+  width: 100%;
+  height: 100%;
+  border-radius: 16px;
+  background: #f6f3f0;
+  transform: translateZ(-1px);
 }
 
 .dice__face::after {
-    position: absolute;
-    content: '';
-    top: 50%;
-    left: 50%;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: #131210;
+  position: absolute;
+  content: "";
+  top: 50%;
+  left: 50%;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  background: #131210;
 }
 
 .dice__face--front {
@@ -109,87 +104,92 @@ main {
   transform: translateZ(-25px) rotateX(90deg) rotateY(0);
 }
 
-
 @keyframes dicespin-front {
   0% {
-    transform: translateZ(-25px) rotateY(720deg) rotateX(720deg)
+    transform: translateZ(-25px) rotateY(360deg) rotateX(360deg)
+      translateY(-5px);
   }
 
-  90% {
-    transform: translateZ(-25px) rotateY(-720deg) rotateX(-720deg)
+  95% {
+    transform: translateZ(-25px) rotateY(-360deg) rotateX(-360deg) translateY(0);
   }
 
   100% {
-    transform: translateZ(-25px) rotateY(720deg) rotateX(720deg);
+    transform: translateZ(-25px) rotateY(360deg) rotateX(360deg);
   }
 }
 
 @keyframes dicespin-right {
   0% {
-    transform: translateZ(-25px) rotateY(720deg) rotateX(720deg)
+    transform: translateZ(-25px) rotateY(360deg) rotateX(360deg)
+      translateY(-5px);
   }
 
-  90% {
-    transform: translateZ(-25px) rotateY(-720deg) rotateX(-720deg)
+  95% {
+    transform: translateZ(-25px) rotateY(-360deg) rotateX(-360deg) translateY(0);
   }
 
   100% {
-    transform: translateZ(-25px) rotateY(-810deg) rotateX(720deg);
+    transform: translateZ(-25px) rotateY(-450deg) rotateX(360deg);
   }
 }
 
 @keyframes dicespin-back {
   0% {
-    transform: translateZ(-25px) rotateY(720deg) rotateX(720deg)
+    transform: translateZ(-25px) rotateY(360deg) rotateX(360deg)
+      translateY(-5px);
   }
 
-  90% {
-    transform: translateZ(-25px) rotateY(-720deg) rotateX(-720deg)
+  95% {
+    transform: translateZ(-25px) rotateY(-360deg) rotateX(-360deg) translateY(0);
   }
 
   100% {
-    transform: translateZ(-25px) rotateY(-900deg) rotateX(720deg);
+    transform: translateZ(-25px) rotateY(-540deg) rotateX(360deg);
   }
 }
 
 @keyframes dicespin-left {
   0% {
-    transform: translateZ(-25px) rotateY(720deg) rotateX(720deg)
+    transform: translateZ(-25px) rotateY(360deg) rotateX(360deg)
+      translateY(-5px);
   }
 
-  90% {
-    transform: translateZ(-25px) rotateY(-720deg) rotateX(-720deg)
+  95% {
+    transform: translateZ(-25px) rotateY(-360deg) rotateX(-360deg) translateY(0);
   }
 
   100% {
-    transform: translateZ(-25px) rotateY(810deg) rotateX(720deg);
+    transform: translateZ(-25px) rotateY(450deg) rotateX(360deg);
   }
 }
 
 @keyframes dicespin-top {
   0% {
-    transform: translateZ(-25px) rotateY(720deg) rotateX(720deg)
+    transform: translateZ(-25px) rotateY(360deg) rotateX(360deg)
+      translateY(-5px);
   }
 
-  90% {
-    transform: translateZ(-25px) rotateY(-720deg) rotateX(-720deg)
+  95% {
+    transform: translateZ(-25px) rotateY(-360deg) rotateX(-360deg) translateY(0);
   }
 
   100% {
-    transform: translateZ(-25px) rotateX(-810deg) rotateY(720deg);
+    transform: translateZ(-25px) rotateX(-450deg) rotateY(360deg);
   }
 }
 
 @keyframes dicespin-bottom {
   0% {
-    transform: translateZ(-25px) rotateY(720deg) rotateX(720deg)
+    transform: translateZ(-25px) rotateY(360deg) rotateX(360deg)
+      translateY(-5px);
   }
 
-  90% {
-    transform: translateZ(-25px) rotateY(-720deg) rotateX(-720deg)
+  95% {
+    transform: translateZ(-25px) rotateY(-360deg) rotateX(-360deg) translateY(0);
   }
 
   100% {
-    transform: translateZ(-25px) rotateX(810deg) rotateY(720deg);
+    transform: translateZ(-25px) rotateX(450deg) rotateY(360deg);
   }
 }

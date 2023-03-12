@@ -1,20 +1,14 @@
 import Image from "next/image";
 import { dice as diceArray } from "lib/dice";
 
-const sideToShow = ["front", "right", "back", "left", "top", "bottom"];
-
-export default function Dice({
-  show,
-  rolled,
-}: {
+interface Props {
   show: number;
   rolled: boolean;
-}) {
-  const nonRolledSide = (show - 1 + 5) % 3;
-  const mappedDiceArray = diceArray.map((die, i) =>
-    i === nonRolledSide ? { ...die, src: "/extra-tiles/blank.png" } : die
-  );
+}
 
+const sideToShow = ["front", "right", "back", "left", "top", "bottom"];
+
+export default function Dice({ show, rolled }: Props) {
   return (
     <div
       className="inline-block"
@@ -30,7 +24,7 @@ export default function Dice({
           width: "50px",
         }}
       >
-        {mappedDiceArray.map((die, i) => (
+        {diceArray.map((die, i) => (
           <DiceSide key={Math.random()} die={die} rolled={rolled} />
         ))}
       </div>
@@ -43,10 +37,12 @@ interface Die {
   side: string;
 }
 
-function DiceSide({ die, rolled }: { die: Die, rolled: boolean }) {
+function DiceSide({ die, rolled }: { die: Die; rolled: boolean }) {
   return (
     <Image
-      className={`absolute dice__face dice__face--${die.side} ${!rolled && "grayscale"}`}
+      className={`absolute dice__face dice__face--${die.side} ${
+        !rolled && "grayscale"
+      }`}
       src={die.src}
       alt="dice"
       height="50"
