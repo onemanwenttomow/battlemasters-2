@@ -32,6 +32,31 @@ main {
   transition: transform 1s;
 }
 
+.dice__face {
+  border-radius:16px;
+}
+
+.dice__face::before {
+    position: absolute;
+    content: '';
+    width: 100%;
+    height: 100%;
+    border-radius: 16px;
+    background: #f6f3f0;
+    transform: translateZ(-1px);
+}
+
+.dice__face::after {
+    position: absolute;
+    content: '';
+    top: 50%;
+    left: 50%;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: #131210;
+}
+
 .dice__face--front {
   transform: rotateX(0deg) rotateY(0deg) translateZ(25px);
 }

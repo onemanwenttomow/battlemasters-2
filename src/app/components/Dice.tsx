@@ -15,8 +15,6 @@ export default function Dice({
     i === nonRolledSide ? { ...die, src: "/extra-tiles/blank.png" } : die
   );
 
-  console.log('show: ',show);
-
   return (
     <div
       className="inline-block"
@@ -33,7 +31,7 @@ export default function Dice({
         }}
       >
         {mappedDiceArray.map((die, i) => (
-          <DiceSide key={Math.random()} die={die} />
+          <DiceSide key={Math.random()} die={die} rolled={rolled} />
         ))}
       </div>
     </div>
@@ -45,10 +43,10 @@ interface Die {
   side: string;
 }
 
-function DiceSide({ die }: { die: Die }) {
+function DiceSide({ die, rolled }: { die: Die, rolled: boolean }) {
   return (
     <Image
-      className={`absolute dice__face--${die.side}`}
+      className={`absolute dice__face dice__face--${die.side} ${!rolled && "grayscale"}`}
       src={die.src}
       alt="dice"
       height="50"
