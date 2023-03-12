@@ -4,8 +4,8 @@ import { createCanonSlice } from "./useCanonStore";
 import { createGameSlice } from "./useGameStore";
 
 const useGameStore = create<CanonSlice & GameState>()((...a) => ({
-    ...createCanonSlice(...a),
-    ...createGameSlice(...a)
+  ...createCanonSlice(...a),
+  ...createGameSlice(...a)
 }));
 
 export default useGameStore

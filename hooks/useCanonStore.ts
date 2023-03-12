@@ -17,7 +17,7 @@ export const createCanonSlice: StateCreator<
   canonTiles: [],
   canonTilesSet: false,
   canonMisFire: null,
-  
+
   startCanonBattle: (defendingUnitId: UnitId, preview) => {
     set({ canonTiles: [] });
     const canon = get().getUnitById("canon");
