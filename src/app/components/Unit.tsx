@@ -40,6 +40,12 @@ export default function UnitImage({ x, y }: Props) {
     startBattle(attackingUnit.id, unit.id);
   }
 
+  function handleMouseEnter() {
+    if (attackingUnit.id === "canon") {
+      startCanonBattle(unit.id, true);
+    }
+  }
+
   return (
     <>
       <Image
@@ -60,6 +66,7 @@ export default function UnitImage({ x, y }: Props) {
         <div
           className="absolute top-2 left-5 bg-red-500 h-6 w-6 grid place-content-center cursor-pointer"
           onClick={handleBattleClick}
+          onMouseEnter={handleMouseEnter}
         >
           ⚔️
         </div>

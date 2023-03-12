@@ -31,7 +31,7 @@ export interface GameState {
   skipAttack: (id: UnitId) => void;
   startBattle: (attackingId: UnitId, defendingId: UnitId) => void;
   endBattle: (attackingUnitId: UnitId, defendingUnitId: UnitId) => void;
-  startCanonBattle: (defendingUnitId: UnitId) => void;
+  startCanonBattle: (defendingUnitId: UnitId, preview?: boolean) => void;
   canonTileReveal: (canonTile: CanonTile) => void;
   setCanonMisFire: () => void;
   canonMisfireReveal: () => void;

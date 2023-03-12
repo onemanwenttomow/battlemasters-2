@@ -410,7 +410,7 @@ const useGameStore = create<GameState>((set, get) => ({
     });
   },
 
-  startCanonBattle: (defendingUnitId: UnitId) => {
+  startCanonBattle: (defendingUnitId: UnitId, preview) => {
     set({ canonTiles: [] });
     const canon = get().getUnitById("canon");
     const defendingUnit = get().getUnitById(defendingUnitId);
@@ -435,7 +435,7 @@ const useGameStore = create<GameState>((set, get) => ({
       })
     );
 
-    set({ canonTiles: canonTiles, possibleAttacks: [] });
+    set({ canonTiles, possibleAttacks: !preview ? [] : get().possibleAttacks });
   },
 
   canonTileReveal: (canonTile: CanonTile) => {
