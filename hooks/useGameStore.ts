@@ -1,0 +1,481 @@
+import { StateCreator } from "zustand";
+
+import { campaigns } from "lib/campaigns";
+import units, { canEnterTower } from "lib/units";
+import playingCards from "lib/cards/cards";
+import ogreCards from "lib/cards/ogreCards";
+import {
+  getPossibleStartingMoves,
+  getRandomStartingPositions
+} from "lib/utils";
+
+import {
+  GameState,
+  Unit,
+  PlayingCards,
+  Offset,
+  UnitId,
+  CampaignId,
+  CanonSlice
+} from "types";
+
+import {
+  findAttackZone,
+  generateDice,
+  shuffle,
+  findNeighbours,
+  filterDefeatedUnits,
+  getCurrentOgreCard,
+  isTowerTile,
+  isDitchTile
+} from "lib/utils";
+
+export const createGameSlice: StateCreator<
+  GameState & CanonSlice,
+  [],
+  [],
+  GameState
+> = (set, get) => ({
+  board: [],
+  startingZones: {
+    Imperial: { x: 0, y: [] },
+    Chaos: { x: 0, y: [] }
+  },
+  units,
+  activeUnit: null,
+  addUnitToBoard: false,
+  canRandomise: false,
+  canPositionPreStart: false,
+  playingCards,
+  playedCards: [],
+  ogreCards: shuffle(ogreCards),
+  gameStarted: false,
+  possibleMoves: [],
+  possibleAttacks: [],
+  battleInProgress: false,
+  attackingUnitId: null,
+  defendingUnitId: null,
+  attackingDice: [],
+  defendingDice: [],
+
+  setCampaign: (id: CampaignId) => {
+    const {
+      unitPositions,
+      board,
+      startingZones,
+      canRandomise,
+      canPositionPreStart
+    } = campaigns[id];
+    const fullUnits = get().units;
+    const units = fullUnits.map((unit) => {
+      const { x, y } = unitPositions.find(
+        (_unit) => _unit.id === unit.id
+      ) as Unit;
+      return {
+        ...unit,
+        x,
+        y
+      };
+    });
+
+    set({ board, units, startingZones, canRandomise, canPositionPreStart });
+  },
+
+  shufflePlayingCards: () =>
+    set((state) => ({
+      playingCards: shuffle(state.playingCards),
+      gameStarted: true,
+      units: get().units.map((unit) => {
+        return {
+          ...unit,
+          isActive: get().playingCards[0].ids.includes(unit.id)
+        };
+      }) as Unit[]
+    })),
+
+  drawNextCard: () => {
+    // if all cards have been played shuffle a new
+    const newPlayingCards =
+      get().playingCards.length === 1
+        ? shuffle(playingCards)
+        : [...get().playingCards];
+
+    const playedCards = [
+      ...get().playedCards,
+      newPlayingCards.shift()
+    ] as PlayingCards;
+
+    const activeUnits = get().units.map((unit) => {
+      return {
+        ...unit,
+        isActive: newPlayingCards[0].ids.includes(unit.id),
+        hasMoved: false,
+        hasAttacked: false
+      };
+    }) as Unit[];
+
+    if (newPlayingCards[0].ids.includes("grimorg")) {
+      set({
+        ogreCards: shuffle([
+          ...get().ogreCards.map((card) => ({
+            ...card,
+            revealed: false
+          }))
+        ])
+      });
+    }
+
+    set({
+      playingCards: newPlayingCards,
+      playedCards,
+      possibleMoves: [],
+      possibleAttacks: [],
+      activeUnit: null,
+      units: activeUnits,
+      addUnitToBoard: false
+    });
+  },
+
+  setPreGameActiveUnit: (id, army) => {
+    const { x, y } = get().startingZones[army];
+
+    const possibleMoves = getPossibleStartingMoves(
+      get().board,
+      y,
+      x
+    ).filter(
+      ([x, y]) =>
+        !get().units.find((unit) => unit.x === x && unit.y === y)
+    );
+
+    const units = get().units.map((unit) => {
+      return unit.id === id ? { ...unit, hasAttacked: true } : unit;
+    });
+
+    let ogreCards = [...get().ogreCards];
+
+    if (id === "grimorg") {
+      ogreCards = ogreCards.map((card) => ({ ...card, revealed: true }));
+    }
+
+    set({
+      possibleMoves,
+      activeUnit: id,
+      addUnitToBoard: true,
+      units,
+      ogreCards
+    });
+  },
+
+  randomiseUnits: (army) => {
+    const unitsNotOnBoard = [
+      ...get().units.filter((unit) => unit.x === null || unit.y === null)
+    ];
+    const unitsAlreadyAdded = [
+      ...get().units.filter((unit) => unit.army === army && unit.x)
+    ];
+
+    const { x, y } = get().startingZones[army];
+    const board = get().board;
+    const num = unitsNotOnBoard.length;
+
+    const unitsWithPositions = getRandomStartingPositions(
+      num,
+      y,
+      board,
+      unitsAlreadyAdded
+    );
+
+    const unitsRandomPositions = unitsNotOnBoard.map((unit, i) => ({
+      ...unit,
+      x: unitsWithPositions[i][0],
+      y: unitsWithPositions[i][1]
+    }));
+
+    set({
+      units: get().units.map((unit) => {
+        const foundUnit = unitsRandomPositions.find(
+          (u) => u.id === unit.id
+        );
+        return foundUnit ? foundUnit : unit;
+      })
+    });
+  },
+
+  setActiveUnit: (id: UnitId) => {
+    const activeUnit = get().getUnitById(id);
+    const { x, y, hasMoved, hasAttacked, range } = activeUnit;
+    const turnComplete = hasMoved && hasAttacked;
+    const board = get().board;
+
+    if (x === null || y === null) return;
+
+    let possibleMoves: Offset[] = [];
+    if (activeUnit && !hasMoved) {
+      possibleMoves = findNeighbours(
+        x,
+        y,
+        get().playingCards[0],
+        get().board
+      )
+        // check if tile is occupied by another unit
+        .filter(
+          ([x, y]) =>
+            !get().units.find(
+              (unit) => unit.x === x && unit.y === y
+            )
+        )
+        // check if unit can enter tower...
+        .filter(
+          (potentialMove) =>
+            !(
+              isTowerTile(potentialMove, board) &&
+              !canEnterTower.includes(id)
+            )
+        );
+    }
+
+    let possibleAttacks: Offset[] = [];
+    if (activeUnit && hasMoved && !turnComplete) {
+      possibleAttacks = findAttackZone(x, y, range);
+    }
+
+    if (activeUnit.id === "grimorg") {
+      const currentCard = get().ogreCards.reduceRight(
+        getCurrentOgreCard,
+        null
+      );
+      if (currentCard?.src === "/ogre-cards/ogre-move-card.png") {
+        possibleAttacks = [];
+      }
+    }
+
+    set({
+      activeUnit: id,
+      possibleMoves,
+      possibleAttacks,
+      addUnitToBoard: false
+    });
+  },
+
+  moveUnit: (x: number, y: number) => {
+    const activeUnitId = get().activeUnit;
+    if (!activeUnitId) return;
+
+    const activeUnit = get().getUnitById(activeUnitId);
+
+    let possibleAttacks = findAttackZone(x, y, activeUnit.range);
+
+    if (get().addUnitToBoard) {
+      possibleAttacks = [];
+    }
+
+    const units = get().units.map((unit) => {
+      if (unit.id === activeUnitId) {
+        return {
+          ...unit,
+          x,
+          y,
+          hasMoved: true,
+          hasAttacked: !!possibleAttacks.length
+        };
+      }
+      return unit;
+    });
+
+    set({
+      units,
+      possibleMoves: [],
+      possibleAttacks:
+        activeUnitId === "grimorg" || activeUnitId === "canon"
+          ? []
+          : possibleAttacks
+    });
+  },
+
+  skipMove: (id: UnitId) => {
+    set({ activeUnit: id });
+    const activeUnit = get().getUnitById(id);
+    const { x, y, range } = activeUnit;
+    if (x === null || y === null) return;
+
+    const updatedUnits = get().units.map((unit) => {
+      if (unit.id === id) {
+        return {
+          ...unit,
+          hasMoved: true
+        };
+      }
+      return unit;
+    });
+
+    const possibleAttacks = findAttackZone(x, y, range);
+
+    set({ units: updatedUnits, possibleAttacks, possibleMoves: [] });
+  },
+
+  skipAttack: (id: UnitId) => {
+    const updatedUnits = get().units.map((unit) => {
+      if (unit.id === id) {
+        return {
+          ...unit,
+          hasAttacked: true
+        };
+      }
+      return unit;
+    });
+    set({ units: updatedUnits, possibleAttacks: [], canonTiles: [] });
+  },
+
+  startBattle: (attackingUnitId: UnitId, defendingUnitId: UnitId) => {
+    const attackingUnit = get().getUnitById(attackingUnitId);
+    const defendingUnit = get().getUnitById(defendingUnitId);
+
+    if (
+      defendingUnit.x === null ||
+      attackingUnit.x === null ||
+      defendingUnit.y === null ||
+      attackingUnit.y === null
+    ) {
+      return;
+    }
+
+    const { extraDice } = get().playingCards[0];
+    const board = get().board;
+
+    // DITCH bonus
+    const isDitch =
+      isDitchTile([defendingUnit.x, defendingUnit.y], board) ||
+      isDitchTile([attackingUnit.x, attackingUnit.y], board);
+
+    // TODO fix attacking vs defending ditch
+    // person attacking over ditch gets one less
+    // person defending over ditch gets one more.
+    let ditchDefense = 0;
+    let ditchAttack = 0;
+    // TODO isDitch attack does not apply if archer...
+    if (isDitch) {
+      ditchAttack = -1;
+      ditchDefense = 1;
+    }
+
+    // TOWER bonus
+    // if defender is in tower then attacking unit gets one less dice
+    let towerDefenseBonus = 0;
+    if (isTowerTile([defendingUnit.x, defendingUnit.y], board)) {
+      towerDefenseBonus = 1;
+    }
+
+    // if attacker is in tower than attacker gets one extra dice
+    let towerAttackBonus = 0;
+    if (isTowerTile([attackingUnit.x, attackingUnit.y], board)) {
+      towerAttackBonus = 1;
+    }
+
+    const attackingDice = generateDice(
+      attackingUnit.combatValue +
+      extraDice +
+      towerAttackBonus -
+      towerDefenseBonus +
+      ditchAttack
+    );
+    const defendingDice = generateDice(
+      defendingUnit.combatValue + ditchDefense
+    );
+
+    set({
+      battleInProgress: true,
+      attackingUnitId,
+      defendingUnitId,
+      attackingDice,
+      defendingDice
+    });
+  },
+
+  endBattle: (attackingUnitId: UnitId, defendingUnitId: UnitId) => {
+    const totalAttack = get()
+      .attackingDice.map((dice) => dice.value)
+      .filter((num) => num < 4).length;
+    const totalDefence = get()
+      .defendingDice.map((dice) => dice.value)
+      .filter((num) => num === 4).length;
+
+    const totalDamage = Math.max(0, totalAttack - totalDefence);
+
+    if (defendingUnitId === "grimorg") {
+      const ogreCards = shuffle([...get().ogreCards]).slice(totalDamage);
+      set({ ogreCards });
+    }
+
+    const units = get()
+      .units.map((unit) => {
+        if (unit.id === attackingUnitId) {
+          return { ...unit, hasAttacked: true };
+        } else if (unit.id === defendingUnitId) {
+          return {
+            ...unit,
+            damageSustained: unit.damageSustained + totalDamage
+          };
+        }
+        return unit;
+      })
+      .filter(filterDefeatedUnits);
+
+    set({
+      battleInProgress: false,
+      defendingUnitId: null,
+      attackingUnitId: null,
+      units,
+      possibleAttacks: [],
+      attackingDice: [],
+      defendingDice: []
+    });
+  },
+
+  drawOgreCard: () => {
+    const nextCard = get().ogreCards.find((card) => !card.revealed);
+    if (!nextCard) return;
+
+    const grimorg = { ...get().getUnitById("grimorg") };
+    const currentCard = { ...get().playingCards[0] };
+
+    if (nextCard.src === "/ogre-cards/ogre-attack-card.png") {
+      grimorg.hasMoved = true;
+      grimorg.hasAttacked = false;
+      currentCard.moves = 0;
+    }
+    if (nextCard.src === "/ogre-cards/ogre-move-card.png") {
+      grimorg.hasMoved = false;
+      currentCard.moves = 1;
+    }
+
+    const playingCards = get().playingCards.map((card, i) =>
+      i === 0 ? currentCard : card
+    );
+
+    const units = get().units.map((unit) =>
+      unit.id === "grimorg" ? grimorg : unit
+    );
+
+    const ogreCards = get().ogreCards.map((card) => {
+      if (nextCard === card) {
+        return {
+          ...card,
+          revealed: true
+        };
+      }
+      return card;
+    });
+
+    set({ ogreCards, units, playingCards });
+    get().setActiveUnit("grimorg");
+  },
+
+  getUnitById: (id: UnitId) =>
+    get().units.find((unit) => unit.id === id) as Unit,
+  getUnitByCoords: (x: number, y: number) =>
+    get().units.find((unit) => unit.x === x && unit.y === y),
+  tileHasUnit: (x: number, y: number) =>
+    get().units.some((unit) => unit.x === x && unit.y === y)
+});
+
