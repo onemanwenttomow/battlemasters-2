@@ -326,6 +326,7 @@ const useGameStore = create<GameState>((set, get) => ({
       isDitchTile([defendingUnit.x, defendingUnit.y], board) ||
       isDitchTile([attackingUnit.x, attackingUnit.y], board);
 
+    // TODO fix attacking vs defending ditch
     // person attacking over ditch gets one less
     // person defending over ditch gets one more.
     let ditchDefense = 0;

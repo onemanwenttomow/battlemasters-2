@@ -4,15 +4,18 @@ import { dice as diceArray } from "lib/dice";
 interface Props {
   show: number;
   rolled: boolean;
+  handleDiceClick: (i: number) => void;
+  i: number;
 }
 
 const sideToShow = ["front", "right", "back", "left", "top", "bottom"];
 
-export default function Dice({ show, rolled }: Props) {
+export default function Dice({ show, rolled, handleDiceClick, i }: Props) {
   return (
     <div
-      className="inline-block"
+      className={`inline-block ${!rolled && "cursor-pointer"}`}
       style={{ perspective: "150px", height: "50px", width: "50px" }}
+      onClick={() => handleDiceClick(i)}
     >
       <div
         className={`dice relative ${

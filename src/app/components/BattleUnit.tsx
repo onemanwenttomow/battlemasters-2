@@ -11,9 +11,21 @@ interface Props {
 
 export default function BattleUnit({ unit, dice }: Props) {
   const [rolled, setRolled] = useState<number[]>([]);
+
+  function handleDiceClick(i: number) {
+    setRolled((prevState) => [...prevState, i])
+  }
+
+  function rollAll() {
+    const TIME = 1100;
+
+    dice.forEach((_, i) => {
+      setTimeout(() => setRolled((prevState) => [...prevState, i]), TIME * i)
+    });
+  }
   return (
     <div>
-      <h3>{unit.name} (Attacker)</h3>
+      <h3>{unit.name}</h3>
       <Image src={unit.src} alt={unit.alt} height="50" width="50" />
       <p>
         Damage:{" "}
@@ -30,16 +42,11 @@ export default function BattleUnit({ unit, dice }: Props) {
             />
           ))}
       </p>
-      <div>
+      <div className="my-2">
+        <button type="button" className="block" onClick={rollAll}>Roll All</button>
         {dice.map(({ id, value }, i) => (
-          <div key={id}>
-            <button
-              className="text-4xl inline cursor-pointer"
-              onClick={() => setRolled((prevState) => [...prevState, i])}
-            >
-              🎲
-            </button>
-            <Dice show={value} rolled={rolled.includes(i)} />
+          <div key={id} className="inline mx-4">
+            <Dice show={value} rolled={rolled.includes(i)} handleDiceClick={handleDiceClick} i={i} />
           </div>
         ))}
       </div>
