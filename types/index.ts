@@ -9,6 +9,7 @@ export interface GameState {
   playingCards: PlayingCards;
   playedCards: PlayingCards;
   canonTiles: CanonTile[];
+  canonTilesSet: boolean;
   canonMisFire: CanonTile | null;
   ogreCards: OgreCard[];
   gameStarted: boolean;

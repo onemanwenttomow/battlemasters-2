@@ -46,6 +46,7 @@ const useGameStore = create<GameState>((set, get) => ({
   playingCards,
   playedCards: [],
   canonTiles: [],
+  canonTilesSet: false,
   canonMisFire: null,
   ogreCards: shuffle(ogreCards),
   gameStarted: false,
@@ -352,10 +353,10 @@ const useGameStore = create<GameState>((set, get) => ({
 
     const attackingDice = generateDice(
       attackingUnit.combatValue +
-        extraDice +
-        towerAttackBonus -
-        towerDefenseBonus +
-        ditchAttack
+      extraDice +
+      towerAttackBonus -
+      towerDefenseBonus +
+      ditchAttack
     );
     const defendingDice = generateDice(
       defendingUnit.combatValue + ditchDefense
@@ -435,10 +436,18 @@ const useGameStore = create<GameState>((set, get) => ({
       })
     );
 
-    set({ canonTiles, possibleAttacks: !preview ? [] : get().possibleAttacks });
+    set({
+      canonTiles,
+      possibleAttacks: !preview ? [] : get().possibleAttacks,
+      canonTilesSet: preview ? false : true
+    });
   },
 
   canonTileReveal: (canonTile: CanonTile) => {
+    if (!get().canonTilesSet) {
+      return set({possibleAttacks: [], canonTilesSet: true})
+    }
+
     const canonTiles = get().canonTiles;
     const idx = canonTiles.indexOf(canonTile);
     const lowestIndex = canonTiles.findIndex((tile) => !tile.revealed);
@@ -460,7 +469,7 @@ const useGameStore = create<GameState>((set, get) => ({
       canonTiles.length = idx + 1;
 
       setTimeout(() => {
-        set({ canonTiles: [] });
+        set({ canonTiles: [], canonTilesSet: false });
       }, 3000);
     }
 
