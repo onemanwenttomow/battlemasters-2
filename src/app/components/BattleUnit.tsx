@@ -1,8 +1,9 @@
 import Image from "next/image";
 import { useState } from "react";
 import { DiceInterface, Unit } from "types";
-import { dice as diceArray } from "lib/dice";
 import Dice from "./Dice";
+
+const TIME = 110;
 
 interface Props {
   unit: Unit;
@@ -13,15 +14,13 @@ export default function BattleUnit({ unit, dice }: Props) {
   const [rolled, setRolled] = useState<number[]>([]);
 
   function handleDiceClick(i: number) {
-    setRolled((prevState) => [...prevState, i])
+    setRolled((prevState) => [...prevState, i]);
   }
 
   function rollAll() {
-    const TIME = 1100;
-
-    dice.forEach((_, i) => {
+    dice.forEach((_, i) =>
       setTimeout(() => setRolled((prevState) => [...prevState, i]), TIME * i)
-    });
+    );
   }
   return (
     <div>
@@ -43,10 +42,17 @@ export default function BattleUnit({ unit, dice }: Props) {
           ))}
       </p>
       <div className="my-2">
-        <button type="button" className="block" onClick={rollAll}>Roll All</button>
+        <button type="button" className="block" onClick={rollAll}>
+          Roll All
+        </button>
         {dice.map(({ id, value }, i) => (
           <div key={id} className="inline mx-4">
-            <Dice show={value} rolled={rolled.includes(i)} handleDiceClick={handleDiceClick} i={i} />
+            <Dice
+              show={value}
+              rolled={rolled.includes(i)}
+              handleDiceClick={handleDiceClick}
+              i={i}
+            />
           </div>
         ))}
       </div>
