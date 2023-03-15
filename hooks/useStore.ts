@@ -1,11 +1,13 @@
 import { create } from "zustand";
-import { CanonSlice, GameState } from "types";
-import { createCanonSlice } from "./useCanonStore";
+import { GameState, CanonSlice, OgreSlice } from "types";
 import { createGameSlice } from "./useGameStore";
+import { createCanonSlice } from "./useCanonStore";
+import { createOgreSlice } from "./useOgreStore";
 
-const useGameStore = create<CanonSlice & GameState>()((...a) => ({
+const useGameStore = create<GameState & CanonSlice & OgreSlice>()((...a) => ({
+  ...createGameSlice(...a),
   ...createCanonSlice(...a),
-  ...createGameSlice(...a)
+  ...createOgreSlice(...a),
 }));
 
-export default useGameStore
+export default useGameStore;

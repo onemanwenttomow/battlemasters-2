@@ -2,14 +2,10 @@ import { StateCreator } from "zustand";
 import { GameState, CanonSlice, UnitId, CanonTile } from "types";
 
 import canonCards from "lib/cards/canonCards";
-import {
-  shuffle,
-  getCanonPath,
-  filterDefeatedUnits,
-} from "lib/utils";
+import { shuffle, getCanonPath, filterDefeatedUnits } from "lib/utils";
 
 export const createCanonSlice: StateCreator<
-  CanonSlice & GameState,
+  GameState & CanonSlice,
   [],
   [],
   CanonSlice
@@ -39,14 +35,14 @@ export const createCanonSlice: StateCreator<
         src: card,
         offset: canonPath[i],
         revealed: false,
-        isTarget: i === newCanonCards.length - 1
+        isTarget: i === newCanonCards.length - 1,
       })
     );
 
     set({
       canonTiles,
       possibleAttacks: !preview ? [] : get().possibleAttacks,
-      canonTilesSet: preview ? false : true
+      canonTilesSet: preview ? false : true,
     });
   },
 
@@ -85,10 +81,7 @@ export const createCanonSlice: StateCreator<
       damage = 1;
     }
 
-    const possibleUnitUnderCanon = get().getUnitByCoords(
-      offset[0],
-      offset[1]
-    );
+    const possibleUnitUnderCanon = get().getUnitByCoords(offset[0], offset[1]);
     if (possibleUnitUnderCanon) {
       possibleUnitUnderCanon.damageSustained += damage;
     }
@@ -100,7 +93,7 @@ export const createCanonSlice: StateCreator<
 
     set({
       canonTiles: updatedCanonTiles,
-      units
+      units,
     });
   },
 
@@ -114,7 +107,7 @@ export const createCanonSlice: StateCreator<
       revealed: false,
       isTarget: false,
       src: randomCard,
-      offset: [canon.x, canon.y]
+      offset: [canon.x, canon.y],
     } as CanonTile;
 
     set({ canonMisFire: canonMisFireTile });
@@ -124,7 +117,7 @@ export const createCanonSlice: StateCreator<
     const prevCanonMisFire = get().canonMisFire as CanonTile;
     const canonMisFire = {
       ...prevCanonMisFire,
-      revealed: true
+      revealed: true,
     } as CanonTile;
 
     set({ canonMisFire });
@@ -143,8 +136,8 @@ export const createCanonSlice: StateCreator<
     setTimeout(() => {
       set({
         canonMisFire: null,
-        units: get().units.filter(filterDefeatedUnits)
+        units: get().units.filter(filterDefeatedUnits),
       });
     }, 3000);
-  }
+  },
 });

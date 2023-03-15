@@ -8,7 +8,6 @@ export interface GameState {
   canPositionPreStart: boolean;
   playingCards: PlayingCards;
   playedCards: PlayingCards;
-  ogreCards: OgreCard[];
   gameStarted: boolean;
   possibleMoves: Offset[];
   possibleAttacks: Offset[];
@@ -29,7 +28,6 @@ export interface GameState {
   skipAttack: (id: UnitId) => void;
   startBattle: (attackingId: UnitId, defendingId: UnitId) => void;
   endBattle: (attackingUnitId: UnitId, defendingUnitId: UnitId) => void;
-  drawOgreCard: () => void;
   setPreGameActiveUnit: (id: UnitId, army: Army) => void;
   randomiseUnits: (army: Army) => void;
 }
@@ -44,6 +42,10 @@ export interface CanonSlice {
   canonMisfireReveal: () => void;
 }
 
+export interface OgreSlice {
+  ogreCards: OgreCard[];
+  drawOgreCard: () => void;
+}
 
 export interface StartingZones {
   Imperial: {

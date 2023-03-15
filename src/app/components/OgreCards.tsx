@@ -1,6 +1,5 @@
 import Image from "next/image";
 import useStore from "hooks/useStore";
-import { OgreCard } from "types";
 import { getCurrentOgreCard } from "lib/utils";
 
 export default function OgreCards() {

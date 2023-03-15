@@ -3,20 +3,20 @@ import { StateCreator } from "zustand";
 import { campaigns } from "lib/campaigns";
 import units, { canEnterTower } from "lib/units";
 import playingCards from "lib/cards/cards";
-import ogreCards from "lib/cards/ogreCards";
 import {
   getPossibleStartingMoves,
-  getRandomStartingPositions
+  getRandomStartingPositions,
 } from "lib/utils";
 
 import {
   GameState,
+  CanonSlice,
+  OgreSlice,
   Unit,
   PlayingCards,
   Offset,
   UnitId,
   CampaignId,
-  CanonSlice
 } from "types";
 
 import {
@@ -27,11 +27,11 @@ import {
   filterDefeatedUnits,
   getCurrentOgreCard,
   isTowerTile,
-  isDitchTile
+  isDitchTile,
 } from "lib/utils";
 
 export const createGameSlice: StateCreator<
-  GameState & CanonSlice,
+  GameState & CanonSlice & OgreSlice,
   [],
   [],
   GameState
@@ -39,7 +39,7 @@ export const createGameSlice: StateCreator<
   board: [],
   startingZones: {
     Imperial: { x: 0, y: [] },
-    Chaos: { x: 0, y: [] }
+    Chaos: { x: 0, y: [] },
   },
   units,
   activeUnit: null,
@@ -48,7 +48,6 @@ export const createGameSlice: StateCreator<
   canPositionPreStart: false,
   playingCards,
   playedCards: [],
-  ogreCards: shuffle(ogreCards),
   gameStarted: false,
   possibleMoves: [],
   possibleAttacks: [],
@@ -64,7 +63,7 @@ export const createGameSlice: StateCreator<
       board,
       startingZones,
       canRandomise,
-      canPositionPreStart
+      canPositionPreStart,
     } = campaigns[id];
     const fullUnits = get().units;
     const units = fullUnits.map((unit) => {
@@ -74,7 +73,7 @@ export const createGameSlice: StateCreator<
       return {
         ...unit,
         x,
-        y
+        y,
       };
     });
 
@@ -88,9 +87,9 @@ export const createGameSlice: StateCreator<
       units: get().units.map((unit) => {
         return {
           ...unit,
-          isActive: get().playingCards[0].ids.includes(unit.id)
+          isActive: get().playingCards[0].ids.includes(unit.id),
         };
-      }) as Unit[]
+      }) as Unit[],
     })),
 
   drawNextCard: () => {
@@ -102,7 +101,7 @@ export const createGameSlice: StateCreator<
 
     const playedCards = [
       ...get().playedCards,
-      newPlayingCards.shift()
+      newPlayingCards.shift(),
     ] as PlayingCards;
 
     const activeUnits = get().units.map((unit) => {
@@ -110,7 +109,7 @@ export const createGameSlice: StateCreator<
         ...unit,
         isActive: newPlayingCards[0].ids.includes(unit.id),
         hasMoved: false,
-        hasAttacked: false
+        hasAttacked: false,
       };
     }) as Unit[];
 
@@ -119,9 +118,9 @@ export const createGameSlice: StateCreator<
         ogreCards: shuffle([
           ...get().ogreCards.map((card) => ({
             ...card,
-            revealed: false
-          }))
-        ])
+            revealed: false,
+          })),
+        ]),
       });
     }
 
@@ -132,20 +131,15 @@ export const createGameSlice: StateCreator<
       possibleAttacks: [],
       activeUnit: null,
       units: activeUnits,
-      addUnitToBoard: false
+      addUnitToBoard: false,
     });
   },
 
   setPreGameActiveUnit: (id, army) => {
     const { x, y } = get().startingZones[army];
 
-    const possibleMoves = getPossibleStartingMoves(
-      get().board,
-      y,
-      x
-    ).filter(
-      ([x, y]) =>
-        !get().units.find((unit) => unit.x === x && unit.y === y)
+    const possibleMoves = getPossibleStartingMoves(get().board, y, x).filter(
+      ([x, y]) => !get().units.find((unit) => unit.x === x && unit.y === y)
     );
 
     const units = get().units.map((unit) => {
@@ -163,16 +157,16 @@ export const createGameSlice: StateCreator<
       activeUnit: id,
       addUnitToBoard: true,
       units,
-      ogreCards
+      ogreCards,
     });
   },
 
   randomiseUnits: (army) => {
     const unitsNotOnBoard = [
-      ...get().units.filter((unit) => unit.x === null || unit.y === null)
+      ...get().units.filter((unit) => unit.x === null || unit.y === null),
     ];
     const unitsAlreadyAdded = [
-      ...get().units.filter((unit) => unit.army === army && unit.x)
+      ...get().units.filter((unit) => unit.army === army && unit.x),
     ];
 
     const { x, y } = get().startingZones[army];
@@ -189,16 +183,14 @@ export const createGameSlice: StateCreator<
     const unitsRandomPositions = unitsNotOnBoard.map((unit, i) => ({
       ...unit,
       x: unitsWithPositions[i][0],
-      y: unitsWithPositions[i][1]
+      y: unitsWithPositions[i][1],
     }));
 
     set({
       units: get().units.map((unit) => {
-        const foundUnit = unitsRandomPositions.find(
-          (u) => u.id === unit.id
-        );
+        const foundUnit = unitsRandomPositions.find((u) => u.id === unit.id);
         return foundUnit ? foundUnit : unit;
-      })
+      }),
     });
   },
 
@@ -212,26 +204,15 @@ export const createGameSlice: StateCreator<
 
     let possibleMoves: Offset[] = [];
     if (activeUnit && !hasMoved) {
-      possibleMoves = findNeighbours(
-        x,
-        y,
-        get().playingCards[0],
-        get().board
-      )
+      possibleMoves = findNeighbours(x, y, get().playingCards[0], get().board)
         // check if tile is occupied by another unit
         .filter(
-          ([x, y]) =>
-            !get().units.find(
-              (unit) => unit.x === x && unit.y === y
-            )
+          ([x, y]) => !get().units.find((unit) => unit.x === x && unit.y === y)
         )
         // check if unit can enter tower...
         .filter(
           (potentialMove) =>
-            !(
-              isTowerTile(potentialMove, board) &&
-              !canEnterTower.includes(id)
-            )
+            !(isTowerTile(potentialMove, board) && !canEnterTower.includes(id))
         );
     }
 
@@ -241,10 +222,7 @@ export const createGameSlice: StateCreator<
     }
 
     if (activeUnit.id === "grimorg") {
-      const currentCard = get().ogreCards.reduceRight(
-        getCurrentOgreCard,
-        null
-      );
+      const currentCard = get().ogreCards.reduceRight(getCurrentOgreCard, null);
       if (currentCard?.src === "/ogre-cards/ogre-move-card.png") {
         possibleAttacks = [];
       }
@@ -254,7 +232,7 @@ export const createGameSlice: StateCreator<
       activeUnit: id,
       possibleMoves,
       possibleAttacks,
-      addUnitToBoard: false
+      addUnitToBoard: false,
     });
   },
 
@@ -277,7 +255,7 @@ export const createGameSlice: StateCreator<
           x,
           y,
           hasMoved: true,
-          hasAttacked: !!possibleAttacks.length
+          hasAttacked: !!possibleAttacks.length,
         };
       }
       return unit;
@@ -289,7 +267,7 @@ export const createGameSlice: StateCreator<
       possibleAttacks:
         activeUnitId === "grimorg" || activeUnitId === "canon"
           ? []
-          : possibleAttacks
+          : possibleAttacks,
     });
   },
 
@@ -303,7 +281,7 @@ export const createGameSlice: StateCreator<
       if (unit.id === id) {
         return {
           ...unit,
-          hasMoved: true
+          hasMoved: true,
         };
       }
       return unit;
@@ -319,7 +297,7 @@ export const createGameSlice: StateCreator<
       if (unit.id === id) {
         return {
           ...unit,
-          hasAttacked: true
+          hasAttacked: true,
         };
       }
       return unit;
@@ -374,10 +352,10 @@ export const createGameSlice: StateCreator<
 
     const attackingDice = generateDice(
       attackingUnit.combatValue +
-      extraDice +
-      towerAttackBonus -
-      towerDefenseBonus +
-      ditchAttack
+        extraDice +
+        towerAttackBonus -
+        towerDefenseBonus +
+        ditchAttack
     );
     const defendingDice = generateDice(
       defendingUnit.combatValue + ditchDefense
@@ -388,7 +366,7 @@ export const createGameSlice: StateCreator<
       attackingUnitId,
       defendingUnitId,
       attackingDice,
-      defendingDice
+      defendingDice,
     });
   },
 
@@ -414,7 +392,7 @@ export const createGameSlice: StateCreator<
         } else if (unit.id === defendingUnitId) {
           return {
             ...unit,
-            damageSustained: unit.damageSustained + totalDamage
+            damageSustained: unit.damageSustained + totalDamage,
           };
         }
         return unit;
@@ -428,47 +406,8 @@ export const createGameSlice: StateCreator<
       units,
       possibleAttacks: [],
       attackingDice: [],
-      defendingDice: []
+      defendingDice: [],
     });
-  },
-
-  drawOgreCard: () => {
-    const nextCard = get().ogreCards.find((card) => !card.revealed);
-    if (!nextCard) return;
-
-    const grimorg = { ...get().getUnitById("grimorg") };
-    const currentCard = { ...get().playingCards[0] };
-
-    if (nextCard.src === "/ogre-cards/ogre-attack-card.png") {
-      grimorg.hasMoved = true;
-      grimorg.hasAttacked = false;
-      currentCard.moves = 0;
-    }
-    if (nextCard.src === "/ogre-cards/ogre-move-card.png") {
-      grimorg.hasMoved = false;
-      currentCard.moves = 1;
-    }
-
-    const playingCards = get().playingCards.map((card, i) =>
-      i === 0 ? currentCard : card
-    );
-
-    const units = get().units.map((unit) =>
-      unit.id === "grimorg" ? grimorg : unit
-    );
-
-    const ogreCards = get().ogreCards.map((card) => {
-      if (nextCard === card) {
-        return {
-          ...card,
-          revealed: true
-        };
-      }
-      return card;
-    });
-
-    set({ ogreCards, units, playingCards });
-    get().setActiveUnit("grimorg");
   },
 
   getUnitById: (id: UnitId) =>
@@ -476,6 +415,5 @@ export const createGameSlice: StateCreator<
   getUnitByCoords: (x: number, y: number) =>
     get().units.find((unit) => unit.x === x && unit.y === y),
   tileHasUnit: (x: number, y: number) =>
-    get().units.some((unit) => unit.x === x && unit.y === y)
+    get().units.some((unit) => unit.x === x && unit.y === y),
 });
-
