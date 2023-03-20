@@ -19,6 +19,14 @@ export const canEnterTower: UnitId[] = [
   "fellmoors",
 ];
 
+export const archersAndCrossbow: UnitId[] = [
+  "grunberg-archers",
+  "bogenhaffen",
+  "melgar",
+  "doomguard",
+  "fellmoors",
+];
+
 const units: Unit[] = [
   {
     name: "The Mighty Canon",

@@ -1,7 +1,7 @@
 import { StateCreator } from "zustand";
 
 import { campaigns } from "lib/campaigns";
-import units, { canEnterTower } from "lib/units";
+import units, { canEnterTower, archersAndCrossbow } from "lib/units";
 import playingCards from "lib/cards/cards";
 import {
   getPossibleStartingMoves,
@@ -326,14 +326,12 @@ export const createGameSlice: StateCreator<
       isDitchTile([defendingUnit.x, defendingUnit.y], board) ||
       isDitchTile([attackingUnit.x, attackingUnit.y], board);
 
-    // TODO fix attacking vs defending ditch
     // person attacking over ditch gets one less
     // person defending over ditch gets one more.
     let ditchDefense = 0;
     let ditchAttack = 0;
-    // TODO isDitch attack does not apply if archer...
     if (isDitch) {
-      ditchAttack = -1;
+      ditchAttack = archersAndCrossbow.includes(attackingUnit.id) ? 0 : -1;
       ditchDefense = 1;
     }
 
