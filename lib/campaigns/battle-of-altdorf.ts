@@ -14,7 +14,7 @@ export const board = [
   ["ro", "g", "g", "ro", "ro", "g", "g", "ro", "ro", "g", "g", "ro"],
   ["g", "ro", "g", "ro", "g", "ro", "g", "ro", "g", "ro", "g", "ro", "g"],
   ["g", "ro", "ro", "g", "g", "ro", "ro", "g", "g", "ro", "ro", "g"],
-  ["g", "g", "ro", "g", "g", "g", "ro", "g", "g", "di", "ro", "g", "g"],
+  ["g", "g", "ro", "g", "g", "g", "ro", "g", "g", "g", "ro", "g", "g"],
   ["g", "g", "ro", "to", "g", "g", "ro", "g", "g", "g", "ro", "g"],
   ["g", "g", "g", "ro", "g", "g", "g", "ro", "g", "g", "g", "ro", "g"],
   ["g", "g", "ro", "sw", "sw", "g", "ro", "g", "g", "g", "ro", "g"],

@@ -3,12 +3,12 @@ import { Card, Cube, Offset, OgreCard, Tile, Unit } from "types";
 export function generateDice(num: number) {
   return [...Array.from(Array(num))].map((x, i) => ({
     id: i,
-    value: generateRandomNumber(6),
+    value: generateRandomNumber(6, 1),
   }));
 }
 
-export function generateRandomNumber(max: number, min = 1) {
-  return Math.floor(max * Math.random()) + min;
+export function generateRandomNumber(max: number, min = 0) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
 }
 
 export function shuffle<Type>(array: Type[]): Type[] {
@@ -269,13 +269,14 @@ export function getRandomStartingPositions(
 
   while (unitsWithPositions.length < numberNotOnBoard) {
     // generate a random row
-    const row = generateRandomNumber(Math.max(...y) + 1, Math.min(...y));
+    const row = generateRandomNumber(Math.max(...y), Math.min(...y));
     // generate a random x
     const x = generateRandomNumber(board[row].length, 0);
     // check if unit has already been given that position, and if not push it into array.
     if (
       !unitsWithPositions.find((pos) => pos[0] === x && pos[1] === row) &&
-      !unitsAlreadyAdded.find((unit) => unit.x === x && unit.y === row)
+      !unitsAlreadyAdded.find((unit) => unit.x === x && unit.y === row) &&
+      !isBlocked([x, row], board)
     ) {
       unitsWithPositions.push([x, row]);
     }
