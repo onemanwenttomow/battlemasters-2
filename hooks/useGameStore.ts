@@ -164,7 +164,6 @@ export const createGameSlice: StateCreator<
   },
 
   randomiseUnits: (army) => {
-    console.log("army", army);
     // TODO fix randomise for cols
 
     const unitsNotOnBoard = [
