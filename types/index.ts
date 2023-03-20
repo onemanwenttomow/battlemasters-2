@@ -152,7 +152,9 @@ export interface CanonTile {
 export type CampaignId =
   | "battle-of-the-borderlands"
   | "battle-of-the-river-tengin"
-  | "battle-on-the-road-to-grunberg";
+  | "battle-on-the-road-to-grunberg"
+  | "battle-of-the-plains"
+  | "battle-of-altdorf";
 
 export interface Campaign {
   title: string;

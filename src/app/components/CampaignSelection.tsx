@@ -8,6 +8,14 @@ const campaigns: Campaign[] = [
     title: "Battle on the Road to Grunberg",
     id: "battle-on-the-road-to-grunberg",
   },
+  {
+    title: "Battle of the Plains",
+    id: "battle-of-the-plains",
+  },
+  {
+    title: "Battle of Altdorf",
+    id: "battle-of-altdorf",
+  },
 ];
 
 export default function CampaignSelection() {

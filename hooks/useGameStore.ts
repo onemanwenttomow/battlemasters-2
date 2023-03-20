@@ -138,6 +138,8 @@ export const createGameSlice: StateCreator<
   setPreGameActiveUnit: (id, army) => {
     const { x, y } = get().startingZones[army];
 
+    // TODO fix to include halfs (i.e. battle of plains every second row 5/6/5/6)
+    // or provide a array of possible starting positions in the campaign itself...
     const possibleMoves = getPossibleStartingMoves(get().board, y, x).filter(
       ([x, y]) => !get().units.find((unit) => unit.x === x && unit.y === y)
     );
@@ -162,8 +164,13 @@ export const createGameSlice: StateCreator<
   },
 
   randomiseUnits: (army) => {
+    console.log("army", army);
+    // TODO fix randomise for cols
+
     const unitsNotOnBoard = [
-      ...get().units.filter((unit) => unit.x === null || unit.y === null),
+      ...get()
+        .units.filter((unit) => unit.x === null || unit.y === null)
+        .filter((unit) => unit.army === army),
     ];
     const unitsAlreadyAdded = [
       ...get().units.filter((unit) => unit.army === army && unit.x),
