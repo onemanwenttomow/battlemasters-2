@@ -261,24 +261,23 @@ export function isDitchTile(offset: Offset, board: Array<Array<Tile>>) {
 
 export function getRandomStartingPositions(
   numberNotOnBoard: number,
-  y: number[],
-  board: Array<Array<Tile>>,
+  possibleMoves: Offset[],
   unitsAlreadyAdded: Unit[]
 ) {
   const unitsWithPositions: Offset[] = [];
 
+
   while (unitsWithPositions.length < numberNotOnBoard) {
-    // generate a random row
-    const row = generateRandomNumber(Math.max(...y), Math.min(...y));
-    // generate a random x
-    const x = generateRandomNumber(board[row].length, 0);
+    // random index
+    const randomIndex = generateRandomNumber(possibleMoves.length - 1);
+    const [x, row] = possibleMoves[randomIndex];
     // check if unit has already been given that position, and if not push it into array.
     if (
       !unitsWithPositions.find((pos) => pos[0] === x && pos[1] === row) &&
-      !unitsAlreadyAdded.find((unit) => unit.x === x && unit.y === row) &&
-      !isBlocked([x, row], board)
+      !unitsAlreadyAdded.find((unit) => unit.x === x && unit.y === row)
     ) {
       unitsWithPositions.push([x, row]);
+      possibleMoves.splice(randomIndex, 1);
     }
   }
 

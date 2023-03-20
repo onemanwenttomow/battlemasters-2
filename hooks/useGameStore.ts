@@ -164,25 +164,22 @@ export const createGameSlice: StateCreator<
   },
 
   randomiseUnits: (army) => {
-    // TODO fix randomise for cols
-
-    const unitsNotOnBoard = [
-      ...get()
-        .units.filter((unit) => unit.x === null || unit.y === null)
-        .filter((unit) => unit.army === army),
-    ];
-    const unitsAlreadyAdded = [
-      ...get().units.filter((unit) => unit.army === army && unit.x),
-    ];
-
+    const units = get().units;
+    const unitsNotOnBoard = units
+      .filter((unit) => unit.x === null || unit.y === null)
+      .filter((unit) => unit.army === army);
+    const unitsAlreadyAdded = units.filter((unit) => unit.army === army && unit.x);
     const { x, y } = get().startingZones[army];
     const board = get().board;
-    const num = unitsNotOnBoard.length;
+    
+    const possibleMoves = getPossibleStartingMoves(board, y, x).filter(
+      ([x, y]) =>
+        !units.find((unit) => unit.x === x && unit.y === y)
+    );
 
     const unitsWithPositions = getRandomStartingPositions(
-      num,
-      y,
-      board,
+      unitsNotOnBoard.length,
+      possibleMoves,
       unitsAlreadyAdded
     );
 
@@ -193,7 +190,7 @@ export const createGameSlice: StateCreator<
     }));
 
     set({
-      units: get().units.map((unit) => {
+      units: units.map((unit) => {
         const foundUnit = unitsRandomPositions.find((u) => u.id === unit.id);
         return foundUnit ? foundUnit : unit;
       }),
@@ -356,10 +353,10 @@ export const createGameSlice: StateCreator<
 
     const attackingDice = generateDice(
       attackingUnit.combatValue +
-        extraDice +
-        towerAttackBonus -
-        towerDefenseBonus +
-        ditchAttack
+      extraDice +
+      towerAttackBonus -
+      towerDefenseBonus +
+      ditchAttack
     );
     const defendingDice = generateDice(
       defendingUnit.combatValue + ditchDefense
