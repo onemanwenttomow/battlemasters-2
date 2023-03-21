@@ -46,7 +46,7 @@ export const createGameSlice: StateCreator<
   addUnitToBoard: false,
   canRandomise: false,
   canPositionPreStart: false,
-  playingCards,
+  playingCards: [],
   playedCards: [],
   gameStarted: false,
   possibleMoves: [],
@@ -77,7 +77,14 @@ export const createGameSlice: StateCreator<
       };
     });
 
-    set({ board, units, startingZones, canRandomise, canPositionPreStart });
+    set({
+      board,
+      units,
+      startingZones,
+      canRandomise,
+      canPositionPreStart,
+      playingCards: shuffle(playingCards)
+    });
   },
 
   shufflePlayingCards: () =>
@@ -128,6 +135,7 @@ export const createGameSlice: StateCreator<
       addUnitToBoard: false,
     });
   },
+
   setPreGameActiveUnit: (id, army) => {
     const { x, y } = get().startingZones[army];
 
@@ -347,10 +355,10 @@ export const createGameSlice: StateCreator<
 
     const attackingDice = generateDice(
       attackingUnit.combatValue +
-        extraDice +
-        towerAttackBonus -
-        towerDefenseBonus +
-        ditchAttack
+      extraDice +
+      towerAttackBonus -
+      towerDefenseBonus +
+      ditchAttack
     );
     const defendingDice = generateDice(
       defendingUnit.combatValue + ditchDefense

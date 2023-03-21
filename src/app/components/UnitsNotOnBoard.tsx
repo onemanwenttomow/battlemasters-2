@@ -29,7 +29,7 @@ function ArmyNotOnBoard({ army, unitsNotOnBoard }: Props) {
     setPreGameActiveUnit,
     randomiseUnits,
   } = useGameStore((store) => store);
-  const activeCard = useGameStore((store) => store.playingCards[0]);
+  const activeCard = useGameStore((store) => store.playedCards[0]);
 
   const armyNotOnBoard = unitsNotOnBoard.filter((unit) => unit.army === army);
 
