@@ -84,12 +84,6 @@ export const createGameSlice: StateCreator<
     set((state) => ({
       playingCards: shuffle(state.playingCards),
       gameStarted: true,
-      units: get().units.map((unit) => {
-        return {
-          ...unit,
-          isActive: get().playingCards[0].ids.includes(unit.id),
-        };
-      }) as Unit[],
     })),
 
   drawNextCard: () => {
@@ -100,20 +94,20 @@ export const createGameSlice: StateCreator<
         : [...get().playingCards];
 
     const playedCards = [
-      ...get().playedCards,
       newPlayingCards.shift(),
+      ...get().playedCards,
     ] as PlayingCards;
 
     const activeUnits = get().units.map((unit) => {
       return {
         ...unit,
-        isActive: newPlayingCards[0].ids.includes(unit.id),
+        isActive: playedCards[0].ids.includes(unit.id),
         hasMoved: false,
         hasAttacked: false,
       };
     }) as Unit[];
 
-    if (newPlayingCards[0].ids.includes("grimorg")) {
+    if (playedCards[0].ids.includes("grimorg")) {
       set({
         ogreCards: shuffle([
           ...get().ogreCards.map((card) => ({
@@ -134,7 +128,6 @@ export const createGameSlice: StateCreator<
       addUnitToBoard: false,
     });
   },
-
   setPreGameActiveUnit: (id, army) => {
     const { x, y } = get().startingZones[army];
 
@@ -168,13 +161,14 @@ export const createGameSlice: StateCreator<
     const unitsNotOnBoard = units
       .filter((unit) => unit.x === null || unit.y === null)
       .filter((unit) => unit.army === army);
-    const unitsAlreadyAdded = units.filter((unit) => unit.army === army && unit.x);
+    const unitsAlreadyAdded = units.filter(
+      (unit) => unit.army === army && unit.x
+    );
     const { x, y } = get().startingZones[army];
     const board = get().board;
-    
+
     const possibleMoves = getPossibleStartingMoves(board, y, x).filter(
-      ([x, y]) =>
-        !units.find((unit) => unit.x === x && unit.y === y)
+      ([x, y]) => !units.find((unit) => unit.x === x && unit.y === y)
     );
 
     const unitsWithPositions = getRandomStartingPositions(
@@ -207,7 +201,7 @@ export const createGameSlice: StateCreator<
 
     let possibleMoves: Offset[] = [];
     if (activeUnit && !hasMoved) {
-      possibleMoves = findNeighbours(x, y, get().playingCards[0], get().board)
+      possibleMoves = findNeighbours(x, y, get().playedCards[0], get().board)
         // check if tile is occupied by another unit
         .filter(
           ([x, y]) => !get().units.find((unit) => unit.x === x && unit.y === y)
@@ -321,7 +315,7 @@ export const createGameSlice: StateCreator<
       return;
     }
 
-    const { extraDice } = get().playingCards[0];
+    const { extraDice } = get().playedCards[0];
     const board = get().board;
 
     // DITCH bonus
@@ -353,10 +347,10 @@ export const createGameSlice: StateCreator<
 
     const attackingDice = generateDice(
       attackingUnit.combatValue +
-      extraDice +
-      towerAttackBonus -
-      towerDefenseBonus +
-      ditchAttack
+        extraDice +
+        towerAttackBonus -
+        towerDefenseBonus +
+        ditchAttack
     );
     const defendingDice = generateDice(
       defendingUnit.combatValue + ditchDefense

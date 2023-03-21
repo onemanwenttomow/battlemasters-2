@@ -266,7 +266,6 @@ export function getRandomStartingPositions(
 ) {
   const unitsWithPositions: Offset[] = [];
 
-
   while (unitsWithPositions.length < numberNotOnBoard) {
     // random index
     const randomIndex = generateRandomNumber(possibleMoves.length - 1);

@@ -17,7 +17,7 @@ export const createOgreSlice: StateCreator<
     if (!nextCard) return;
 
     const grimorg = { ...get().getUnitById("grimorg") };
-    const currentCard = { ...get().playingCards[0] };
+    const currentCard = { ...get().playedCards[0] };
 
     if (nextCard.src === "/ogre-cards/ogre-attack-card.png") {
       grimorg.hasMoved = true;
@@ -29,7 +29,7 @@ export const createOgreSlice: StateCreator<
       currentCard.moves = 1;
     }
 
-    const playingCards = get().playingCards.map((card, i) =>
+    const playedCards = get().playingCards.map((card, i) =>
       i === 0 ? currentCard : card
     );
 
@@ -47,7 +47,7 @@ export const createOgreSlice: StateCreator<
       return card;
     });
 
-    set({ ogreCards, units, playingCards });
+    set({ ogreCards, units, playedCards });
     get().setActiveUnit("grimorg");
   },
 });

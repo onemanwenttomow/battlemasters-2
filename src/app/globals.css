@@ -22,6 +22,19 @@ main {
   }
 }
 
+.card-move-flip {
+  animation: flip 300ms forwards;
+}
+
+@keyframes flip {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(100%) rotateY(180deg);
+  }
+}
+
 .dice {
   transform: translateZ(-25px);
   transition: transform 1s;

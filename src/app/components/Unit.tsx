@@ -19,7 +19,7 @@ export default function UnitImage({ x, y }: Props) {
     possibleAttacks,
   } = useStore((state) => state);
 
-  const activeCard = useStore((store) => store.playingCards[0]);
+  const activeCard = useStore((store) => store.playedCards[0]);
   const unit = getUnitByCoords(x, y) as Unit;
   const isActive = gameStarted && activeCard?.ids.includes(unit.id);
   const attackingUnit = units.find((unit) => unit.id === activeUnit) as Unit;
