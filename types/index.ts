@@ -2,6 +2,7 @@ export interface GameState {
   board: Array<Array<Tile>>;
   startingZones: StartingZones;
   units: Unit[];
+  defeatedUnits: Unit[];
   activeUnit: UnitId | null;
   addUnitToBoard: boolean;
   canRandomise: boolean;

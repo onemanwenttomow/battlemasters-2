@@ -87,6 +87,10 @@ export const createCanonSlice: StateCreator<
     }
 
     const units = get().units.filter(filterDefeatedUnits);
+    const defeatedUnits = [
+        ...get().defeatedUnits,
+        ...get().units.filter((unit) => !filterDefeatedUnits(unit))
+    ];
     const updatedCanonTiles = get().canonTiles.map((tile, i) =>
       i === idx ? { ...tile, revealed: true } : tile
     );
@@ -94,6 +98,7 @@ export const createCanonSlice: StateCreator<
     set({
       canonTiles: updatedCanonTiles,
       units,
+      defeatedUnits
     });
   },
 
@@ -137,6 +142,7 @@ export const createCanonSlice: StateCreator<
       set({
         canonMisFire: null,
         units: get().units.filter(filterDefeatedUnits),
+        defeatedUnits: [...get().defeatedUnits,...get().units.filter((unit) => !filterDefeatedUnits(unit))]
       });
     }, 3000);
   },

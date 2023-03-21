@@ -7,13 +7,10 @@ import useGameStore from "hooks/useStore";
 import OgreCards from "./components/OgreCards";
 import CampaignSelection from "./components/CampaignSelection";
 import UnitsNotOnBoard from "./components/UnitsNotOnBoard";
+import DefeatedUnits from "./components/DefetatedUnits";
 
 export default function Home() {
-  const { battleInProgress, units, board } = useGameStore((store) => store);
-
-  const allUnitsOnBoard = units.every(
-    (unit) => unit.x !== null && unit.y !== null
-  );
+  const { battleInProgress, board } = useGameStore((store) => store);
 
   return (
     <main className="p-4 grid grid-cols-[_1fr_1fr]">
@@ -23,8 +20,8 @@ export default function Home() {
         <Cards />
         <CurrentTurn />
         <OgreCards />
-        <h2>All units on board: {allUnitsOnBoard.toString()}</h2>
         {!!board.length && <UnitsNotOnBoard />}
+        <DefeatedUnits />
       </div>
     </main>
   );

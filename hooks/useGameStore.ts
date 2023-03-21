@@ -17,6 +17,7 @@ import {
   Offset,
   UnitId,
   CampaignId,
+  Army,
 } from "types";
 
 import {
@@ -42,6 +43,7 @@ export const createGameSlice: StateCreator<
     Chaos: { x: 0, y: [] },
   },
   units,
+  defeatedUnits: [],
   activeUnit: null,
   addUnitToBoard: false,
   canRandomise: false,
@@ -400,13 +402,13 @@ export const createGameSlice: StateCreator<
         }
         return unit;
       })
-      .filter(filterDefeatedUnits);
 
     set({
       battleInProgress: false,
       defendingUnitId: null,
       attackingUnitId: null,
-      units,
+      units: units.filter(filterDefeatedUnits),
+      defeatedUnits:  [...get().defeatedUnits,...units.filter((unit) => !filterDefeatedUnits(unit))],
       possibleAttacks: [],
       attackingDice: [],
       defendingDice: [],
