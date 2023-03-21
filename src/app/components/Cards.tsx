@@ -5,7 +5,7 @@ import CardFlip from "./CardFlip";
 
 export default function Cards() {
   const [cardsShuffled, setCardsShuffled] = useState(false);
-  const [clicked, setClicked] = useState(false);
+  const [animating, setAnimating] = useState(false);
 
   const { shufflePlayingCards, drawNextCard, playedCards, playingCards } =
     useStore((store) => store);
@@ -25,10 +25,10 @@ export default function Cards() {
   }, [shufflePlayingCards]);
 
   function handleClick() {
-    setClicked(true);
+    setAnimating(true);
     setTimeout(() => {
       drawNextCard();
-      setClicked(false);
+      setAnimating(false);
     }, 200);
   }
 
@@ -53,7 +53,7 @@ export default function Cards() {
             height={130}
             backSrc="/cards/card-back.png"
             frontSrc={nextCard.img}
-            clicked={clicked}
+            animating={animating}
             handleClick={handleClick}
           />
         )}

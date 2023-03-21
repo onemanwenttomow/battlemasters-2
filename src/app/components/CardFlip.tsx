@@ -5,7 +5,7 @@ interface Props {
   height: number;
   backSrc: string;
   frontSrc: string;
-  clicked: boolean;
+  animating: boolean;
   handleClick?: () => void;
 }
 
@@ -14,7 +14,7 @@ export default function CardFlip({
   height,
   backSrc,
   frontSrc,
-  clicked,
+  animating,
   handleClick,
 }: Props) {
   return (
@@ -25,7 +25,7 @@ export default function CardFlip({
     >
       <div
         className={`relative preserve-3d w-full h-full duration-300 ${
-          clicked ? "card-move-flip" : ""
+          animating ? "card-move-flip" : ""
         }`}
       >
         <div className="absolute backface-hidden w-full h-full">
