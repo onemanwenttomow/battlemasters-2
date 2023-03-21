@@ -2,9 +2,8 @@ import Image from "next/image";
 import { CanonTile } from "types";
 import useStore from "hooks/useStore";
 
-
 interface Props {
-  canonTile: CanonTile
+  canonTile: CanonTile;
 }
 
 export default function CanonTileImage({ canonTile }: Props) {
@@ -15,7 +14,6 @@ export default function CanonTileImage({ canonTile }: Props) {
   if (isTarget && !isBack) {
     src = "/canon-cards/canon-explosion.png";
   }
-
 
   if (isBack && !isTarget) {
     return (
@@ -34,7 +32,7 @@ export default function CanonTileImage({ canonTile }: Props) {
       width="32"
       className="rounded-full absolute top-4 left-4 brightness-125 cursor-pointer"
       onClick={() => canonTile?.isTarget && canonTileReveal(canonTile)}
+      priority
     />
   );
 }
-

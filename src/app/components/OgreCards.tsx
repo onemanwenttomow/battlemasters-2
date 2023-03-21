@@ -31,6 +31,7 @@ export default function OgreCards() {
             alt="ogre card"
             width="200"
             height="130"
+            priority
           />
         )}
       </div>

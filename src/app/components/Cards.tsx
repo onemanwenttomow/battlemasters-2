@@ -52,6 +52,7 @@ export default function Cards() {
             alt={currentCard.ids.join(",")}
             width="200"
             height="130"
+            priority
           />
         )}
       </div>
