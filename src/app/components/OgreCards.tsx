@@ -7,15 +7,17 @@ export default function OgreCards() {
   const activeUnits = useStore((store) =>
     store.units.filter((unit) => unit.isActive)
   );
-  const ogreCardsRemaining = ogreCards.filter((card) => !card.revealed).length;
-
+  const ogreCardsRemaining = ogreCards.filter((card) => !card.revealed);
+  const ogreCardsPlayed = ogreCards.filter((card) => card.revealed);
   const currentCard = ogreCards.reduceRight(getCurrentOgreCard, null);
 
   const isGrimorg = activeUnits.map((unit) => unit.id).includes("grimorg");
 
+  // TODO add flip to ogre cards
+
   return !isGrimorg ? null : (
     <>
-      <h3>Ogre Cards Remaining {ogreCardsRemaining}</h3>
+      <h3>Ogre Cards Remaining {ogreCardsRemaining.length}</h3>
       <div className="flex items-start">
         <Image
           src="/ogre-cards/ogre-back.png"
@@ -31,7 +33,6 @@ export default function OgreCards() {
             alt="ogre card"
             width="200"
             height="130"
-            priority
           />
         )}
       </div>

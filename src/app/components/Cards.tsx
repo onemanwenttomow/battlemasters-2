@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Image from "next/image";
 import useStore from "hooks/useStore";
+import CardFlip from "./CardFlip";
 
 export default function Cards() {
   const [cardsShuffled, setCardsShuffled] = useState(false);
@@ -21,7 +22,7 @@ export default function Cards() {
     setTimeout(() => {
       drawNextCard();
       setClicked(false);
-    }, 300);
+    }, 400);
   }
 
   if (!cardsShuffled) {
@@ -38,46 +39,25 @@ export default function Cards() {
           height="130"
           priority
         />
+
         {nextCard && (
-          <div
-            className="absolute w-[200px] h-[130px] cursor-pointer group perspective"
-            onClick={handleClick}
-          >
-            <div
-              className={`relative preserve-3d w-full h-full duration-300 ${
-                clicked ? "card-move-flip" : ""
-              }`}
-            >
-              <div className="absolute backface-hidden w-full h-full">
-                <Image
-                  src="/cards/card-back.png"
-                  alt="back of card"
-                  width="200"
-                  height="130"
-                  priority
-                />
-              </div>
-              <div className="absolute flip backface-hidden w-full h-full">
-                <Image
-                  src={nextCard.img}
-                  alt={nextCard.ids.join(",")}
-                  width="200"
-                  height="130"
-                  priority
-                  className="absolute"
-                />
-              </div>
-            </div>
-          </div>
+          <CardFlip
+            width={200}
+            height={130}
+            backSrc="/cards/card-back.png"
+            frontSrc={nextCard.img}
+            clicked={clicked}
+            handleClick={handleClick}
+          />
         )}
         <div
           className="relative -z-50"
           style={{ width: "200px", height: "130px" }}
         >
           {playedCards
-            .slice()
+            .slice(0, 1)
             .reverse()
-            .map((card) => (
+            .map((card, i) => (
               <Image
                 key={Math.random()}
                 src={card.img}
