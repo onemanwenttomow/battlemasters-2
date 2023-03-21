@@ -405,6 +405,17 @@ export const createGameSlice: StateCreator<
     });
   },
 
+  activeUnitsTurnComplete: () => {
+    const activeUnits = get().units.filter((unit) => unit.isActive);
+    if (activeUnits.map((unit) => unit.id).includes("grimorg")) {
+      const ogreCardsRemaining = get().ogreCards.filter(
+        (card) => !card.revealed
+      );
+      return ogreCardsRemaining.length === 0;
+    }
+
+    return activeUnits.every((unit) => unit.hasAttacked && unit.hasMoved);
+  },
   getUnitById: (id: UnitId) =>
     get().units.find((unit) => unit.id === id) as Unit,
   getUnitByCoords: (x: number, y: number) =>

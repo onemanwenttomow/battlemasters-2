@@ -7,8 +7,13 @@ export default function Cards() {
   const [cardsShuffled, setCardsShuffled] = useState(false);
   const [animating, setAnimating] = useState(false);
 
-  const { shufflePlayingCards, drawNextCard, playedCards, playingCards } =
-    useStore((store) => store);
+  const {
+    shufflePlayingCards,
+    drawNextCard,
+    activeUnitsTurnComplete,
+    playedCards,
+    playingCards,
+  } = useStore((store) => store);
   const nextCard = useStore((store) => store.playingCards[0]);
 
   useEffect(() => {
@@ -25,6 +30,8 @@ export default function Cards() {
   }, [shufflePlayingCards]);
 
   function handleClick() {
+    if (!activeUnitsTurnComplete()) return;
+
     setAnimating(true);
     setTimeout(() => {
       drawNextCard();

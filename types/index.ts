@@ -30,6 +30,7 @@ export interface GameState {
   endBattle: (attackingUnitId: UnitId, defendingUnitId: UnitId) => void;
   setPreGameActiveUnit: (id: UnitId, army: Army) => void;
   randomiseUnits: (army: Army) => void;
+  activeUnitsTurnComplete: () => boolean;
 }
 
 export interface CanonSlice {
