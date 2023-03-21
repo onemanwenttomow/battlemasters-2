@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import Image from "next/image";
+import NextImage from "next/image";
 import useStore from "hooks/useStore";
 import CardFlip from "./CardFlip";
 
@@ -7,14 +7,21 @@ export default function Cards() {
   const [cardsShuffled, setCardsShuffled] = useState(false);
   const [clicked, setClicked] = useState(false);
 
-  const { shufflePlayingCards, drawNextCard, playedCards } = useStore(
-    (store) => store
-  );
+  const { shufflePlayingCards, drawNextCard, playedCards, playingCards } =
+    useStore((store) => store);
   const nextCard = useStore((store) => store.playingCards[0]);
 
   useEffect(() => {
+    if (cardsShuffled) {
+      return;
+    }
     shufflePlayingCards();
     setCardsShuffled(true);
+    // pre load images
+    playingCards.forEach((card) => {
+      const preloadImage = new Image();
+      preloadImage.src = card.img;
+    });
   }, [shufflePlayingCards]);
 
   function handleClick() {
@@ -22,7 +29,7 @@ export default function Cards() {
     setTimeout(() => {
       drawNextCard();
       setClicked(false);
-    }, 400);
+    }, 200);
   }
 
   if (!cardsShuffled) {
@@ -32,7 +39,7 @@ export default function Cards() {
   return (
     <div>
       <div className="flex items-start relative">
-        <Image
+        <NextImage
           src="/cards/card-back.png"
           alt="back of card"
           width="200"
@@ -54,20 +61,17 @@ export default function Cards() {
           className="relative -z-50"
           style={{ width: "200px", height: "130px" }}
         >
-          {playedCards
-            .slice(0, 1)
-            .reverse()
-            .map((card, i) => (
-              <Image
-                key={Math.random()}
-                src={card.img}
-                width="200"
-                height="130"
-                alt={card.ids.join(",")}
-                className="absolute"
-                priority
-              />
-            ))}
+          {playedCards.slice(0, 1).map((card, i) => (
+            <NextImage
+              key={Math.random()}
+              src={card.img}
+              width="200"
+              height="130"
+              alt={card.ids.join(",")}
+              className="absolute"
+              priority
+            />
+          ))}
         </div>
       </div>
     </div>
