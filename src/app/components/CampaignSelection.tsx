@@ -22,7 +22,7 @@ export default function CampaignSelection() {
   const { setCampaign } = useGameStore((store) => store);
 
   return (
-    <div>
+    <div className="bg-white bg-opacity-70" style={{ height: "635px" }}>
       <h2>Campaigns</h2>
       <ul>
         {campaigns.map((campaign) => (

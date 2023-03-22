@@ -19,14 +19,19 @@ export default function OgreCards() {
     <>
       <h3>Ogre Cards Remaining {ogreCardsRemaining.length}</h3>
       <div className="flex items-start">
-        <Image
-          src="/ogre-cards/ogre-back.png"
-          alt="back of card"
-          width="200"
-          height="130"
-          onClick={drawOgreCard}
-          priority
-        />
+        {ogreCardsRemaining.length > 0 ? (
+          <Image
+            src="/ogre-cards/ogre-back.png"
+            alt="back of card"
+            width="200"
+            height="130"
+            onClick={drawOgreCard}
+            priority
+          />
+        ) : (
+          <div style={{ height: "130px", width: "200px" }}></div>
+        )}
+
         {currentCard && (
           <Image
             src={currentCard?.src}

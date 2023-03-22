@@ -19,7 +19,7 @@ export default function CardFlip({
 }: Props) {
   return (
     <div
-      className={`absolute cursor-pointer group perspective`}
+      className={`absolute cursor-pointer group perspective z-10`}
       style={{ width: width + "px", height: height + "px" }}
       onClick={handleClick}
     >

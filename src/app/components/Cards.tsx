@@ -64,16 +64,13 @@ export default function Cards() {
             handleClick={handleClick}
           />
         )}
-        <div
-          className="relative -z-50"
-          style={{ width: "200px", height: "130px" }}
-        >
+        <div className="relative" style={{ width: "200px", height: "130px" }}>
           {playedCards.slice(0, 1).map((card, i) => (
             <NextImage
               key={Math.random()}
               src={card.img}
-              width="200"
-              height="130"
+              width={200}
+              height={130}
               alt={card.ids.join(",")}
               className="absolute"
               priority

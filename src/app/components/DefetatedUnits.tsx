@@ -13,7 +13,7 @@ export default function DefeatedUnits() {
 
   return (
     <div>
-      <h2>Defeated Imperial</h2>
+      <h2>💀 Defeated Imperial 💀</h2>
       <div className="flex">
         {defeatedImperial.map((unit) => (
           <Image
@@ -25,7 +25,7 @@ export default function DefeatedUnits() {
           />
         ))}
       </div>
-      <h2>Defeated Chaos</h2>
+      <h2>💀 Defeated Chaos 💀</h2>
       <div className="flex">
         {defeatedChaos.map((unit) => (
           <Image

@@ -9,19 +9,44 @@ import CampaignSelection from "./components/CampaignSelection";
 import UnitsNotOnBoard from "./components/UnitsNotOnBoard";
 import DefeatedUnits from "./components/DefetatedUnits";
 
+import bg from "../../public/background_map.jpeg";
+import Image from "next/image";
+
 export default function Home() {
   const { battleInProgress, board } = useGameStore((store) => store);
 
   return (
-    <main className="p-4 grid grid-cols-[_1fr_1fr]">
+    <main
+      className="p-4 pt-12 grid grid-cols-[_915px_400px] justify-center	"
+      style={{
+        backgroundImage: `linear-gradient(black, black), url(${bg.src})`,
+        width: "100%",
+        height: "100%",
+        backgroundSize: "cover",
+        backgroundBlendMode: "soft-light",
+      }}
+    >
       {!!board.length ? <Board /> : <CampaignSelection />}
-      <div className="relative">
-        {battleInProgress && <Battle />}
-        <Cards />
-        <CurrentTurn />
-        <OgreCards />
-        {!!board.length && <UnitsNotOnBoard />}
-        <DefeatedUnits />
+      <div
+        className="relative bg-white bg-opacity-90 overflow-auto"
+        style={{ height: "635px" }}
+      >
+        {!!board.length ? (
+          <>
+            {battleInProgress && <Battle />}
+            <Cards />
+            <OgreCards />
+            <div className="p-4">
+              <CurrentTurn />
+              <UnitsNotOnBoard />
+              <DefeatedUnits />
+            </div>
+          </>
+        ) : (
+          <>
+            <Image src="/battle.jpeg" alt="battle" fill />
+          </>
+        )}
       </div>
     </main>
   );
