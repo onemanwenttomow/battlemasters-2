@@ -1,5 +1,6 @@
 import Image from "next/image";
 import useStore from "hooks/useStore";
+import { filterDefeatedUnits } from "lib/utils";
 
 export default function CurrentTurn() {
   const { activeUnit, setActiveUnit, skipMove, skipAttack } = useStore(
@@ -7,7 +8,7 @@ export default function CurrentTurn() {
   );
 
   const activeUnits = useStore((store) =>
-    store.units.filter((unit) => unit.isActive)
+    store.units.filter((unit) => unit.isActive).filter(filterDefeatedUnits)
   );
 
   const isGrimorg = activeUnits.map((unit) => unit.id).includes("grimorg");

@@ -415,7 +415,9 @@ export const createGameSlice: StateCreator<
   },
 
   activeUnitsTurnComplete: () => {
-    const activeUnits = get().units.filter((unit) => unit.isActive);
+    const activeUnits = get()
+      .units.filter((unit) => unit.isActive)
+      .filter(filterDefeatedUnits);
     if (activeUnits.map((unit) => unit.id).includes("grimorg")) {
       const ogreCardsRemaining = get().ogreCards.filter(
         (card) => !card.revealed
