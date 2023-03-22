@@ -69,8 +69,7 @@ export default function Cards() {
             <NextImage
               key={Math.random()}
               src={card.img}
-              width={200}
-              height={130}
+              fill
               alt={card.ids.join(",")}
               className="absolute"
               priority

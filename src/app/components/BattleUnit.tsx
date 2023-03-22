@@ -23,7 +23,7 @@ export default function BattleUnit({ unit, dice }: Props) {
     );
   }
   return (
-    <div className="bg-white p-4">
+    <div className="bg-white p-4 w-60">
       <h3>{unit.name}</h3>
       <Image src={unit.src} alt={unit.alt} height="50" width="50" />
       <p>
