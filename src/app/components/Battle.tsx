@@ -15,7 +15,7 @@ export default function Battle() {
   );
 
   return (
-    <div className="absolute inset-0 bg-slate-500 z-20">
+    <div className="absolute inset-0 bg-slate-500 z-20 top-12 left-1/2" style={{ height: "635px", width: "1316px", transform: "translateX(-50%)" }}>
       <h2>Battle</h2>
 
       <BattleUnit unit={attackingUnit} dice={attackingDice} />
