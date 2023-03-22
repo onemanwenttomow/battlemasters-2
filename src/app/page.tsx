@@ -17,7 +17,7 @@ export default function Home() {
 
   return (
     <main
-      className="relative p-4 pt-12 grid grid-cols-[_915px_400px] justify-center	"
+      className="relative p-4 pt-12 grid grid-cols-[_915px_400px] justify-center"
       style={{
         backgroundImage: `linear-gradient(black, black), url(${bg.src})`,
         width: "100%",
@@ -29,7 +29,7 @@ export default function Home() {
       {battleInProgress && <Battle />}
       {!!board.length ? <Board /> : <CampaignSelection />}
       <div
-        className="relative bg-white bg-opacity-90 overflow-auto"
+        className="relative bg-white bg-opacity-70 overflow-auto"
         style={{ height: "635px" }}
       >
         {!!board.length ? (
@@ -44,7 +44,12 @@ export default function Home() {
           </>
         ) : (
           <>
-            <Image src="/battle.jpeg" alt="battle" fill />
+            <Image
+              src="/battle.jpeg"
+              alt="battle"
+              className="object-cover"
+              fill
+            />
           </>
         )}
       </div>
