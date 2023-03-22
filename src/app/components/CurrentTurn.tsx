@@ -3,9 +3,8 @@ import useStore from "hooks/useStore";
 import { filterDefeatedUnits } from "lib/utils";
 
 export default function CurrentTurn() {
-  const { activeUnit, setActiveUnit, skipMove, skipAttack } = useStore(
-    (store) => store
-  );
+  const { activeUnit, setActiveUnit, skipMove, skipAttack, skipEntireTurn } =
+    useStore((store) => store);
 
   const activeUnits = useStore((store) =>
     store.units.filter((unit) => unit.isActive).filter(filterDefeatedUnits)
@@ -74,6 +73,11 @@ export default function CurrentTurn() {
               })}
           </tbody>
         </table>
+        {activeUnits.length > 0 && (
+          <button type="button" onClick={skipEntireTurn}>
+            Skip entire turn
+          </button>
+        )}
       </div>
     </div>
   );

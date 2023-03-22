@@ -313,6 +313,20 @@ export const createGameSlice: StateCreator<
     set({ units: updatedUnits, possibleAttacks: [], canonTiles: [] });
   },
 
+  skipEntireTurn: () => {
+    // const activeUnits = get().units.filter((unit) => unit.isActive);
+    const units = get().units.map((unit) => ({
+      ...unit,
+      hasAttacked: true,
+      hasMoved: true,
+    }));
+    const ogreCards = get().ogreCards.map((card) => ({
+      ...card,
+      revealed: true,
+    }));
+    set({ units, ogreCards });
+  },
+
   startBattle: (attackingUnitId: UnitId, defendingUnitId: UnitId) => {
     const attackingUnit = get().getUnitById(attackingUnitId);
     const defendingUnit = get().getUnitById(defendingUnitId);

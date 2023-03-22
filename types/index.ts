@@ -26,6 +26,7 @@ export interface GameState {
   moveUnit: (x: number, y: number) => void;
   skipMove: (id: UnitId) => void;
   skipAttack: (id: UnitId) => void;
+  skipEntireTurn: () => void;
   startBattle: (attackingId: UnitId, defendingId: UnitId) => void;
   endBattle: (attackingUnitId: UnitId, defendingUnitId: UnitId) => void;
   setPreGameActiveUnit: (id: UnitId, army: Army) => void;
