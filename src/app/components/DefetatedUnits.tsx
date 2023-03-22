@@ -1,9 +1,10 @@
 import useStore from "hooks/useStore";
+import { filterDefeatedUnits } from "lib/utils";
 
 export default function DefeatedUnits() {
-  const { defeatedUnits } = useStore((store) => store);
+  const { units } = useStore((store) => store);
 
-  console.log(defeatedUnits)
+  console.log(units.filter((unit) => !filterDefeatedUnits(unit)));
 
-  return <div>Defeated</div>
+  return <div>Defeated</div>;
 }

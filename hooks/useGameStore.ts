@@ -4,6 +4,7 @@ import { campaigns } from "lib/campaigns";
 import units, { canEnterTower, archersAndCrossbow } from "lib/units";
 import playingCards from "lib/cards/cards";
 import {
+  filterDefeatedUnits,
   getPossibleStartingMoves,
   getRandomStartingPositions,
 } from "lib/utils";
@@ -17,7 +18,6 @@ import {
   Offset,
   UnitId,
   CampaignId,
-  Army,
 } from "types";
 
 import {
@@ -25,7 +25,6 @@ import {
   generateDice,
   shuffle,
   findNeighbours,
-  filterDefeatedUnits,
   getCurrentOgreCard,
   isTowerTile,
   isDitchTile,
@@ -43,7 +42,6 @@ export const createGameSlice: StateCreator<
     Chaos: { x: 0, y: [] },
   },
   units,
-  defeatedUnits: [],
   activeUnit: null,
   addUnitToBoard: false,
   canRandomise: false,
@@ -85,7 +83,7 @@ export const createGameSlice: StateCreator<
       startingZones,
       canRandomise,
       canPositionPreStart,
-      playingCards: shuffle(playingCards)
+      playingCards: shuffle(playingCards),
     });
   },
 
@@ -214,7 +212,10 @@ export const createGameSlice: StateCreator<
       possibleMoves = findNeighbours(x, y, get().playedCards[0], get().board)
         // check if tile is occupied by another unit
         .filter(
-          ([x, y]) => !get().units.find((unit) => unit.x === x && unit.y === y)
+          ([x, y]) =>
+            !get()
+              .units.filter(filterDefeatedUnits)
+              .find((unit) => unit.x === x && unit.y === y)
         )
         // check if unit can enter tower...
         .filter(
@@ -357,10 +358,10 @@ export const createGameSlice: StateCreator<
 
     const attackingDice = generateDice(
       attackingUnit.combatValue +
-      extraDice +
-      towerAttackBonus -
-      towerDefenseBonus +
-      ditchAttack
+        extraDice +
+        towerAttackBonus -
+        towerDefenseBonus +
+        ditchAttack
     );
     const defendingDice = generateDice(
       defendingUnit.combatValue + ditchDefense
@@ -390,25 +391,23 @@ export const createGameSlice: StateCreator<
       set({ ogreCards });
     }
 
-    const units = get()
-      .units.map((unit) => {
-        if (unit.id === attackingUnitId) {
-          return { ...unit, hasAttacked: true };
-        } else if (unit.id === defendingUnitId) {
-          return {
-            ...unit,
-            damageSustained: unit.damageSustained + totalDamage,
-          };
-        }
-        return unit;
-      })
+    const units = get().units.map((unit) => {
+      if (unit.id === attackingUnitId) {
+        return { ...unit, hasAttacked: true };
+      } else if (unit.id === defendingUnitId) {
+        return {
+          ...unit,
+          damageSustained: unit.damageSustained + totalDamage,
+        };
+      }
+      return unit;
+    });
 
     set({
       battleInProgress: false,
       defendingUnitId: null,
       attackingUnitId: null,
-      units: units.filter(filterDefeatedUnits),
-      defeatedUnits:  [...get().defeatedUnits,...units.filter((unit) => !filterDefeatedUnits(unit))],
+      units,
       possibleAttacks: [],
       attackingDice: [],
       defendingDice: [],
@@ -431,5 +430,7 @@ export const createGameSlice: StateCreator<
   getUnitByCoords: (x: number, y: number) =>
     get().units.find((unit) => unit.x === x && unit.y === y),
   tileHasUnit: (x: number, y: number) =>
-    get().units.some((unit) => unit.x === x && unit.y === y),
+    get()
+      .units.filter(filterDefeatedUnits)
+      .some((unit) => unit.x === x && unit.y === y),
 });

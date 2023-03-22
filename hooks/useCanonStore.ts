@@ -2,7 +2,7 @@ import { StateCreator } from "zustand";
 import { GameState, CanonSlice, UnitId, CanonTile } from "types";
 
 import canonCards from "lib/cards/canonCards";
-import { shuffle, getCanonPath, filterDefeatedUnits } from "lib/utils";
+import { shuffle, getCanonPath } from "lib/utils";
 
 export const createCanonSlice: StateCreator<
   GameState & CanonSlice,
@@ -86,20 +86,11 @@ export const createCanonSlice: StateCreator<
       possibleUnitUnderCanon.damageSustained += damage;
     }
 
-    const units = get().units.filter(filterDefeatedUnits);
-    const defeatedUnits = [
-        ...get().defeatedUnits,
-        ...get().units.filter((unit) => !filterDefeatedUnits(unit))
-    ];
     const updatedCanonTiles = get().canonTiles.map((tile, i) =>
       i === idx ? { ...tile, revealed: true } : tile
     );
 
-    set({
-      canonTiles: updatedCanonTiles,
-      units,
-      defeatedUnits
-    });
+    set({ canonTiles: updatedCanonTiles });
   },
 
   setCanonMisFire: () => {
@@ -138,12 +129,6 @@ export const createCanonSlice: StateCreator<
     const canon = get().getUnitById("canon");
     canon.damageSustained = damage;
 
-    setTimeout(() => {
-      set({
-        canonMisFire: null,
-        units: get().units.filter(filterDefeatedUnits),
-        defeatedUnits: [...get().defeatedUnits,...get().units.filter((unit) => !filterDefeatedUnits(unit))]
-      });
-    }, 3000);
+    setTimeout(() => set({ canonMisFire: null }), 3000);
   },
 });
