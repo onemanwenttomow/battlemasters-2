@@ -70,11 +70,11 @@ export default function Cards() {
             <NextImage
               key={Math.random()}
               src={card.img}
-              fill
               alt={card.ids.join(",")}
               className="absolute"
               priority
-              sizes="(max-width: 200px) 100vw,"
+              width={200}
+              height={130}
             />
           ))}
         </div>
