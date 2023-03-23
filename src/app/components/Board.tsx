@@ -80,7 +80,6 @@ export default function Board() {
                 brightness={brightness}
                 tile={tile}
               >
-                {/* <div className="absolute top-4 left-4 text-sm">{`[${x}, ${y}]`}</div> */}
                 {tileHasUnit(x, y) && <Unit x={x} y={y} />}
                 {canonTile && <CanonTileImage canonTile={canonTile} />}
                 {canonMisTile && <CanonMisfire />}

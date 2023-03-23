@@ -444,7 +444,9 @@ export const createGameSlice: StateCreator<
   getUnitById: (id: UnitId) =>
     get().units.find((unit) => unit.id === id) as Unit,
   getUnitByCoords: (x: number, y: number) =>
-    get().units.find((unit) => unit.x === x && unit.y === y),
+    get()
+      .units.filter(filterDefeatedUnits)
+      .find((unit) => unit.x === x && unit.y === y),
   tileHasUnit: (x: number, y: number) =>
     get()
       .units.filter(filterDefeatedUnits)

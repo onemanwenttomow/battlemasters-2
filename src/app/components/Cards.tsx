@@ -49,9 +49,10 @@ export default function Cards() {
         <NextImage
           src="/cards/card-back.png"
           alt="back of card"
-          width="200"
-          height="130"
+          width={200}
+          height={130}
           priority
+          className={`${activeUnitsTurnComplete() ? "" : "grayscale"}`}
         />
 
         {nextCard && (
@@ -73,6 +74,7 @@ export default function Cards() {
               alt={card.ids.join(",")}
               className="absolute"
               priority
+              sizes="(max-width: 200px) 100vw,"
             />
           ))}
         </div>

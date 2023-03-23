@@ -1,4 +1,5 @@
 import Image from "next/image";
+import useStore from "hooks/useStore";
 
 interface Props {
   width: number;
@@ -17,6 +18,7 @@ export default function CardFlip({
   animating,
   handleClick,
 }: Props) {
+  const { activeUnitsTurnComplete } = useStore((store) => store);
   return (
     <div
       className={`absolute cursor-pointer group perspective z-10`}
@@ -35,6 +37,7 @@ export default function CardFlip({
             width={width}
             height={height}
             priority
+            className={`${activeUnitsTurnComplete() ? "" : "grayscale"}`}
           />
         </div>
         <div className="absolute flip backface-hidden w-full h-full">

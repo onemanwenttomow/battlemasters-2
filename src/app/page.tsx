@@ -11,6 +11,7 @@ import DefeatedUnits from "./components/DefetatedUnits";
 
 import bg from "../../public/background_map.jpeg";
 import Image from "next/image";
+import SquiggleSvg from "./components/SquiggleSvg";
 
 export default function Home() {
   const { battleInProgress, board } = useGameStore((store) => store);
@@ -29,19 +30,28 @@ export default function Home() {
       {battleInProgress && <Battle />}
       {!!board.length ? <Board /> : <CampaignSelection />}
       <div
-        className="relative bg-white bg-opacity-70 overflow-auto"
+        className="relative bg-white bg-opacity-0"
         style={{ height: "635px" }}
       >
         {!!board.length ? (
-          <>
+          <div
+            className={`${
+              battleInProgress ? "" : "squiggle"
+            } relative z-10 h-full`}
+          >
             <Cards />
-            <OgreCards />
-            <div className="p-4">
-              <CurrentTurn />
-              <UnitsNotOnBoard />
+            <div
+              className="x-4 overflow-auto grid grid-cols-[_1fr_160px]"
+              style={{ height: "375px" }}
+            >
+              <div>
+                <CurrentTurn />
+                <UnitsNotOnBoard />
+              </div>
               <DefeatedUnits />
             </div>
-          </>
+            <OgreCards />
+          </div>
         ) : (
           <>
             <Image
@@ -49,10 +59,13 @@ export default function Home() {
               alt="battle"
               className="object-cover"
               fill
+              priority
+              sizes="(max-width: 400px) 100vw,"
             />
           </>
         )}
       </div>
+      <SquiggleSvg />
     </main>
   );
 }

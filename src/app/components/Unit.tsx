@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { Unit } from "../../../types";
 import useStore from "../../../hooks/useStore";
+import { useState } from "react";
 
 interface Props {
   x: number;
@@ -8,6 +9,8 @@ interface Props {
 }
 
 export default function UnitImage({ x, y }: Props) {
+  const [showDamage, setShowDamage] = useState(false);
+
   const {
     getUnitByCoords,
     setActiveUnit,
@@ -40,12 +43,6 @@ export default function UnitImage({ x, y }: Props) {
     startBattle(attackingUnit.id, unit.id);
   }
 
-  function handleMouseEnter() {
-    if (attackingUnit.id === "canon") {
-      startCanonBattle(unit.id, true);
-    }
-  }
-
   return (
     <>
       <Image
@@ -61,14 +58,31 @@ export default function UnitImage({ x, y }: Props) {
         width="32"
         height="32"
         onClick={handleClick}
+        onMouseOver={() => setShowDamage(true)}
+        onMouseOut={() => setShowDamage(false)}
       />
       {canBeAttacked && (
         <div
           className="absolute top-2 left-5 bg-red-500 h-6 w-6 grid place-content-center cursor-pointer"
           onClick={handleBattleClick}
-          onMouseEnter={handleMouseEnter}
         >
           ⚔️
+        </div>
+      )}
+      {showDamage && (
+        <div className="absolute flex flex-col top-5 left-0">
+          {[...Array.from(Array(unit.damageSustained))]
+            .map((_el, i) => i)
+            .map((damage) => (
+              <Image
+                key={damage}
+                className="inline"
+                src="/extra-tiles/damage.png"
+                alt="damage"
+                height="15"
+                width="15"
+              />
+            ))}
         </div>
       )}
     </>

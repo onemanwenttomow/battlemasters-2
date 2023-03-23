@@ -11,6 +11,19 @@ main {
   min-height: 100%;
 }
 
+.squiggle::before {
+  content: "";
+  position: absolute;
+  height: calc(635px + 8px);
+  width: calc(400px + 8px);
+  background-color: white;
+  opacity: 0.7;
+  z-index: -1;
+  top: -4px;
+  left: -4px;
+  filter: url(#squiggle);
+}
+
 .unit-shadow {
   box-shadow: -1.5px 1.5px rgb(55 65 81 / 1), -1px 1px rgb(55 65 81 / 1),
     -0.5px 0.5px rgb(55 65 81 / 1);
