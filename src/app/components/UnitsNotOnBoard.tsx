@@ -26,6 +26,7 @@ function ArmyNotOnBoard({ army, unitsNotOnBoard }: Props) {
     gameStarted,
     canRandomise,
     canPositionPreStart,
+    playedCards,
     setPreGameActiveUnit,
     randomiseUnits,
   } = useGameStore((store) => store);
@@ -35,7 +36,7 @@ function ArmyNotOnBoard({ army, unitsNotOnBoard }: Props) {
 
   function handleClick(id: UnitId, army: Army) {
     // (can only add units to board once cards have been drawn)
-    if (!gameStarted && !canPositionPreStart) {
+    if (playedCards.length === 0 && !canPositionPreStart) {
       return;
     }
 
