@@ -34,6 +34,9 @@ function ArmyNotOnBoard({ army, unitsNotOnBoard }: Props) {
   const armyNotOnBoard = unitsNotOnBoard.filter((unit) => unit.army === army);
 
   function handleClick(id: UnitId, army: Army) {
+    // TODO fix bug that allows units to be played before first card draw
+    console.log("canPositionPreStart", canPositionPreStart)
+    console.log('gameStarted: ',gameStarted);
     // (can only add units to board once cards have been drawn)
     if (!gameStarted && !canPositionPreStart) {
       return;
