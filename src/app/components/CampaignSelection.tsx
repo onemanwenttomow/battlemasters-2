@@ -1,4 +1,5 @@
 import useGameStore from "hooks/useStore";
+import Link from "next/link";
 import { Campaign } from "types";
 
 const campaigns: Campaign[] = [
@@ -23,6 +24,7 @@ export default function CampaignSelection() {
 
   return (
     <div className="bg-white bg-opacity-70" style={{ height: "635px" }}>
+      <Link href="/about">About</Link>
       <h2>Campaigns</h2>
       <ul>
         {campaigns.map((campaign) => (

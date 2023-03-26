@@ -146,7 +146,9 @@ export const createGameSlice: StateCreator<
     );
 
     const units = get().units.map((unit) => {
-      return unit.id === id ? { ...unit, hasAttacked: true } : unit;
+      return unit.id === id
+        ? { ...unit, hasAttacked: true, hasMoved: true }
+        : unit;
     });
 
     let ogreCards = [...get().ogreCards];

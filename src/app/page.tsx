@@ -17,16 +17,7 @@ export default function Home() {
   const { battleInProgress, board } = useGameStore((store) => store);
 
   return (
-    <main
-      className="relative p-4 pt-12 grid grid-cols-[_915px_400px] justify-center"
-      style={{
-        backgroundImage: `linear-gradient(black, black), url(${bg.src})`,
-        width: "100%",
-        height: "100%",
-        backgroundSize: "cover",
-        backgroundBlendMode: "soft-light",
-      }}
-    >
+    <>
       {battleInProgress && <Battle />}
       {!!board.length ? <Board /> : <CampaignSelection />}
       <div
@@ -66,6 +57,6 @@ export default function Home() {
         )}
       </div>
       <SquiggleSvg />
-    </main>
+    </>
   );
 }
