@@ -23,7 +23,7 @@ export default function BattleUnit({ unit, dice }: Props) {
     );
   }
   return (
-    <div className="bg-white p-4 w-60">
+    <div className="w-60 bg-white p-4">
       <h3>{unit.name}</h3>
       <Image src={unit.src} alt={unit.alt} height="50" width="50" />
       <p>
@@ -46,7 +46,7 @@ export default function BattleUnit({ unit, dice }: Props) {
           Roll All
         </button>
         {dice.map(({ id, value }, i) => (
-          <div key={id} className="inline mx-4">
+          <div key={id} className="mx-4 inline">
             <Dice
               show={value}
               rolled={rolled.includes(i)}

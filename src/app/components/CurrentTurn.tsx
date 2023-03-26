@@ -10,17 +10,17 @@ const container = {
     scale: 1,
     transition: {
       delayChildren: 0.05,
-      staggerChildren: 0.2
-    }
-  }
+      staggerChildren: 0.2,
+    },
+  },
 };
 
 const item = {
   hidden: { y: 20, opacity: 0 },
   visible: {
     y: 0,
-    opacity: 1
-  }
+    opacity: 1,
+  },
 };
 
 export default function CurrentTurn() {
@@ -53,10 +53,11 @@ export default function CurrentTurn() {
           </tr>
         </thead>
         <motion.tbody
-          key={activeUnits.map(unit => unit.id).join()}
+          key={activeUnits.map((unit) => unit.id).join()}
           variants={container}
           initial="hidden"
-          animate="visible">
+          animate="visible"
+        >
           {!isGrimorg &&
             activeUnits.map((unit) => {
               const isSelected = unit.id === activeUnit;
@@ -80,7 +81,7 @@ export default function CurrentTurn() {
                       {unit.hasMoved ? "✅" : "⏳"}
                     </div>
                     <button
-                      className="disabled:opacity-75 disabled:bg-gray-200 bg-blue-500 px-2 py-1"
+                      className="bg-blue-500 px-2 py-1 disabled:bg-gray-200 disabled:opacity-75"
                       disabled={unit.hasMoved}
                       onClick={() => skipMove(unit.id)}
                     >
@@ -92,7 +93,7 @@ export default function CurrentTurn() {
                       {unit.hasAttacked ? "✅" : "⏳"}
                     </div>
                     <button
-                      className="disabled:opacity-75 disabled:bg-gray-200 bg-blue-500 px-2 py-1"
+                      className="bg-blue-500 px-2 py-1 disabled:bg-gray-200 disabled:opacity-75"
                       disabled={unit.hasAttacked || !unit.hasMoved}
                       onClick={() => skipAttack(unit.id)}
                     >

@@ -18,7 +18,7 @@ export default function CanonTileImage({ canonTile }: Props) {
   if (isBack && !isTarget) {
     return (
       <div
-        className="rounded-full absolute h-8 w-8 top-4 left-4 brightness-125 bg-gray-800 cursor-pointer"
+        className="absolute top-4 left-4 h-8 w-8 cursor-pointer rounded-full bg-gray-800 brightness-125"
         onClick={() => canonTileReveal(canonTile)}
       ></div>
     );
@@ -30,7 +30,7 @@ export default function CanonTileImage({ canonTile }: Props) {
       alt="canon tile"
       height="32"
       width="32"
-      className="rounded-full absolute top-4 left-4 brightness-125 cursor-pointer"
+      className="absolute top-4 left-4 cursor-pointer rounded-full brightness-125"
       onClick={() => canonTile?.isTarget && canonTileReveal(canonTile)}
       priority
     />

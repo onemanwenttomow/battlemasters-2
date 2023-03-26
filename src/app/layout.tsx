@@ -17,7 +17,7 @@ export default function RootLayout({
       <head />
       <body>
         <main
-          className="relative p-4 pt-12 grid grid-cols-[_915px_400px] grid-rows-[_50px_1fr] justify-center"
+          className="relative grid grid-cols-[_915px_400px] grid-rows-[_50px_1fr] justify-center p-4 pt-12"
           style={{
             backgroundImage: `linear-gradient(black, black), url(${bg.src})`,
             width: "100%",

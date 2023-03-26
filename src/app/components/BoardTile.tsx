@@ -22,7 +22,7 @@ export default function BoardTile({
   const tileDetails = tilesDictionary[tile];
   return (
     <div
-      className="h-full hexagon bg-no-repeat relative"
+      className="hexagon relative h-full bg-no-repeat"
       style={{
         backgroundImage: `url(${tileDetails.src})`,
         filter: `brightness(${brightness})`,

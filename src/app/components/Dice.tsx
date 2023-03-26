@@ -43,7 +43,7 @@ interface Die {
 function DiceSide({ die, rolled }: { die: Die; rolled: boolean }) {
   return (
     <Image
-      className={`absolute dice__face dice__face--${die.side} ${
+      className={`dice__face absolute dice__face--${die.side} ${
         !rolled && "grayscale"
       }`}
       src={die.src}

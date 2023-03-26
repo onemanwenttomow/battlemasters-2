@@ -24,7 +24,7 @@ export default function CampaignSelection() {
 
   return (
     <div
-      className="bg-white bg-opacity-70 row-start-2"
+      className="row-start-2 bg-white bg-opacity-70"
       style={{ height: "635px" }}
     >
       <h2>Campaigns</h2>
@@ -32,7 +32,7 @@ export default function CampaignSelection() {
         {campaigns.map((campaign) => (
           <li
             key={campaign.id}
-            className="cursor-pointer text-4xl mt-4"
+            className="mt-4 cursor-pointer text-4xl"
             onClick={() => setCampaign(campaign.id)}
           >
             {campaign.title}

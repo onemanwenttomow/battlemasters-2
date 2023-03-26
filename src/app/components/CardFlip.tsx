@@ -21,16 +21,16 @@ export default function CardFlip({
   const { activeUnitsTurnComplete } = useStore((store) => store);
   return (
     <div
-      className={`absolute cursor-pointer group perspective z-10`}
+      className={`group absolute z-10 cursor-pointer perspective`}
       style={{ width: width + "px", height: height + "px" }}
       onClick={handleClick}
     >
       <div
-        className={`relative preserve-3d w-full h-full duration-300 ${
+        className={`relative h-full w-full duration-300 preserve-3d ${
           animating ? "card-move-flip" : ""
         }`}
       >
-        <div className="absolute backface-hidden w-full h-full">
+        <div className="absolute h-full w-full backface-hidden">
           <Image
             src={backSrc}
             alt="back of card"
@@ -40,7 +40,7 @@ export default function CardFlip({
             className={`${activeUnitsTurnComplete() ? "" : "grayscale"}`}
           />
         </div>
-        <div className="absolute flip backface-hidden w-full h-full">
+        <div className="absolute h-full w-full flip backface-hidden">
           <Image
             src={frontSrc}
             alt="front of card"

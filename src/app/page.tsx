@@ -18,7 +18,7 @@ export default function Home() {
       {battleInProgress && <Battle />}
       {!!board.length ? <Board /> : <CampaignSelection />}
       <div
-        className="relative bg-white bg-opacity-0 row-start-1 row-end-2 col-start-2"
+        className="relative col-start-2 row-start-1 row-end-2 bg-white bg-opacity-0"
         style={{ height: "685px" }}
       >
         {!!board.length ? (
@@ -29,7 +29,7 @@ export default function Home() {
           >
             <Cards />
             <div
-              className="x-4 overflow-auto grid grid-cols-[_1fr_160px]"
+              className="x-4 grid grid-cols-[_1fr_160px] overflow-auto"
               style={{ height: "425px" }}
             >
               <div>

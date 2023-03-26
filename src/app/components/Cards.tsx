@@ -45,7 +45,7 @@ export default function Cards() {
 
   return (
     <div>
-      <div className="flex items-start relative">
+      <div className="relative flex items-start">
         <NextImage
           src="/cards/card-back.png"
           alt="back of card"

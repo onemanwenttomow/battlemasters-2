@@ -17,20 +17,20 @@ export default function Battle() {
 
   return (
     <div
-      className="absolute inset-0 bg-white bg-opacity-90 z-20 top-12 left-1/2 grid grid-cols-[_1fr_1fr]"
+      className="absolute inset-0 top-12 left-1/2 z-20 grid grid-cols-[_1fr_1fr] bg-white bg-opacity-90"
       style={{
         height: "635px",
         width: "1316px",
         transform: "translateX(-50%)",
       }}
     >
-      <div className="flex justify-center items-center">
+      <div className="flex items-center justify-center">
         <div>
-          <h2 className="text-5xl mb-4 text-center">Battle</h2>
+          <h2 className="mb-4 text-center text-5xl">Battle</h2>
 
           <div className="flex gap-4">
             <BattleUnit unit={attackingUnit} dice={attackingDice} />
-            <div className="text-5xl flex items-center">VS</div>
+            <div className="flex items-center text-5xl">VS</div>
             <BattleUnit unit={defendingUnit} dice={defendingDice} />
           </div>
 

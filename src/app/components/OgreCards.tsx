@@ -17,7 +17,7 @@ export default function OgreCards() {
 
   return (
     <div
-      className={`flex items-start absolute bottom-0 ${
+      className={`absolute bottom-0 flex items-start ${
         isGrimorg ? "" : "grayscale"
       }`}
     >

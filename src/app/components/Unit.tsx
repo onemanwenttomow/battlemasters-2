@@ -54,7 +54,7 @@ export default function UnitImage({ x, y }: Props) {
       <Image
         src={unit.src || "/error.png"}
         alt={unit.alt || "/error.png"}
-        className={`unit-shadow mx-auto top-5 relative border border-1 border-gray-700 ${
+        className={`unit-shadow border-1 relative top-5 mx-auto border border-gray-700 ${
           isActive && !turnComplete && "animate-bounce"
         }`}
         style={{
@@ -69,7 +69,7 @@ export default function UnitImage({ x, y }: Props) {
       />
       {canBeAttacked && (
         <div
-          className="absolute top-2 left-5 bg-red-500 h-6 w-6 grid place-content-center cursor-pointer"
+          className="absolute top-2 left-5 grid h-6 w-6 cursor-pointer place-content-center bg-red-500"
           onClick={handleBattleClick}
           onMouseEnter={handleMouseEnter}
         >
@@ -77,7 +77,7 @@ export default function UnitImage({ x, y }: Props) {
         </div>
       )}
       {showDamage && (
-        <div className="absolute flex flex-col top-5 left-0">
+        <div className="absolute top-5 left-0 flex flex-col">
           {[...Array.from(Array(unit.damageSustained))]
             .map((_el, i) => i)
             .map((damage) => (

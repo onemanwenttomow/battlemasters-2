@@ -11,7 +11,7 @@ export default function About() {
         <YouTube videoId="SfFl9Zvm5Vk" />
       </div>
       <div
-        className="relative bg-white bg-opacity-0  row-start-1 row-end-2 col-start-2"
+        className="relative col-start-2 row-start-1  row-end-2 bg-white bg-opacity-0"
         style={{ height: "685px" }}
       >
         <Image
