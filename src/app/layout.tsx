@@ -1,7 +1,7 @@
 import "./globals.css";
 import bg from "../../public/background_map.jpeg";
-import Link from "next/link";
 import SquiggleSvg from "./components/SquiggleSvg";
+import Header from "./components/Header";
 
 export default function RootLayout({
   children,
@@ -26,14 +26,7 @@ export default function RootLayout({
             backgroundBlendMode: "soft-light",
           }}
         >
-          <header className="flex items-center gap-4">
-            <Link href="/" className="bg-white p-2">
-              Home
-            </Link>
-            <Link href="/about" className="bg-white p-2">
-              About
-            </Link>
-          </header>
+          <Header />
           {children}
         </main>
         <SquiggleSvg />
