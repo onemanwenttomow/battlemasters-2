@@ -1,6 +1,27 @@
+import { motion } from "framer-motion";
 import Image from "next/image";
 import useStore from "hooks/useStore";
 import { filterDefeatedUnits } from "lib/utils";
+
+const container = {
+  hidden: { opacity: 1, scale: 0 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      delayChildren: 0.05,
+      staggerChildren: 0.2
+    }
+  }
+};
+
+const item = {
+  hidden: { y: 20, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1
+  }
+};
 
 export default function CurrentTurn() {
   const { activeUnit, setActiveUnit, skipMove, skipAttack, skipEntireTurn } =
@@ -31,12 +52,16 @@ export default function CurrentTurn() {
             <th>Attacked</th>
           </tr>
         </thead>
-        <tbody>
+        <motion.tbody
+          key={activeUnits.map(unit => unit.id).join()}
+          variants={container}
+          initial="hidden"
+          animate="visible">
           {!isGrimorg &&
             activeUnits.map((unit) => {
               const isSelected = unit.id === activeUnit;
               return (
-                <tr key={unit.id}>
+                <motion.tr key={unit.id} variants={item}>
                   <td className="p-2">
                     <Image
                       src={unit.src}
@@ -74,10 +99,10 @@ export default function CurrentTurn() {
                       Skip
                     </button>
                   </td>
-                </tr>
+                </motion.tr>
               );
             })}
-        </tbody>
+        </motion.tbody>
       </table>
     </>
   );
