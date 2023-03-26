@@ -1,6 +1,7 @@
 import useGameStore from "hooks/useStore";
 import Link from "next/link";
 import { Campaign } from "types";
+import MainWrapper from "./MainWrapper";
 
 const campaigns: Campaign[] = [
   { title: "Battle of the Borderlands", id: "battle-of-the-borderlands" },
@@ -23,22 +24,19 @@ export default function CampaignSelection() {
   const { setCampaign } = useGameStore((store) => store);
 
   return (
-    <div
-      className="row-start-2 bg-white bg-opacity-70"
-      style={{ height: "635px" }}
-    >
-      <h2>Campaigns</h2>
+    <MainWrapper>
+      <h2 className="text-4xl">Campaigns</h2>
       <ul>
         {campaigns.map((campaign) => (
           <li
             key={campaign.id}
-            className="mt-4 cursor-pointer text-4xl"
+            className="mt-4 cursor-pointer text-2xl"
             onClick={() => setCampaign(campaign.id)}
           >
             {campaign.title}
           </li>
         ))}
       </ul>
-    </div>
+    </MainWrapper>
   );
 }

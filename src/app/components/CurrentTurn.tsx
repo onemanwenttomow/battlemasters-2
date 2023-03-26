@@ -34,20 +34,24 @@ export default function CurrentTurn() {
   const isGrimorg = activeUnits.map((unit) => unit.id).includes("grimorg");
 
   if (activeUnits.length === 0) {
-    return <div>No active units</div>;
+    return <div className="m-2">No active units</div>;
   }
 
   return (
     <>
       {activeUnits.length > 0 && (
-        <button type="button" onClick={skipEntireTurn}>
+        <button
+          type="button"
+          onClick={skipEntireTurn}
+          className="my-2 ml-2 bg-blue-500 py-1 px-2"
+        >
           Skip entire turn
         </button>
       )}
-      <table className="table-auto">
+      <table className="relative table-auto">
         <thead>
           <tr>
-            <th>Unit</th>
+            <th></th>
             <th>Moved</th>
             <th>Attacked</th>
           </tr>
@@ -58,7 +62,7 @@ export default function CurrentTurn() {
           initial="hidden"
           animate="visible"
         >
-          {!isGrimorg &&
+          {!isGrimorg ? (
             activeUnits.map((unit) => {
               const isSelected = unit.id === activeUnit;
               return (
@@ -72,7 +76,7 @@ export default function CurrentTurn() {
                       style={{
                         filter: `brightness(${isSelected ? "1.4" : "1"})`,
                       }}
-                      className="cursor-pointer"
+                      className="unit-shadow cursor-pointer"
                       onClick={() => setActiveUnit(unit.id)}
                     />
                   </td>
@@ -81,7 +85,7 @@ export default function CurrentTurn() {
                       {unit.hasMoved ? "✅" : "⏳"}
                     </div>
                     <button
-                      className="bg-blue-500 px-2 py-1 disabled:bg-gray-200 disabled:opacity-75"
+                      className="bg-blue-500 px-1 py-1 disabled:bg-gray-200 disabled:opacity-75"
                       disabled={unit.hasMoved}
                       onClick={() => skipMove(unit.id)}
                     >
@@ -93,7 +97,7 @@ export default function CurrentTurn() {
                       {unit.hasAttacked ? "✅" : "⏳"}
                     </div>
                     <button
-                      className="bg-blue-500 px-2 py-1 disabled:bg-gray-200 disabled:opacity-75"
+                      className="bg-blue-500 px-1 py-1 disabled:bg-gray-200 disabled:opacity-75"
                       disabled={unit.hasAttacked || !unit.hasMoved}
                       onClick={() => skipAttack(unit.id)}
                     >
@@ -102,7 +106,12 @@ export default function CurrentTurn() {
                   </td>
                 </motion.tr>
               );
-            })}
+            })
+          ) : (
+            <div className="absolute top-8 left-4 text-xl">
+              Use Grimorg Cards Below ⬇️{" "}
+            </div>
+          )}
         </motion.tbody>
       </table>
     </>

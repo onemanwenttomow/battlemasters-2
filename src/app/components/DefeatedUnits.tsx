@@ -7,8 +7,8 @@ export default function DefeatedUnits() {
   const defeatedUnits = units.filter((unit) => !filterDefeatedUnits(unit));
 
   return (
-    <div>
-      <h2>💀 Defeated Units 💀</h2>
+    <div className="my-2">
+      <h2 className="text-center">💀 Defeated Units</h2>
       <div className="flex flex-wrap">
         {defeatedUnits.map((unit) => (
           <Image
