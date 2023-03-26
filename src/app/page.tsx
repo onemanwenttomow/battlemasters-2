@@ -19,7 +19,7 @@ export default function Home() {
       {!!board.length ? <Board /> : <CampaignSelection />}
       <div
         className="relative col-start-2 row-start-1 row-end-2 bg-white bg-opacity-0"
-        style={{ height: "685px" }}
+        style={{ height: "755px" }}
       >
         {!!board.length ? (
           <div

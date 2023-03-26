@@ -19,7 +19,7 @@ export default function Battle() {
     <div
       className="absolute inset-0 top-12 left-1/2 z-20 grid grid-cols-[_1fr_1fr] bg-white bg-opacity-90"
       style={{
-        height: "635px",
+        height: "760px",
         width: "1316px",
         transform: "translateX(-50%)",
       }}
@@ -41,7 +41,7 @@ export default function Battle() {
       </div>
       <div className="relative">
         <Image
-          src="/knight_background.jpeg"
+          src="/battle_tower.jpeg"
           alt="battle image"
           className="object-cover"
           fill

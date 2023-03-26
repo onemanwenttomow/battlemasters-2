@@ -1,4 +1,6 @@
 import Image from "next/image";
+import { motion } from "framer-motion";
+
 import { Unit } from "../../../types";
 import useStore from "../../../hooks/useStore";
 import { useState } from "react";
@@ -7,6 +9,26 @@ interface Props {
   x: number;
   y: number;
 }
+
+const container = {
+  hidden: { opacity: 1, scale: 0 },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      delayChildren: 0.05,
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const item = {
+  hidden: { y: -20, opacity: 0 },
+  visible: {
+    y: 0,
+    opacity: 1,
+  },
+};
 
 export default function UnitImage({ x, y }: Props) {
   const [showDamage, setShowDamage] = useState(false);
@@ -77,20 +99,26 @@ export default function UnitImage({ x, y }: Props) {
         </div>
       )}
       {showDamage && (
-        <div className="absolute top-5 left-0 flex flex-col">
+        <motion.div
+          className="absolute top-0 left-0 flex w-full justify-center"
+          variants={container}
+          initial="hidden"
+          animate="visible"
+        >
           {[...Array.from(Array(unit.damageSustained))]
             .map((_el, i) => i)
             .map((damage) => (
-              <Image
-                key={damage}
-                className="inline"
-                src="/extra-tiles/damage.png"
-                alt="damage"
-                height="15"
-                width="15"
-              />
+              <motion.div key={damage} variants={item}>
+                <Image
+                  className="inline"
+                  src="/extra-tiles/damage.png"
+                  alt="damage"
+                  height="15"
+                  width="15"
+                />
+              </motion.div>
             ))}
-        </div>
+        </motion.div>
       )}
     </>
   );
