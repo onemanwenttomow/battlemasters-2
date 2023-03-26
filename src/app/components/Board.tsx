@@ -52,7 +52,7 @@ export default function Board() {
 
   return (
     <ul
-      className="grid gap-[0.15rem] grid-cols-[repeat(27,_32.5px)] grid-rows-[repeat(14,_22.25px_44.5px)+22.25px] list-none"
+      className="row-start-2 grid gap-[0.15rem] grid-cols-[repeat(27,_32.5px)] grid-rows-[repeat(14,_22.25px_44.5px)+22.25px] list-none"
       style={{ height: "630px", width: "905px" }}
     >
       {board.map((row, y) =>

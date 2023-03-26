@@ -1,17 +1,14 @@
 "use client";
+import Image from "next/image";
+import useGameStore from "hooks/useStore";
 import Battle from "./components/Battle";
 import Board from "./components/Board";
 import Cards from "./components/Cards";
 import CurrentTurn from "./components/CurrentTurn";
-import useGameStore from "hooks/useStore";
 import OgreCards from "./components/OgreCards";
 import CampaignSelection from "./components/CampaignSelection";
 import UnitsNotOnBoard from "./components/UnitsNotOnBoard";
-import DefeatedUnits from "./components/DefetatedUnits";
-
-import bg from "../../public/background_map.jpeg";
-import Image from "next/image";
-import SquiggleSvg from "./components/SquiggleSvg";
+import DefeatedUnits from "./components/DefeatedUnits";
 
 export default function Home() {
   const { battleInProgress, board } = useGameStore((store) => store);
@@ -21,8 +18,8 @@ export default function Home() {
       {battleInProgress && <Battle />}
       {!!board.length ? <Board /> : <CampaignSelection />}
       <div
-        className="relative bg-white bg-opacity-0"
-        style={{ height: "635px" }}
+        className="relative bg-white bg-opacity-0 row-start-1 row-end-2 col-start-2"
+        style={{ height: "685px" }}
       >
         {!!board.length ? (
           <div
@@ -33,7 +30,7 @@ export default function Home() {
             <Cards />
             <div
               className="x-4 overflow-auto grid grid-cols-[_1fr_160px]"
-              style={{ height: "375px" }}
+              style={{ height: "425px" }}
             >
               <div>
                 <CurrentTurn />
@@ -56,7 +53,6 @@ export default function Home() {
           </>
         )}
       </div>
-      <SquiggleSvg />
     </>
   );
 }

@@ -14,7 +14,7 @@ main {
 .squiggle::before {
   content: "";
   position: absolute;
-  height: calc(635px + 8px);
+  height: calc(685px + 8px);
   width: calc(400px + 8px);
   background-color: white;
   opacity: 0.7;
