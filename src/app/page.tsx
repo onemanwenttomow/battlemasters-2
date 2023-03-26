@@ -9,14 +9,12 @@ import OgreCards from "./components/OgreCards";
 import CampaignSelection from "./components/CampaignSelection";
 import UnitsNotOnBoard from "./components/UnitsNotOnBoard";
 import DefeatedUnits from "./components/DefeatedUnits";
-import Header from "./components/Header";
 
 export default function Home() {
   const { battleInProgress, board } = useGameStore((store) => store);
 
   return (
     <>
-      <Header />
       {battleInProgress && <Battle />}
       {!!board.length ? <Board /> : <CampaignSelection />}
       <div

@@ -1,6 +1,7 @@
 import "./globals.css";
 import bg from "../../public/background_map.jpeg";
 import SquiggleSvg from "./components/SquiggleSvg";
+import Header from "./components/Header";
 
 export default function RootLayout({
   children,
@@ -25,8 +26,10 @@ export default function RootLayout({
             backgroundBlendMode: "soft-light",
           }}
         >
+          <Header />
           {children}
         </main>
+
         <SquiggleSvg />
       </body>
     </html>

@@ -2,13 +2,10 @@
 
 import Image from "next/image";
 import YouTube from "react-youtube";
-import Header from "../components/Header";
 
 export default function About() {
   return (
     <>
-      <Header />
-
       <div className="bg-white bg-opacity-70" style={{ height: "635px" }}>
         <h2>About</h2>
         <YouTube videoId="SfFl9Zvm5Vk" />
