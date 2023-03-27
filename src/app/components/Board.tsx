@@ -5,6 +5,7 @@ import Unit from "./Unit";
 import CanonTileImage from "./CanonTile";
 import CanonMisfire from "./CanonMisfire";
 import BoardTile from "./BoardTile";
+import { filterDefeatedUnits } from "lib/utils";
 
 export default function Board() {
   const {
@@ -78,17 +79,37 @@ export default function Board() {
                 handleClick={handleClick}
                 brightness={brightness}
                 tile={tile}
-              >
-                {canonTile && <CanonTileImage canonTile={canonTile} />}
-                {canonMisTile && <CanonMisfire />}
-              </BoardTile>
+              ></BoardTile>
             </li>
           );
         })
       )}
-      {units.map((unit) => (
+      {units.filter(filterDefeatedUnits).map((unit) => (
         <Unit key={unit.id} unit={unit} />
       ))}
+      {board.map((row, y) =>
+        row.map((_, x) => {
+          const canonTile = isCanonTile(x, y);
+          const canonMisTile = isCanonMisfire(x, y);
+          if (!canonTile && !canonMisTile) {
+            return null;
+          }
+          return (
+            <div
+              key={y + x + _}
+              className="col-span-2 row-span-3"
+              style={{
+                gridColumnStart: y % 2 === 0 ? x * 2 + 2 : x * 2 + 1,
+                gridRowStart: y * 2 + 1,
+                transform: `translateY(-${y * 22.25}px)`,
+              }}
+            >
+              {canonTile && <CanonTileImage canonTile={canonTile} />}
+              {canonMisTile && <CanonMisfire />}
+            </div>
+          );
+        })
+      )}
     </ul>
   );
 }

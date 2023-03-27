@@ -1,9 +1,10 @@
 import { ReactNode } from "react";
+import { motion } from "framer-motion";
+
 import { tilesDictionary } from "lib/board";
 import { Tile } from "types";
 
 interface Props {
-  children: ReactNode;
   handleClick: (x: number, y: number) => void;
   x: number;
   y: number;
@@ -12,7 +13,6 @@ interface Props {
 }
 
 export default function BoardTile({
-  children,
   handleClick,
   brightness,
   tile,
@@ -21,7 +21,12 @@ export default function BoardTile({
 }: Props) {
   const tileDetails = tilesDictionary[tile];
   return (
-    <div
+    <motion.div
+      animate={{ filter: `brightness(${Number(brightness)})` }}
+      transition={{
+        duration: Number(brightness) === 1 ? 0 : 0.3,
+        delay: Number(brightness) > 1 ? 0 : 0.3,
+      }}
       className="hexagon relative h-full bg-no-repeat"
       style={{
         backgroundImage: `url(${tileDetails.src})`,
@@ -43,7 +48,6 @@ export default function BoardTile({
           }}
         ></div>
       ))}
-      {children}
-    </div>
+    </motion.div>
   );
 }

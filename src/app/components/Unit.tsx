@@ -68,6 +68,7 @@ export default function UnitImage({ unit }: Props) {
       startCanonBattle(unit.id, true);
     }
   }
+
   return (
     <motion.div
       layout
@@ -75,6 +76,7 @@ export default function UnitImage({ unit }: Props) {
         type: "spring",
         stiffness: 350,
         damping: 25,
+        duration: 0.3,
       }}
       style={{
         cursor: `${isActive ? "pointer" : "auto"}`,
@@ -83,6 +85,7 @@ export default function UnitImage({ unit }: Props) {
             ? (unit.x || 0) * 2 + 2
             : (unit.x || 0) * 2 + 1,
         gridRowStart: (unit.y || 0) * 2 + 1,
+        height: isActive ? "100%" : "0",
       }}
       className={`
         relative top-5 col-span-2 row-span-3 mx-auto 
@@ -115,6 +118,7 @@ export default function UnitImage({ unit }: Props) {
           ⚔️
         </div>
       )}
+
       {showDamage && unit.damageSustained > 0 && (
         <motion.div
           className="absolute -top-8 left-0 flex w-full justify-center"
