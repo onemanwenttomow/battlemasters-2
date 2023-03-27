@@ -6,11 +6,13 @@ import Unit from "./Unit";
 import CanonTileImage from "./CanonTile";
 import CanonMisfire from "./CanonMisfire";
 import BoardTile from "./BoardTile";
+import Image from "next/image";
 
 export default function Board() {
   const {
     tileHasUnit,
     moveUnit,
+    units,
     board,
     possibleMoves,
     possibleAttacks,
@@ -80,7 +82,6 @@ export default function Board() {
                 brightness={brightness}
                 tile={tile}
               >
-                {tileHasUnit(x, y) && <Unit x={x} y={y} />}
                 {canonTile && <CanonTileImage canonTile={canonTile} />}
                 {canonMisTile && <CanonMisfire />}
               </BoardTile>
@@ -88,6 +89,9 @@ export default function Board() {
           );
         })
       )}
+      {units.map((unit) => (
+        <Unit key={unit.id} unit={unit} />
+      ))}
     </ul>
   );
 }
