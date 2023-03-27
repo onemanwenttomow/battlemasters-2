@@ -30,7 +30,7 @@ export default function Home() {
             <Cards />
             <div
               className="x-4 grid grid-cols-[_1fr_150px] overflow-auto text-xs"
-              style={{ height: "425px" }}
+              style={{ height: "490px" }}
             >
               <div>
                 <CurrentTurn />
