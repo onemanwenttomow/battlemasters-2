@@ -1,16 +1,13 @@
 "use client";
 
-// import { board } from "lib/board";
 import useStore from "hooks/useStore";
 import Unit from "./Unit";
 import CanonTileImage from "./CanonTile";
 import CanonMisfire from "./CanonMisfire";
 import BoardTile from "./BoardTile";
-import Image from "next/image";
 
 export default function Board() {
   const {
-    tileHasUnit,
     moveUnit,
     units,
     board,
