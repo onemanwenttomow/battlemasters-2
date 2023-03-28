@@ -16,6 +16,7 @@ export interface GameState {
   defendingUnitId: UnitId | null;
   attackingDice: DiceInterface[];
   defendingDice: DiceInterface[];
+  resetGame: () => void;
   setCampaign: (id: CampaignId) => void;
   getUnitByCoords: (x: number, y: number) => Unit | undefined;
   getUnitById: (id: UnitId) => Unit;

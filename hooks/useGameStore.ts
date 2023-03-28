@@ -57,6 +57,31 @@ export const createGameSlice: StateCreator<
   attackingDice: [],
   defendingDice: [],
 
+  resetGame() {
+    set({
+      board: [],
+      startingZones: {
+        Imperial: { x: 0, y: [] },
+        Chaos: { x: 0, y: [] },
+      },
+      units,
+      activeUnit: null,
+      addUnitToBoard: false,
+      canRandomise: false,
+      canPositionPreStart: false,
+      playingCards: [],
+      playedCards: [],
+      gameStarted: false,
+      possibleMoves: [],
+      possibleAttacks: [],
+      battleInProgress: false,
+      attackingUnitId: null,
+      defendingUnitId: null,
+      attackingDice: [],
+      defendingDice: [],
+    });
+  },
+
   setCampaign: (id: CampaignId) => {
     const {
       unitPositions,

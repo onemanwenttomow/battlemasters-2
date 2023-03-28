@@ -108,9 +108,9 @@ export default function CurrentTurn() {
               );
             })
           ) : (
-            <div className="absolute top-8 left-4 text-xl">
+            <tr className="absolute top-8 left-4 text-xl">
               Use Grimorg Cards Below ⬇️{" "}
-            </div>
+            </tr>
           )}
         </motion.tbody>
       </table>
