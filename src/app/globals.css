@@ -42,7 +42,19 @@ main {
 }
 
 .card-move-flip {
+  animation: flip-and-move 300ms forwards;
+}
+.card-flip {
   animation: flip 300ms forwards;
+}
+
+@keyframes flip-and-move {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(100%) rotateY(180deg);
+  }
 }
 
 @keyframes flip {

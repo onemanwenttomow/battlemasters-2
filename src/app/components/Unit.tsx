@@ -1,9 +1,9 @@
+import { useState } from "react";
 import Image from "next/image";
 import { motion } from "framer-motion";
 
 import { Unit } from "../../../types";
 import useStore from "../../../hooks/useStore";
-import { useState } from "react";
 import ExtraUnitInfo from "./ExtraUnitInfo";
 
 export default function UnitImage({ unit }: { unit: Unit }) {
