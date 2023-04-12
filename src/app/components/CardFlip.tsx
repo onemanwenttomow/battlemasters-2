@@ -22,8 +22,6 @@ export default function CardFlip({
 }: Props) {
   const { activeUnitsTurnComplete } = useStore((store) => store);
 
-  console.log("move", move);
-
   return (
     <div
       className={`group absolute z-10 cursor-pointer perspective`}

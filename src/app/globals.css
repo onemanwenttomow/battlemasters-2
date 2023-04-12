@@ -11,6 +11,19 @@ main {
   min-height: 100%;
 }
 
+/* Target (concentric circles) */
+.target {
+  box-sizing: content-box;
+  z-index: 100;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: #00247d;
+  background-clip: content-box;
+  padding: 8px;
+  border: 8px solid #00247d;
+}
+
 .squiggle {
   position: relative;
   height: 100%;

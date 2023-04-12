@@ -36,10 +36,8 @@ export default function Board() {
     return possibleAttacks.some((el) => el[0] === x && el[1] === y);
   }
 
-  function getBrightness(move: boolean, attack: boolean) {
-    if (move) {
-      return "1.4";
-    } else if (attack) {
+  function getBrightness(attack: boolean) {
+    if (attack) {
       return "0.7";
     }
     return "1";
@@ -57,9 +55,8 @@ export default function Board() {
     >
       {board.map((row, y) =>
         row.map((tile, x) => {
-          const move = isPossibleMove(x, y);
           const attack = isPossibleAttack(x, y);
-          const brightness = getBrightness(move, attack);
+          const brightness = getBrightness(attack);
           return (
             <li
               key={y + x + tile}
@@ -84,6 +81,18 @@ export default function Board() {
       )}
       {units.filter(filterDefeatedUnits).map((unit) => (
         <Unit key={unit.id} unit={unit} />
+      ))}
+      {possibleMoves.map(([x, y]) => (
+        <div
+          key={x.toString() + y.toString()}
+          className="target pointer-events-none relative top-5 col-span-2 row-span-3 mx-auto animate-pulse"
+          style={{
+            gridColumnStart:
+              (y || 0) % 2 === 0 ? (x || 0) * 2 + 2 : (x || 0) * 2 + 1,
+            gridRowStart: (y || 0) * 2 + 1,
+            transform: `translateY(-${y * 23.25}px)`,
+          }}
+        ></div>
       ))}
       {board.map((row, y) =>
         row.map((_, x) => {
