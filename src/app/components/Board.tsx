@@ -60,8 +60,6 @@ export default function Board() {
           const move = isPossibleMove(x, y);
           const attack = isPossibleAttack(x, y);
           const brightness = getBrightness(move, attack);
-          const canonTile = isCanonTile(x, y);
-          const canonMisTile = isCanonMisfire(x, y);
           return (
             <li
               key={y + x + tile}
